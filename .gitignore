@@ -1,0 +1,14 @@
+# Data files (Don't commit 50GB files!)
+data/*.parquet
+data/*.csv
+data/*.db
+
+# Jupyter Checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# Environment Secrets
+.env
+
+# Docker Volumes (if mapped locally)
+pg_data/

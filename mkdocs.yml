@@ -46,14 +46,17 @@ markdown_extensions:
       alternate_style: true 
   - admonition                # Warning/Info blocks
   - pymdownx.details          # Collapsible blocks
-  - pymdownx.superfences
   - attr_list
 
 nav:
   - Home: index.md
   - "SQL for Data Engineers Part I":
-    - "00: Welcome": sql_for_data_engineers_part_one/00_table_of_contents.md
-    - "01: Hello, Data": sql_for_data_engineers_part_one/01_hello_data.md
+    - "0: Welcome": sql_for_data_engineers_part_one/0_table_of_contents.md
+    - "1: Learn the Basics": sql_for_data_engineers_part_one/1_learn_the_basics.md
 
 extra_css:
   - stylesheets/extra.css
+
+plugins:
+  - mkdocs_quiz:
+      auto_number: true

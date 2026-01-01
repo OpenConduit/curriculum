@@ -1,3 +1,4 @@
 mkdocs-material
+mkdocs-quiz
 mkdocs-git-revision-date-localized-plugin
 pymdown-extensions

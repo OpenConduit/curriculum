@@ -55,6 +55,8 @@ nav:
     - "1: Learn the Basics": sql_for_data_engineers_part_one/1_learn_the_basics.md
     - "2: Basic SQL Syntax": sql_for_data_engineers_part_one/2_basic_sql_syntax.md
     - "3: Data Definition Language (DDL)": sql_for_data_engineers_part_one/3_data_definition_language.md
+    - "4: Data Manipulation Language (DML)": sql_for_data_engineers_part_one/4_data_manipulation_language.md
+    - "5: Data Constraints": sql_for_data_engineers_part_one/5_data_constraints.md
 
 extra_css:
   - stylesheets/extra.css

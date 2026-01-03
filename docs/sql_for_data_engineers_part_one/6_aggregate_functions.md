@@ -138,16 +138,6 @@ GROUP BY type;
 
 If you try to `SELECT item_name` while grouping by `type`, the database will throw an error. Why? Because the "Weapon" group contains both "Iron Sword" and "Rusty Dagger." The database doesn't know which name you want, so it refuses to guess. 
 
-Visualizing the Squash Imagine a trash compactor.
-
-Narrative for Excalidraw: > Draw a 3D translucent box representing the table. Inside, rows are floating layers.
-
-On the left, we see the raw rows: 'Potion' (Red), 'Sword' (Blue), 'Shield' (Green), 'Potion' (Red).
-
-In the middle, an invisible force (gravity?) pulls identical colors together. The Reds stack on top of each other. The Blues stack.
-
-On the right, we see the output: Single thick blocks. A thick Red block labeled "2 Potions", a Blue block, a Green block. The key takeaway: The individual details (like the specific ID of the potion) are crushed inside the block. We can only see the label (color/type) and the mass (aggregates).
-
 ### HAVING: Filtering the Aggregates
 If `WHERE` is the bouncer at the door of the club, deciding who gets in, `HAVING` is the VIP manager deciding who gets bottle service once they are already seated.
 

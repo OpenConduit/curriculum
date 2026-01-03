@@ -122,12 +122,6 @@ A `JOIN` is essentially a Cartesian product (every row matching every row) that 
 - **LEFT JOIN**: Returns **all** rows from the **left** table (wizards), even if they have no matching guild.
 - **RIGHT JOIN**: Returns **all** guilds, even if they have no members.
 
-Inner Join: Show a circle in the middle where the two tables overlap. Inside the overlap, depict a Wizard shaking hands with a Guild Master. Label this "Matches Only".
-
-Left Join: Highlight the entire "Wizards" table. Show the handshake in the middle, but also show a Wizard standing alone on the left side holding a sign that says "NULL" where the Guild info should be.
-
-Right Join: Highlight the entire "Guilds" table. Show the handshake, but also show an empty Guild Hall on the right with a "Vacancy" sign (NULL) where the Wizard should be.
-
 ### GROUP BY
 This is where we switch from looking at individual rows to looking at buckets of rows. `GROUP BY` squashes rows together based on a shared value.
 

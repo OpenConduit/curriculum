@@ -78,9 +78,6 @@ MODIFY name VARCHAR(100);
     If the database cannot figure out how to squeeze the existing data into the new shape, the operation will fail. If it succeeds, it might truncate your data, always back up before you alter.
 
 
-Narrative for Excalidraw: The Schema Evolution
-If you are creating a visual for this, imagine a row of boxes representing memory. 1. Draw a horizontal row of cells labeled [ID | Name | Weight]. This is the original row. 2. Show a construction crew (or a mechanical arm) welding a new box onto the end of that row labeled [Durability]. 3. Crucially, show that the existing data in ID and Name remains untouched while this welding happens. 4. Add a warning sign near the Name box that says "Widening is easy, shrinking crushes the contents."
-
 ## 3.3 Truncate Table
 Sometimes, you need a clean slate. Perhaps you are running automated tests. You fill the `items` table with dummy data, run your tests, and now you want to clear it out to run them again.
 

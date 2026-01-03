@@ -73,13 +73,6 @@ Imagine a warehouse with giant bins. You can throw a book, a DVD, and a printed 
 
 - **Best for:** Real-time analytics, content feeds, caching, and massive unstructured data.
 
-### Visualizing the Difference
-The following narrative describes a comparison diagram. Imagine this drawn in a hand-sketched style (Excalidraw).
-
-Diagram Narrative: On the left, draw a "SQL Factory." It consists of rigid, square metal boxes stacked perfectly. A robotic arm is carefully placing a square block into a square hole. Everything is orderly, gray, and solid. Label this "Schema-on-Write" (We check the rules before we save).
-
-On the right, draw a "NoSQL Playground." It's a large, elastic net or a colorful ball pit. A hand is tossing in a mix of shapes—circles, stars, and triangles—without looking. The container stretches to accommodate the shapes. Label this "Schema-on-Read" (We figure out what the data looks like when we pull it out).
-
 ### How to Choose?
 You don't pick one because it's "trendy." You pick based on your access patterns.
 

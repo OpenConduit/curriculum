@@ -72,8 +72,6 @@ The Foreign Key constraint makes a promise: **You cannot point to a ghost.**
 
     Sometimes, you do want to delete the orders when the user is deleted. You can modify the constraint with `ON DELETE CASCADE`. Use this with extreme caution. It is the difference between "I can't delete this user because they have history" and "I deleted this user and silently wiped out 5 years of financial records."
 
-Excalidraw Narrative: The Rope Bridge Imagine two cliffs. On the left cliff is the "Users" table. On the right cliff is the "Orders" table. The Foreign Key is a rope bridge connecting a specific Order on the right to a specific User on the left. The constraint is the physics of the bridge: You cannot anchor the bridge to thin air on the User side. If the User side of the cliff collapses (the row is deleted), the bridge snaps, and the Order falls into the abyss (or the database stops the cliff from collapsing).
-
 ## 5.3 Unique
 The Primary Key creates a unique identity for the row, usually via a number like `402`. But often, your business logic requires uniqueness on *human-readable* data.
 

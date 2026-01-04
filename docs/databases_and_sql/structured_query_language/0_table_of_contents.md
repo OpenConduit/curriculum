@@ -90,17 +90,10 @@
     - 10.1 Creating Views 
     - 10.2 Modifying Views 
     - 10.3 Dropping Views 
-- **Chapter 11: Indexes**
-    - 11.1 Managing Indexes
-    - 11.2 Query Optimization
-- **Chapter 12: Data Integrity & Security**
-    - 12.1 Data Integrity Constraints
-    - 12.2 GRANT and REVOKE
-    - 12.3 DB Security Best Practices
-- **Chapter 13: Transactions**
-    - 13.1 ACID Properties 
-    - 13.2 Transaction Isolation Levels 
-    - 13.3 Transaction Commands:
+- **Chapter 11: Transactions**
+    - 11.1 ACID Properties 
+    - 11.2 Transaction Isolation Levels 
+    - 11.3 Transaction Commands:
         - BEGIN
         - COMMIT
         - ROLLBACK
@@ -108,21 +101,23 @@
 
 *Part V: Advanced*
 
-- **Chapter 14: Stored Procedures & Functions**
-- **Chapter 15: Advanced SQL**
-    - 15.1 Window Functions
+- **Chapter 12: Stored Procedures & Functions**
+- **Chapter 13: Advanced SQL**
+    - 13.1 Window Functions
         - row_number 
         - rank 
         - dense_rank 
         - lead 
         - log 
-    - 15.2 Recursive Queries 
-    - 15.3 Pivot / Unpivot Operations 
-    - 15.4 Common Table Expressions 
-    - 15.5 Dynamic SQL 
-  - **Chapter 16: Performance Optimization**
-    - 16.1 Query Analysis Techniques
-    - 16.2 Query Optimization Techniques
+    - 13.2 Recursive Queries 
+    - 13.3 Pivot / Unpivot Operations 
+    - 13.4 Common Table Expressions 
+    - 13.5 Dynamic SQL 
+  - **Chapter 14: Performance Optimization**
+    - 14.1 Query Analysis Techniques
+    - 14.2 Indexes
+    - 14.3 Managing Indexes
+    - 14.4 Query Optimization Techniques
         - Using indexes
         - Optimizing joins
         - Reducing subqueries

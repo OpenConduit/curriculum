@@ -65,6 +65,7 @@ nav:
       - "9: Advanced Functions": databases_and_sql/structured_query_language/9_advanced_functions.md
       - "10: Views": databases_and_sql/structured_query_language/10_views.md
       - "11: Transactions": databases_and_sql/structured_query_language/11_transactions.md
+      - "12: Stored Procedures & Functions": databases_and_sql/structured_query_language/12_stored_procedures_and_functions.md
     - Set Theory:
       - "0: Welcome": databases_and_sql/set_theory/0_table_of_contents.md
 

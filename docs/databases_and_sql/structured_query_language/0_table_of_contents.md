@@ -106,6 +106,7 @@
     - 12.2 Stored Procedures
     - 12.3 User-Defined Functions
     - 12.4 Control-of-Flow Logic 
+    - 12.5 Error Handling
 - **Chapter 13: Advanced SQL**
     - 13.1 Window Functions
         - row_number 

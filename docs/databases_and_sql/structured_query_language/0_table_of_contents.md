@@ -1,5 +1,4 @@
 ## Table of Contents
-*Part I: The Foundation*
 
 - **Chapter 1: Learn the Basics** 
     - 1.1 What are Relational Databases? 
@@ -9,9 +8,6 @@
     - 2.1 SQL Keywords
     - 2.2 Data Types
     - 2.3 Operators 
-
-*Part II: Defining and Manipulating Data*
-
 - **Chapter 3: Data Definition Language (DDL)** 
     - 3.1 Create Table 
     - 3.2 Alter Table 
@@ -35,9 +31,6 @@
     - 5.3 Unique 
     - 5.4 NOT NULL 
     - 5.5 CHECK 
-
-*Part III: Querying and Functions*
-
 - **Chapter 6: Aggregate Queries**
     - 6.1 Aggregate Functions:
         - SUM 
@@ -83,9 +76,6 @@
         - CASE 
         - NULLIF 
         - COALESCE 
-
-*Part IV: Views & Transactions*
-
 - **Chapter 10: Views**
     - 10.1 Creating Views 
     - 10.2 Modifying Views 
@@ -98,9 +88,6 @@
         - COMMIT
         - ROLLBACK
         - SAVEPOINT 
-
-*Part V: Advanced*
-
 - **Chapter 12: Stored Procedures & Functions**
     - 12.1 Procedural SQL
     - 12.2 Stored Procedures
@@ -118,12 +105,3 @@
     - 13.3 Pivot / Unpivot Operations 
     - 13.4 Common Table Expressions 
     - 13.5 Dynamic SQL 
-  - **Chapter 14: Performance Optimization**
-    - 14.1 Query Analysis Techniques
-    - 14.2 Indexes
-    - 14.3 Managing Indexes
-    - 14.4 Query Optimization Techniques
-        - Using indexes
-        - Optimizing joins
-        - Reducing subqueries
-        - Selective Projection

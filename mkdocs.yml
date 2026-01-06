@@ -53,20 +53,8 @@ nav:
   - Databases and SQL:
     - databases_and_sql/index.md
     - Structured Query Language:
-      - "0: Welcome": databases_and_sql/structured_query_language/0_table_of_contents.md
-      - "1: Learn the Basics": databases_and_sql/structured_query_language/1_learn_the_basics.md
-      - "2: Basic SQL Syntax": databases_and_sql/structured_query_language/2_basic_sql_syntax.md
-      - "3: Data Definition Language (DDL)": databases_and_sql/structured_query_language/3_data_definition_language.md
-      - "4: Data Manipulation Language (DML)": databases_and_sql/structured_query_language/4_data_manipulation_language.md
-      - "5: Data Constraints": databases_and_sql/structured_query_language/5_data_constraints.md
-      - "6: Aggregate Functions": databases_and_sql/structured_query_language/6_aggregate_functions.md
-      - "7: JOIN Queries": databases_and_sql/structured_query_language/7_join_queries.md
-      - "8: Subqueries": databases_and_sql/structured_query_language/8_subqueries.md
-      - "9: Advanced Functions": databases_and_sql/structured_query_language/9_advanced_functions.md
-      - "10: Views": databases_and_sql/structured_query_language/10_views.md
-      - "11: Transactions": databases_and_sql/structured_query_language/11_transactions.md
-      - "12: Stored Procedures & Functions": databases_and_sql/structured_query_language/12_stored_procedures_and_functions.md
-      - "13: Advanced SQL": databases_and_sql/structured_query_language/13_advanced_sql.md
+      - "Welcome": databases_and_sql/structured_query_language/0_table_of_contents.md
+      - "Part 1: The Foundation of Querying": databases_and_sql/structured_query_language/1_foundation_of_querying.md
     - Set Theory:
       - "0: Welcome": databases_and_sql/set_theory/0_table_of_contents.md
 

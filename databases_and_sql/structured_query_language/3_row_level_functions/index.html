@@ -1,0 +1,3698 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://yourusername.github.io/data-engineering-bootcamp/databases_and_sql/structured_query_language/3_row_level_functions/">
+      
+      
+        <link rel="prev" href="../2_filtering_and_sorting/">
+      
+      
+        <link rel="next" href="../4_aggregation_and_grouping/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../material/database">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>3: Row-Level Functions (Scalar) - Open Conduit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#31-data-type-refresher" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Open Conduit" class="md-header__button md-logo" aria-label="Open Conduit" data-md-component="logo">
+      
+  <img src="../../../assets/open_conduit.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Conduit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3: Row-Level Functions (Scalar)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="amber"  aria-label="Switch to Dark Mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to Dark Mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber"  aria-label="Switch to Light Mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to Light Mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/OpenConduit/curriculum" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+  
+  <nav id="quiz-progress-mobile" class="quiz-progress-mobile md-nav" aria-label="Quiz Progress" style="display: none;">
+    <!-- mkdocs-quiz progress sidebar (mobile) -->
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-bar-incorrect" style="width: 0%"></div>
+      <div class="quiz-progress-bar-correct" style="width: 0%"></div>
+    </div>
+    <div data-md-component="quiz-progress">
+        <div class="quiz-correct-reset">
+          <span class="md-ellipsis">
+            <span data-quiz-translate="Answered:">Answered:</span> <span class="quiz-progress-answered">0</span> / <span class="quiz-progress-total">0</span>
+          </span>
+          <span class="md-ellipsis">
+            <span data-quiz-translate="Correct:">Correct:</span> <span class="quiz-progress-score">0</span> / <span class="quiz-progress-score-total">0</span>
+          </span>
+          <a href="#" class="quiz-reset-all-link" style="color: var(--md-primary-fg-color); text-decoration: none;">
+            <span data-quiz-translate="Reset">Reset</span>
+          </a>
+        </div>
+    </div>
+  </nav>
+
+  
+  
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Databases and SQL
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+  
+  
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Open Conduit" class="md-nav__button md-logo" aria-label="Open Conduit" data-md-component="logo">
+      
+  <img src="../../../assets/open_conduit.png" alt="logo">
+
+    </a>
+    Open Conduit
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/OpenConduit/curriculum" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databases and SQL
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Databases and SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structured Query Language
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Structured Query Language
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0_table_of_contents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1_foundation_of_querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1: The Foundation of Querying
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_filtering_and_sorting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2: Filtering and Sorting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3: Row-Level Functions (Scalar)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3: Row-Level Functions (Scalar)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#31-data-type-refresher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Data Type Refresher
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Data Type Refresher">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-strings-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Strings (Text)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-numerics-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Numerics (Numbers)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dates-and-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Dates and Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-matters-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Matters Now?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-string-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 String Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 String Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-gluing-text-concat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Gluing Text (CONCAT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-changing-cases-upper-lower" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Changing Cases (UPPER / LOWER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-slicing-text-substring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Slicing Text (SUBSTRING)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-measuring-text-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Measuring Text (LENGTH)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cleaning-text-replace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cleaning Text (REPLACE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#putting-it-all-together-nesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Putting it All Together (Nesting)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-numeric-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Numeric Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Numeric Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-basic-arithmetic-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Basic Arithmetic (+, -, * , /, %)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rounding-round" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rounding (ROUND)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-floor-and-ceiling-floor-ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Floor and Ceiling (FLOOR, CEILING)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-absolute-value-abs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Absolute Value (ABS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-the-modulo-operator-mod-or" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The Modulo Operator (MOD or %)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-date-and-time-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Date and Time Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Date and Time Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-how-sql-sees-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. How SQL Sees Time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-getting-the-current-time-now-current_date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Getting the Current Time (NOW, CURRENT_DATE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-extracting-parts-date_part-extract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Extracting Parts (DATE_PART / EXTRACT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-date-math-date_add-interval-arithmetic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Date Math (DATE_ADD / Interval Arithmetic)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-calculating-differences-age-datediff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Calculating Differences (AGE / DATEDIFF)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualizing-the-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualizing the Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-data-type-conversion-casting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Data Type Conversion (Casting)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Data Type Conversion (Casting)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-standard-way-cast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Standard Way (CAST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-postgres-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Postgres Way (::)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicit-vs-implicit-casting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit vs. Implicit Casting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatting-functions-to_char-to_date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatting Functions (TO_CHAR, TO_DATE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-parsing-text-to-date-to_date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Parsing Text to Date (TO_DATE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-formatting-numbers-to-text-to_char" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Formatting Numbers to Text (TO_CHAR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-conditional-logic-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Conditional Logic (CASE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.6 Conditional Logic (CASE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works-the-exit-ramp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it Works (The "Exit Ramp")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handling-nulls-with-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling NULLs with CASE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binary-flags-1-and-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binary Flags (1 and 0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-shortcuts-coalesce-and-nullif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Shortcuts (COALESCE and NULLIF)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualizing-the-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualizing the Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quiz
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Solutions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_aggregation_and_grouping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4: Aggregation and Grouping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_joining_tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5: Joining Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6_set_operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6: Set Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_subqueries_and_ctes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7: Subqueries and CTEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8_window_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8: Window Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9_creating_database_objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9: Creating Database Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Set Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../set_theory/0_table_of_contents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0: Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+
+  
+  <div id="quiz-progress-sidebar" aria-label="Quiz Progress" style="display: none;">
+    <!-- mkdocs-quiz progress sidebar (desktop) -->
+    <label class="md-nav__title">
+      <span class="md-nav__icon md-icon"></span>
+      <span data-quiz-translate="Quiz Progress">Quiz Progress</span>
+    </label>
+    <ul class="md-nav__list" data-md-component="quiz-progress">
+      <li class="md-nav__item">
+        <div class="md-nav__link">
+          <span class="md-ellipsis">
+            <span data-quiz-translate="Answered:">Answered:</span> <span class="quiz-progress-answered">0</span> / <span class="quiz-progress-total">0</span> (<span class="quiz-progress-answered-percentage">0%</span>)
+          </span>
+        </div>
+      </li>
+      <li class="md-nav__item">
+        <div class="md-nav__link">
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-bar-incorrect" style="width: 0%"></div>
+            <div class="quiz-progress-bar-correct" style="width: 0%"></div>
+          </div>
+        </div>
+      </li>
+      <li class="md-nav__item">
+        <div class="md-nav__link quiz-correct-reset">
+          <span class="md-ellipsis">
+            <span data-quiz-translate="Correct:">Correct:</span> <span class="quiz-progress-score">0</span> / <span class="quiz-progress-score-total">0</span> (<span class="quiz-progress-score-percentage">0%</span>)
+          </span>
+          <a href="#" class="quiz-reset-all-link" style="color: var(--md-primary-fg-color); text-decoration: none;">
+            <span data-quiz-translate="Reset">Reset</span>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>3: Row-Level Functions (Scalar)</h1>
+
+<p>In the first two modules, we treated our data like fragile artifacts. We retrieved it (<code>SELECT</code>), we filtered it (<code>WHERE</code>), and we sorted it (<code>ORDER BY</code>), but we never really <em>changed</em> it. We simply moved it from the hard drive to the screen.</p>
+<p>But raw data is rarely perfect.</p>
+<ul>
+<li>Names are messy ("john smith" vs. "John Smith").</li>
+<li>Prices need tax added.</li>
+<li>Dates are in computer format (<code>2023-10-27</code>), but your boss wants "October 27th."</li>
+</ul>
+<p>In this module, we introduce <strong>scalar functions</strong>.</p>
+<p>"Scalar" comes from linear algebra. It means "single value." A scalar function takes one <strong>single input</strong> (a single row's value) and produces <strong>one single output</strong>.</p>
+<p>It does not summarize data. It transforms it.</p>
+<h2 id="31-data-type-refresher">3.1 Data Type Refresher</h2>
+<p>Before we start transforming data, we must respect what <em>kind</em> of data we are holding.</p>
+<p>In a spreadsheet (like Excel), a cell is just a bucket. You can type "Hello" in cell A1 and then type the number 500 in cell A2. The spreadsheet doesn't care.</p>
+<p>SQL cares. SQL cares a lot.</p>
+<p>Every column in a database table has a strict <strong>data type</strong>. If a column is defined as an <code>INTEGER</code>, you cannot put "Hello" inside it. The database will reject it to protect the data integrity.</p>
+<p>While there are dozens of types, as a beginner, you only need to worry about the "big three" categories.</p>
+<h3 id="1-strings-text">1. Strings (Text)</h3>
+<ul>
+<li><strong>What they are</strong>: Characters, words, sentences, or even phone numbers (if you don't do math on them).</li>
+<li><strong>Common Names</strong>:<ul>
+<li><code>VARCHAR(n)</code>: Variable characters. The standard text box. The <code>n</code> is the maximum limit (e.g., <code>VARCHAR(50)</code> has a 50 character maximum size).</li>
+<li><code>CHAR(n)</code>: Fixed character. Rare. Used for fixed codes like abbreviations.</li>
+<li><code>TEXT</code>: Infinite length. For paragraphs or blog posts.</li>
+</ul>
+</li>
+<li><strong>The Rule</strong>: Always wrap strings in <strong>single quotes</strong> (<code>'text'</code>).</li>
+</ul>
+<h3 id="2-numerics-numbers">2. Numerics (Numbers)</h3>
+<ul>
+<li><strong>What they are</strong>: Values you can do math on (<code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>).</li>
+<li><strong>Common Names</strong>:<ul>
+<li><code>INT</code> / <code>INTEGER</code>: Whole numbers. (1, 500, -99). No decimals allowed.</li>
+<li><code>DECIMAL</code> / <code>NUMERIC</code>: Exact decimals. Used for money. (<code>10.50</code>, <code>99.99</code>).</li>
+<li><code>FLOAT</code> / <code>REAL</code>: Approximate decimals. Used for science (<code>3.14159...</code>). <em>Never use these for money, or you will lose pennies to rounding errors.</em></li>
+</ul>
+</li>
+<li><strong>The Rule</strong>: Never use quotes. Just type the number (<code>100</code>, not <code>'100'</code>).</li>
+</ul>
+<h3 id="3-dates-and-times">3. Dates and Times</h3>
+<ul>
+<li><strong>What they are</strong>: Points in time.</li>
+<li><strong>Common Names</strong>:<ul>
+<li><code>DATE</code>: Just the calendar day (<code>YYYY-MM-DD</code>).</li>
+<li><code>TIME</code>: Just the clock (<code>HH:MM:SS</code>).</li>
+<li><code>TIMESTAMP</code> / <code>DATETIME</code>: Both combined (<code>YYYY-MM-DD HH:MM:SS</code>).</li>
+</ul>
+</li>
+<li><strong>The Rule</strong>: They are entered as strings (<code>'2023-01-01'</code>), but the database converts them into a special internal format for sorting and calculation.</li>
+</ul>
+<h3 id="why-this-matters-now">Why This Matters Now?</h3>
+<p>We are about to learn functions that transform data.</p>
+<ul>
+<li>You cannot use a math function like <code>ROUND()</code> on a text string like <code>'Apple'</code>.</li>
+<li>You cannot use a string function like <code>UPPER()</code> on a math calculation without understanding the result.</li>
+</ul>
+<p>If you try to jam the wrong puzzle piece into the function, SQL will throw a <strong>type error</strong>.</p>
+<div class="admonition abstract">
+<p class="admonition-title">The Blender</p>
+<p>Scalar functions are like blenders.</p>
+<ul>
+<li>If you put fruit in, you get a smoothie.</li>
+<li>If you put a rock in, you break the blender.</li>
+</ul>
+<p>You must know if your column holds fruit (strings) or rocks (numbers) before you press the button.</p>
+</div>
+<h2 id="32-string-functions">3.2 String Functions</h2>
+<p>Text data is rarely clean. Users type their name in all caps ("JOHN"), no caps ("john"), or with weird spacing. Product codes get mashed together. Phone numbers come in with dashes, dots, or parentheses.</p>
+<p>If <code>SELECT</code> is our way of reading the book, <strong>string functions</strong> are our red pen. They allow us to rewrite, reformat, and clean the text on the fly before it hits the report.</p>
+<h3 id="1-gluing-text-concat">1. Gluing Text (<code>CONCAT</code>)</h3>
+<p>The most common string operation is sticking two pieces together. In the database world, this is called <strong>concatenation</strong>.</p>
+<p>Imagine you have <code>first_name</code> ('Ada') and <code>last_name</code> ('Lovelace'), but your report needs a 'Full Name' column.</p>
+<p>There are two ways to do this:</p>
+<p><strong>The Function Way (<code>CONCAT</code>)</strong></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">full_name</span>
+</span><span id="True-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Input</strong>: A list of strings separated by commas.</li>
+<li><strong>Output</strong>: One single combined string.</li>
+</ul>
+<p><strong>The Operator Way (<code>||</code>)</strong></p>
+<p>Standard SQL uses the double-pipe operator <code>||</code> to glue strings. (*Note: If you are using SQL Server, you use <code>+</code>. Everyone else uses <code>//</code>).</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">full_name</span>
+</span><span id="True-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">The NULL Contamination</p>
+<p>Remember how <code>NULL</code> is a virus?</p>
+<ul>
+<li><code>'Ada' || NULL</code> results in <code>NULL</code></li>
+<li>If an employee has no last name, their entire full name disappears.</li>
+<li>Many modern <code>CONCAT()</code> implementations (like in PostgreSQL) are "NULL-safe"; they treat NULL as an empty string. The <code>||</code> operator <em>is usually not</em>.</li>
+</ul>
+</div>
+<h3 id="2-changing-cases-upper-lower">2. Changing Cases (<code>UPPER</code> / <code>LOWER</code>)</h3>
+<p>Users are inconsistent. Some sign up as <code>User@example.com</code>, others as <code>user@example.com</code>. To the computer, these are entirely <em>different</em> strings.</p>
+<p>To compare them safely, we typically "normalize" the data by forcing it all to one casing.</p>
+<ul>
+<li><code>UPPER(string)</code>: TURNS EVERYTHING TO CAPS.</li>
+<li><code>LOWER(string)</code>: turns everything to lowercase.</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">-- Search for a user regardless of how they typed their email.</span>
+</span><span id="True-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span>
+</span><span id="True-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;ada@example.com&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<p>By lowercasing the column <em>before</em> comparing it, we ensure a match even if the user saved their email as <code>Ada@Example.COM</code>.</p>
+<h3 id="3-slicing-text-substring">3. Slicing Text (<code>SUBSTRING</code>)</h3>
+<p>Occasionally you only want a piece of the text. Maybe you want just the year from a string like <code>2023-XYZ</code>, or just the first initial of a name.</p>
+<p>We use <code>SUBSTRING</code> (sometimes abbreviated <code>SUBSTR</code>).</p>
+<p><strong>Syntax</strong>: <code>SUBSTRING(value, start_position, length)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="True-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">first_name</span>
+</span><span id="True-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">initial</span>
+</span><span id="True-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Output</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">initial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Ada</td>
+<td style="text-align: left;">A</td>
+</tr>
+<tr>
+<td style="text-align: left;">Grace</td>
+<td style="text-align: left;">G</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>1</code>: Start at the 1st character. (Note SQL is 1-indexed, not 0-indexed like Python. We start counting at 1 instead of 0).</li>
+<li><code>1</code>: Take 1 character.</li>
+</ul>
+<h3 id="4-measuring-text-length">4. Measuring Text (<code>LENGTH</code>)</h3>
+<p>How long is a string? This is useful for validation (e.g., ensuring a ZIP code is 5 digits) or data cleaning.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SELECT</span>
+</span><span id="True-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">product_name</span><span class="p">,</span>
+</span><span id="True-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">LENGTH</span><span class="p">(</span><span class="n">product_name</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">character_count</span>
+</span><span id="True-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Whitespace Counts</p>
+<p><code>LENGTH('A ')</code> is 2. That invisible space at the end counts as a character.</p>
+</div>
+<h3 id="5-cleaning-text-replace">5. Cleaning Text (<code>REPLACE</code>)</h3>
+<p>This function acts like the "Find and Replace" tool in a word processor. It scans a string for a specific pattern and swaps it for something else.</p>
+<p><strong>Syntax</strong>: <code>REPLACE(text, target, replacement)</code></p>
+<p><strong>Scenario</strong>: We have phone numbers stored as <code>555-0199</code>, but our autodialer software requires just numbers <code>5550199</code>. We need to remove the dashes.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span>
+</span><span id="True-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">phone_number</span><span class="p">,</span>
+</span><span id="True-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">REPLACE</span><span class="p">(</span><span class="n">phone_number</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">clean_number</span>
+</span><span id="True-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Target</strong>: <code>'-'</code> (the dash).</li>
+<li><strong>Replacement</strong>: <code>''</code> (an empty string).</li>
+<li><strong>Result</strong>: The dash is removed effectively.</li>
+</ul>
+<h3 id="putting-it-all-together-nesting">Putting it All Together (Nesting)</h3>
+<p>The true power of scalar functions is that they can be <strong>nested</strong>. You can put the result of one function directly into another.</p>
+<p><strong>Scenario</strong>: Generate a username by taking the first letter of the first name, the full last name, and forcing it all to lowercase.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="True-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">LOWER</span><span class="p">(</span>
+</span><span id="True-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">        </span><span class="n">CONCAT</span><span class="p">(</span>
+</span><span id="True-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">            </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+</span><span id="True-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">                </span><span class="n">last_name</span>
+</span><span id="True-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">            </span><span class="p">)</span>
+</span><span id="True-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">generated_username</span>
+</span><span id="True-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>How SQL Solves This</strong>:</p>
+<ol>
+<li><strong>Innermost</strong>: <code>SUBSTRING</code> extracts 'A' from 'Ada'.</li>
+<li><strong>Middle</strong>: <code>CONCAT</code> glues 'A' + 'Lovelace' --&gt; 'ALovelace'.</li>
+<li><strong>Outermost</strong>: <code>LOWER</code> turns 'ALovelace' --&gt; 'alovelace'.</li>
+</ol>
+<h2 id="33-numeric-functions">3.3 Numeric Functions</h2>
+<p>Data science is, at its heart, math. But raw mathematical output is often ugly.</p>
+<p>If you calculate the average sales price of a widget, the computer might happily hand you back <code>19.49999999245</code>. If you print that on a customer's invoice, they will think your system is broken.</p>
+<p>Numeric functions allow us to "groom" our numbers. We use them to round currency, force values to integers, or simply clean up the result of a division.</p>
+<h3 id="1-basic-arithmetic-">1. Basic Arithmetic (<code>+</code>, <code>-</code>, <code>*</code> , <code>/</code>, <code>%</code>)</h3>
+<p>Before we get to functions, a brief reminder that you can do standard math directly in your <code>SELECT</code> clause.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span>
+</span><span id="True-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="n">product_name</span><span class="p">,</span>
+</span><span id="True-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">price</span><span class="p">,</span>
+</span><span id="True-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">discounted_price</span><span class="p">,</span>
+</span><span id="True-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">price</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">price_with_shipping</span>
+</span><span id="True-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Integer Division</p>
+<p>In some older SQL databases (and some programming languages), dividing two integers yields an integer.</p>
+<ul>
+<li><code>SELECT 3 / 2</code> might result in <code>1</code>, not <code>1.5</code>.</li>
+<li>To be safe, always add a decimal point to one number: <code>SELECT 3.0 / 2</code>.</li>
+</ul>
+</div>
+<h3 id="2-rounding-round">2. Rounding (<code>ROUND</code>)</h3>
+<p>This is the most essential function for financial data. It uses standard rounding rules (0-4 down, 5-9 up).</p>
+<p><strong>Syntax</strong>: <code>ROUND(number, decimal_places)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="mi">15</span><span class="p">.</span><span class="mi">729</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 15.73</span>
+</span><span id="True-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="mi">15</span><span class="p">.</span><span class="mi">729</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 16.0</span>
+</span></code></pre></div>
+<ul>
+<li>If you omit the second argument, it usually rounds to the nearest whole number.</li>
+</ul>
+<h3 id="3-floor-and-ceiling-floor-ceiling">3. Floor and Ceiling (<code>FLOOR</code>, <code>CEILING</code>)</h3>
+<p>Occasionally you don't want "nearest." Occasionally you want to force a number in a specific direction.</p>
+<ul>
+<li><code>FLOOR(number)</code>: Returns the largest integer <em>less than or equal to</em> the input. (Always rounds <strong>down</strong>).</li>
+<li><code>CEILING(number)</code> (or <code>CEIL</code>): Returns the smallest integer <em>greater than or equal to</em> the input. (Always rounds <strong>up</strong>).</li>
+</ul>
+<p><strong>Scenario</strong>: You are calculating how many shipping boxes you need. You have 101 items, and each box holds 10. <code>10 / 10 = 10.01</code> boxes. You cannot buy <code>0.1</code> boxes. You require 11 boxes. Standard <code>ROUND</code> would give you 10 (leaving one item on the floor). You must use <code>CEILING</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">CEILING</span><span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">-- Returns 11</span>
+</span></code></pre></div>
+<p><strong>Scenario</strong>: You are calculating age based on years. If someone has lived 29.9 years, they are still "29" until their birthday. You must use <code>FLOOR</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">FLOOR</span><span class="p">(</span><span class="mi">29</span><span class="p">.</span><span class="mi">9</span><span class="p">);</span><span class="w"> </span><span class="c1">-- Returns 29</span>
+</span></code></pre></div>
+<h3 id="4-absolute-value-abs">4. Absolute Value (<code>ABS</code>)</h3>
+<p>The <code>ABS</code> function removes the negative sign from a number. It gives you the "magnitude" or distance from zero.</p>
+<p>This is useful for calculating <strong>deviation</strong> or difference. If you want to know how far off a prediction was, you don't care if it was over (+5) or under (-5); you just care that the error was 5.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">ABS</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">);</span><span class="w"> </span><span class="c1">-- Returns 100</span>
+</span><span id="True-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">ABS</span><span class="p">(</span><span class="mi">50</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span><span class="w"> </span><span class="c1">-- Returns 50</span>
+</span></code></pre></div>
+<h3 id="5-the-modulo-operator-mod-or">5. The Modulo Operator (<code>MOD</code> or <code>%</code>)</h3>
+<p>This function returns the <strong>remainder</strong> of a division.</p>
+<ul>
+<li><code>10 / 3</code> is "3 with a remainder of 1".</li>
+<li>Therefore, <code>MOD(10, 3)</code> is <code>1</code>.</li>
+</ul>
+<p>In Postgres and standard SQL, this is usually a function <code>MOD(a, b)</code> or an operator <code>%</code>.</p>
+<p><strong>Why is this useful?</strong> It is perfect for finding "Every Nth item." If you want to sample every 3rd row, you can check if the ID is divisible by 3.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">-- Select rows where the ID is perfectly divisible by 3</span>
+</span><span id="True-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+</span><span id="True-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span>
+</span><span id="True-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">MOD</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span></code></pre></div>
+<h2 id="34-date-and-time-functions">3.4 Date and Time Functions</h2>
+<p>Welcome to the most difficult part of data engineering.</p>
+<p>Strings are easy; "A" is always "A". Numbers are also easy; 1 is always 1. Time is hard.</p>
+<ul>
+<li>Months have 28, 29, 30, or 31 days.</li>
+<li>Years have 365 or 366 days.</li>
+<li>Timezones change. Daylight Saving Time deletes or adds an hour arbitrarily.</li>
+</ul>
+<p>If you try to do date math yourself (e.g., subtracting <code>2023-01-01</code> from <code>2023-02-01</code>), you have to write code to handle leap years, month lengths, and gravity.</p>
+<p>Luckily, SQL handles this for you.</p>
+<h3 id="1-how-sql-sees-time">1. How SQL Sees Time</h3>
+<p>To you, a date looks like <code>'2023-12-25'</code>. To the computer, a date is just a <strong>number</strong>.</p>
+<p>Specifically, most databases store dates as the number of milliseconds (or days) that have passed since a specific reference point, usually <strong>January 1, 1970</strong> (The Unix Epoch).</p>
+<p>This is why we can sort dates. We aren't sorting strings; we are sorting integers.</p>
+<ul>
+<li><code>1970-01-02 &gt; 1970-01-01</code> because <code>86400</code> (seconds) is greater than <code>0</code>.</li>
+</ul>
+<h3 id="2-getting-the-current-time-now-current_date">2. Getting the Current Time (<code>NOW</code>, <code>CURRENT_DATE</code>)</h3>
+<p>First, we often need to know, "When is <em>now</em>?" This is used for timestamps on orders or calculating "Time since X."</p>
+<ul>
+<li><code>CURRENT_DATE</code>: Returns just today (<code>2023-10-27</code>)</li>
+<li><code>CURRENT_TIME</code>: Returns just the clock (<code>14:30:00</code>).</li>
+<li><code>NOW()</code> (or <code>GETDATE()</code> in SQL Server): Returns both (<code>2023-10-27 14:30:00</code>).</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">();</span>
+</span></code></pre></div>
+<h3 id="3-extracting-parts-date_part-extract">3. Extracting Parts (<code>DATE_PART</code> / <code>EXTRACT</code>)</h3>
+<p>Often, your manager isn't concerned about the exact millisecond an order was placed. They just want to know, "How many orders did we get in <strong>October</strong>?"</p>
+<p>To do this, we need to rip the "Month" part out of the date.</p>
+<p><strong>Syntax</strong>: <code>EXTRACT(part FROM date_column)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">SELECT</span>
+</span><span id="True-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">order_date</span><span class="p">,</span>
+</span><span id="True-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">YEAR</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">order_date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">order_year</span><span class="p">,</span>
+</span><span id="True-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">order_date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">order_month</span>
+</span><span id="True-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Common Parts</strong>: <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, <code>SECOND</code>, <code>DOW</code> (Day of week).</p>
+<div class="admonition note">
+<p class="admonition-title">Dialect Differences</p>
+<ul>
+<li><strong>Postgres</strong>: <code>EXTRACT(YEAR FROM column)</code> or <code>DATE_PART('year', column)</code></li>
+<li><strong>SQL Server</strong>: <code>DATEPART(year, column)</code> or <code>YEAR(column)</code></li>
+<li><strong>MySQL</strong>: <code>YEAR(column)</code></li>
+</ul>
+</div>
+<h3 id="4-date-math-date_add-interval-arithmetic">4. Date Math (<code>DATE_ADD</code> / Interval Arithmetic)</h3>
+<p>"Return <strong>all</strong> users who signed up in the last 7 days." "When will this subscription expire (30 days from now)?"</p>
+<p>You cannot simply say <code>date + 7</code>. Does 7 mean days? Hours? Years? You must be explicit.</p>
+<p>In standard SQL (Postgres), we use <strong>intervals</strong>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">-- What is the date 7 days from now?</span>
+</span><span id="True-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;7 days&#39;</span><span class="p">;</span>
+</span><span id="True-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="True-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">-- Who signed up in the last week?</span>
+</span><span id="True-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span>
+</span><span id="True-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">signup_date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;1 week&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<p>In other dialects (SQL Server/MySQL), you use a function like <code>DATEADD</code>: <code>DATEADD(day, 7, GETDATE())</code>.</p>
+<h3 id="5-calculating-differences-age-datediff">5. Calculating Differences (<code>AGE</code> / <code>DATEDIFF</code>)</h3>
+<p>"How long did it take to ship this order?" This requires subtracting the <code>ship_date</code> from the <code>order_date</code>.</p>
+<p>In Postgres:
+<div class="language-sql highlight"><pre><span></span><code><span id="True-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">SELECT</span>
+</span><span id="True-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">AGE</span><span class="p">(</span><span class="n">ship_date</span><span class="p">,</span><span class="w"> </span><span class="n">order_date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">time_taken</span>
+</span><span id="True-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><em>Result: <code>2 days 04:00:00</code></em></p>
+<h3 id="visualizing-the-flow">Visualizing the Flow</h3>
+<p>It helps to think of date functions as a disassembly/reassembly line.</p>
+<pre class="mermaid"><code>graph LR
+    A[Timestamp: 2023-10-31 23:59:00] --&gt;|EXTRACT Month| B(10)
+    A --&gt;|EXTRACT YEAR| C(2023)
+    A --&gt;|+ INTERVAL 1 Minute| D(2023-11-01 00:00:00)
+    D --&gt;|Note| E[Month Rollover handled automatically!]</code></pre>
+<h2 id="35-data-type-conversion-casting">3.5 Data Type Conversion (Casting)</h2>
+<p>In a perfect world, numbers are always stored as integers, and dates are always stored as timestamps.</p>
+<p>In the real world, you are often given a CSV file from the marketing department where the "Price" column contains text like "$100" or the "Date" column looks like "10/27/2023".</p>
+<p>If you try to sum that "Price" column, the database engine will yell at you. It sees a text string. It doesn't know how to add the word "Hello" to the word "World," so it certainly won't add "$100" to "$50".</p>
+<p>To fix this, we need to force the data to change its identity. We need <strong>casting</strong>.</p>
+<h3 id="the-standard-way-cast">The Standard Way (<code>CAST</code>)</h3>
+<p>The ANSI SQL standard (the syntax that works on almost every database) uses the <code>CAST</code> function. It is verbose, but it is clear.</p>
+<p><strong>Syntax</strong>: <code>CAST(column_name AS target_type)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">SELECT</span>
+</span><span id="True-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="n">product_name</span><span class="p">,</span>
+</span><span id="True-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="k">CAST</span><span class="p">(</span><span class="n">stock_quantity</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">projected_stock</span>
+</span><span id="True-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">inventory</span><span class="p">;</span>
+</span></code></pre></div>
+<p>In this example, <code>stock_quantity</code> might have been stored as text (e.g., <code>'50'</code>). The <code>CAST</code> function rips off the quotes, inspects the number inside, and turns it into a raw integer <code>50</code> before multiplying it.</p>
+<h3 id="the-postgres-way">The Postgres Way (<code>::</code>)</h3>
+<p>Since we are using PostgreSQL for our labs, you get access to one of the most beloved shortcuts in the database world: the <strong>double colon operator</strong>.</p>
+<p>It does the same thing as <code>CAST</code>, but it is much faster to type and easier to read, especially when doing math.</p>
+<p><strong>Syntax</strong>: <code>value::type</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1">-- Standard SQL</span>
+</span><span id="True-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="s1">&#39;100&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="s1">&#39;50&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">);</span>
+</span><span id="True-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="True-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1">-- Postgres Style</span>
+</span><span id="True-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">SELECT</span>
+</span><span id="True-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="n">total_amount</span><span class="p">::</span><span class="nb">NUMERIC</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">10</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tax_value</span>
+</span><span id="True-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Common Target Types</p>
+<p>When casting in Postgres, these are the types you will use most often:</p>
+<ul>
+<li><code>::INTEGER</code>: For whole numbers.</li>
+<li><code>::NUMERIC</code> (or <code>::DECIMAL</code>): For precise money math.</li>
+<li><code>::FLOAT</code>: For scientific/approximate math.</li>
+<li><code>::TEXT</code> (or <code>::VARCHAR</code>): To turn numbers back into strings.</li>
+<li><code>::DATE</code>: To turn a timestamp (<code>2023-01-01 14:00:00</code>) into just a day (<code>2023-01-01</code>).</li>
+</ul>
+</div>
+<h3 id="explicit-vs-implicit-casting">Explicit vs. Implicit Casting</h3>
+<p>Occasionally, the database tries to be helpful. This is called <strong>implicit casting</strong>.</p>
+<p>If you write:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;100&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</span></code></pre></div>
+<p>In some databases, this returns <code>105</code>. The engine looks at the <code>+</code>, realizes you want to do math, and quietly converts the string <code>'100'</code> into a number for you.</p>
+<p><strong>Postgres is stricter than most</strong>. Postgres will often throw an error: <code>operator does not exist: text + integer</code>. It refuses to guess your intention. It demands that you explicitly tell it what to do using <code>::</code> or <code>CAST</code>.</p>
+<p>This strictness is a feature, not a bug. It prevents you from accidentally doing math on phone numbers or zip codes.</p>
+<h3 id="formatting-functions-to_char-to_date">Formatting Functions (<code>TO_CHAR</code>, <code>TO_DATE</code>)</h3>
+<p>Casting (<code>::</code>) works great when the data is clean.</p>
+<ul>
+<li><code>'2023-01-01'::DATE</code> --&gt; Works perfectly.</li>
+</ul>
+<p>But what if your date is messy? What if your input is <code>'27/10/2023'</code> (European format) or <code>'October 27, 2023'</code>? If you try <code>'27/10/2023'::DATE</code>, Postgres might throw an error because it doesn't know if <code>27</code> is the month or the day (and there is no 27th month).</p>
+<p>For these cases, we need <strong>formatting functions</strong>. We tell the database engine exactly what pattern to look for.</p>
+<h3 id="1-parsing-text-to-date-to_date">1. Parsing Text to Date (<code>TO_DATE</code>)</h3>
+<p><strong>Syntax</strong>: <code>TO_DATE(text, pattern)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;27/10/2023&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;DD/MM/YYYY&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Result</strong>: <code>2023-10-27</code> (A proper date object).</li>
+<li>The pattern string tells the engine, "The first two digits are the day, then a slash, then the month...".</li>
+</ul>
+<h3 id="2-formatting-numbers-to-text-to_char">2. Formatting Numbers to Text (<code>TO_CHAR</code>)</h3>
+<p>This is essential for reporting. You have a raw number <code>1234.5</code>, but you want to display it as <code>$1,234.50</code>.</p>
+<p><strong>Syntax</strong>: <code>TO_CHAR(value, pattern)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">TO_CHAR</span><span class="p">(</span><span class="mi">1234</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;FM$9,999.00&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Result</strong>: <code>'$1,234.50'</code> (a string).</li>
+<li><code>$</code>: adds the dollar sign.</li>
+<li><code>,</code>: adds the comma separator.</li>
+<li><code>00</code>: forces two decimal places (padding with zero if needed).</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">The Trap of <code>TO_CHAR</code></p>
+<p>Once you run <code>TO_CHAR</code>, your number becomes a <strong>string</strong>. You cannot do math on it anymore!</p>
+<ul>
+<li><code>TO_CHAR(price, '...') * 2</code> --&gt; Error.</li>
+<li><code>TO_CHAR(price * 2, '...')</code> --&gt; Correct.</li>
+</ul>
+<p>Always do your math <em>first</em> and format it <em>last</em>.</p>
+</div>
+<h2 id="36-conditional-logic-case">3.6 Conditional Logic (<code>CASE</code>)</h2>
+<p>In procedural programming (like Python, Java, or C), the most powerful tool you have is the <code>if</code> statement.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="True-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Python</span>
+</span><span id="True-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">:</span>
+</span><span id="True-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span>
+</span><span id="True-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">:</span>
+</span><span id="True-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span>
+</span><span id="True-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="True-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>
+</span></code></pre></div>
+<p>In SQL, we don't have an <code>IF</code> statement that controls the flow of the code (at least, not inside a <code>SELECT</code> query). Instead, we have an expression called <code>CASE</code>.</p>
+<p>The <code>CASE</code> expression allows you to create new categories on the fly based on your data. It lets you turn continuous numbers (like test scores) into meaningful buckets (like letter grades).</p>
+<h3 id="the-syntax">The Syntax</h3>
+<p>The <code>CASE</code> statement has a very specific rhythm. It opens with <code>CASE</code> and must always close with <code>END</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">CASE</span>
+</span><span id="True-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">condition_1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">result_1</span>
+</span><span id="True-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">condition_2</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">result_2</span>
+</span><span id="True-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">    </span><span class="k">ELSE</span><span class="w"> </span><span class="n">result_3</span>
+</span><span id="True-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="k">END</span>
+</span></code></pre></div>
+<p>Let's apply this to our <code>orders</code> table. Imagine we want to categorize orders based on their total value.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">SELECT</span>
+</span><span id="True-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">    </span><span class="n">total_amount</span><span class="p">,</span>
+</span><span id="True-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;High Value&#39;</span>
+</span><span id="True-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Medium Value&#39;</span>
+</span><span id="True-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Low Value&#39;</span>
+</span><span id="True-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">order_category</span>
+</span><span id="True-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Output</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">order_id</th>
+<th style="text-align: left;">total_amount</th>
+<th style="text-align: left;">order_category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">101</td>
+<td style="text-align: left;">1200.00</td>
+<td style="text-align: left;">High Value</td>
+</tr>
+<tr>
+<td style="text-align: left;">102</td>
+<td style="text-align: left;">550.00</td>
+<td style="text-align: left;">Medium Value</td>
+</tr>
+<tr>
+<td style="text-align: left;">103</td>
+<td style="text-align: left;">25.00</td>
+<td style="text-align: left;">Low Value</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-it-works-the-exit-ramp">How it Works (The "Exit Ramp")</h3>
+<p>The <code>CASE</code> statement evaluates strictly from <strong>top to bottom</strong>. As soon as it finds a <code>TRUE</code> condition, it grabs that result and <strong>stops looking</strong>. It exits the <code>CASE</code> immediately.</p>
+<p>This is critical for logic.</p>
+<p><strong>Bad Logic</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">CASE</span>
+</span><span id="True-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Medium Value&#39;</span><span class="w"> </span><span class="c1">-- Logic error!</span>
+</span><span id="True-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;High Value&#39;</span><span class="w"> </span><span class="c1">-- This will never happen</span>
+</span><span id="True-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">    </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Low Value&#39;</span>
+</span><span id="True-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="k">END</span>
+</span></code></pre></div>
+<p><em>Why is this bad?</em> If an order is $2000, it is technically greater than 500. The first condition triggers, the label becomes 'Medium Value,' and the database stops checking. The $2000 order never gets a chance to be checked against the greater than 1000 rule.</p>
+<div class="admonition note">
+<p class="admonition-title">Best Practice: The Funnel</p>
+<p>When working with numeric ranges, always write your logic from <strong>most specific</strong> to <strong>least specific</strong>.</p>
+<ul>
+<li>Start with the outlier (the biggest number).</li>
+<li>Work your way down.</li>
+</ul>
+</div>
+<h3 id="handling-nulls-with-case">Handling NULLs with <code>CASE</code></h3>
+<p>You can use <code>CASE</code> to fix data quality issues. If a column has <code>NULL</code> values, you can swap them out for a default label.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">SELECT</span>
+</span><span id="True-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="n">product_name</span><span class="p">,</span>
+</span><span id="True-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Uncategorized&#39;</span>
+</span><span id="True-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="n">category</span>
+</span><span id="True-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">clean_category</span>
+</span><span id="True-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+<p>This is so common that SQL provides a dedicated shortcut function for it called <code>COALESCE</code> (which we will see in a moment).</p>
+<h3 id="binary-flags-1-and-0">Binary Flags (1 and 0)</h3>
+<p>One of the most powerful uses of <code>CASE</code> is creating "Flags" for data analysis. Instead of returning text like "High" or "Low", you return <code>1</code> or <code>0</code>.</p>
+<p>This becomes a superpower when we reach the next chapter. It allows you to count specific things without filtering the whole table.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">SELECT</span>
+</span><span id="True-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Shipped&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">is_shipped</span><span class="p">,</span>
+</span><span id="True-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Returned&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">is_returned</span>
+</span><span id="True-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="the-shortcuts-coalesce-and-nullif">The Shortcuts (<code>COALESCE</code> and <code>NULLIF</code>)</h3>
+<p>Writing a full <code>CASE</code> statement just to handle a <code>NULL</code> is tedious. SQL gives us two specific functions to handle conditional logic involving NULLs.</p>
+<p><strong>1. <code>COALESCE</code> (The Backup Plan)</strong></p>
+<p>This function takes a list of arguments and returns the <strong>first non-null value</strong> it finds. It is perfect for filling in blanks.</p>
+<p><strong>Syntax</strong>: <code>COALESCE(val1, val2, val3, ...)</code></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1">-- If phone_home is NULL, try phone_work. if that is NULL, use &#39;No Phone&#39;</span>
+</span><span id="True-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="k">SELECT</span>
+</span><span id="True-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">    </span><span class="n">name</span><span class="p">,</span>
+</span><span id="True-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">    </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">phone_home</span><span class="p">,</span><span class="w"> </span><span class="n">phone_work</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;No Phone&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">contact_number</span>
+</span><span id="True-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>2. <code>NULLIF</code> (The Safety net)</strong></p>
+<p>This function compares two values. if they are equal, it returns <code>NULL</code>. If they are <em>different</em>, it returns the first value.</p>
+<p><strong>Why would you want to create NULLs?</strong> To prevent <strong>division by zero</strong> errors.</p>
+<p>If you try <code>SELECT 100 / 0</code>, SQL will crash with an error. If you try <code>SELECT 100 / NULL</code>, SQL returns <code>NULL</code> (no crash).</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">total_sales</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">total_orders</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">average_order_value</span>
+</span><span id="True-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">FROm</span><span class="w"> </span><span class="n">monthly_stats</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li>If <code>total_orders</code> is 0, <code>NULLIF(0, 0)</code> returns <code>NULL</code>.</li>
+<li>The division becomes <code>total_sales / NULL</code>.</li>
+<li>The result is <code>NULL</code> (safe), instead of a crash.</li>
+</ul>
+<h3 id="visualizing-the-logic">Visualizing the Logic</h3>
+<pre class="mermaid"><code>graph TD
+    A[Input Value] --&gt; B{Condition 1 True?}
+    B -- Yes --&gt; C[Return Result 1]
+    B -- No --&gt; D{Condition 2 True?}
+    D -- Yes --&gt; E[Return Result 2]
+    D -- No --&gt; F[Return ELSE Result]
+    C --&gt; G[End CASE]
+    E --&gt; G
+    F --&gt; G</code></pre>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-0">
+    <a href="#quiz-0" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 1</h4>
+    <div class="quiz-question">
+        <p>What is the defining characteristic of a 'scalar' function in SQL?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-0-0" correct><label for="quiz-0-0">It takes a single input value from a single row and produces a single output value.</label></div><div><input type="radio" name="answer" value="1" id="quiz-0-1" ><label for="quiz-0-1">It effectively deletes duplicate rows from the result set.</label></div><div><input type="radio" name="answer" value="2" id="quiz-0-2" ><label for="quiz-0-2">It takes a list of values and returns a single summary (like an average).</label></div><div><input type="radio" name="answer" value="3" id="quiz-0-3" ><label for="quiz-0-3">It permanently alters the data stored in the database table.</label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-1">
+    <a href="#quiz-1" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 2</h4>
+    <div class="quiz-question">
+        <p>What is the result of the query <code>SELECT SUBSTRING('Database', 1, 4)</code>?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-1-0" ><label for="quiz-1-0"><code>Datab</code></label></div><div><input type="radio" name="answer" value="1" id="quiz-1-1" ><label for="quiz-1-1">An error message.</label></div><div><input type="radio" name="answer" value="2" id="quiz-1-2" ><label for="quiz-1-2"><code>data</code></label></div><div><input type="radio" name="answer" value="3" id="quiz-1-3" correct><label for="quiz-1-3"><code>Data</code></label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-2">
+    <a href="#quiz-2" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 3</h4>
+    <div class="quiz-question">
+        <p>You are calculating how many shipping boxes are needed. You have 10.1 items worth of product. Which function ensures you get the required 11 boxes?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-2-0" ><label for="quiz-2-0"><code>FLOOR(10.1)</code></label></div><div><input type="radio" name="answer" value="1" id="quiz-2-1" ><label for="quiz-2-1"><code>ABS(10.1)</code></label></div><div><input type="radio" name="answer" value="2" id="quiz-2-2" ><label for="quiz-2-2"><code>ROUND(10.1)</code></label></div><div><input type="radio" name="answer" value="3" id="quiz-2-3" correct><label for="quiz-2-3"><code>CEILING(10.1)</code></label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-3">
+    <a href="#quiz-3" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 4</h4>
+    <div class="quiz-question">
+        <p>The output of <code>TO_CHAR(price, '$99.00')</code> is a number that can be immediately used for further multiplication.</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-3-0" ><label for="quiz-3-0">True</label></div><div><input type="radio" name="answer" value="1" id="quiz-3-1" correct><label for="quiz-3-1">False</label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-4">
+                <a href="#quiz-4" class="quiz-header-link">#</a>
+                <h4 class="quiz-number">Question 5</h4>
+                <div class="quiz-question">
+                    <p>Review the following logic. What value is returned if <code>total_score</code> is 600?</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">CASE</span>
+</span><span id="True-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">total_score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Level 1&#39;</span>
+</span><span id="True-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">total_score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Level 2&#39;</span>
+</span><span id="True-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Level 3&#39;</span>
+</span><span id="True-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">END</span>
+</span></code></pre></div>
+                </div>
+                <form action="javascript:void(0);" onsubmit="return false;">
+                    <fieldset><div><input type="radio" name="answer" value="0" id="quiz-4-0" ><label for="quiz-4-0">'Level 3'</label></div><div><input type="radio" name="answer" value="1" id="quiz-4-1" ><label for="quiz-4-1">It throws a syntax error.</label></div><div><input type="radio" name="answer" value="2" id="quiz-4-2" correct><label for="quiz-4-2">'Level 1'</label></div><div><input type="radio" name="answer" value="3" id="quiz-4-3" ><label for="quiz-4-3">'Level 2'</label></div></fieldset>
+                    <div class="quiz-feedback hidden"></div>
+
+                </form>
+                <section class="content hidden"></section>
+            </div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-5">
+    <a href="#quiz-5" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 6</h4>
+    <div class="quiz-question">
+        <p>Which function is best suited for replacing <code>NULL</code> values with a default backup value?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-5-0" ><label for="quiz-5-0"><code>REPLACE()</code></label></div><div><input type="radio" name="answer" value="1" id="quiz-5-1" ><label for="quiz-5-1"><code>IS NULL</code></label></div><div><input type="radio" name="answer" value="2" id="quiz-5-2" ><label for="quiz-5-2"><code>NULLIF()</code></label></div><div><input type="radio" name="answer" value="3" id="quiz-5-3" correct><label for="quiz-5-3"><code>COALESCE()</code></label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-6">
+    <a href="#quiz-6" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 7</h4>
+    <div class="quiz-question">
+        <p>Which PostgreSQL-specific operator is used to cast data types (e.g., turning a string into an integer)?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-6-0" ><label for="quiz-6-0"><code>-&gt;</code></label></div><div><input type="radio" name="answer" value="1" id="quiz-6-1" correct><label for="quiz-6-1"><code>::</code></label></div><div><input type="radio" name="answer" value="2" id="quiz-6-2" ><label for="quiz-6-2"><code>||</code></label></div><div><input type="radio" name="answer" value="3" id="quiz-6-3" ><label for="quiz-6-3"><code>=&gt;</code></label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-7">
+    <a href="#quiz-7" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 8</h4>
+    <div class="quiz-question">
+        <p>What is the result of th expression <code>'10' + 5</code> in a strict SQL environment like PostgreSQL?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-7-0" ><label for="quiz-7-0"><code>'105'</code></label></div><div><input type="radio" name="answer" value="1" id="quiz-7-1" correct><label for="quiz-7-1">An error</label></div><div><input type="radio" name="answer" value="2" id="quiz-7-2" ><label for="quiz-7-2"><code>NULL</code></label></div><div><input type="radio" name="answer" value="3" id="quiz-7-3" ><label for="quiz-7-3"><code>15</code></label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-8">
+    <a href="#quiz-8" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 9</h4>
+    <div class="quiz-question">
+        <p>Which function allows you to calculate the difference between two timestamps, such as finding out how long it took to ship an order?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-8-0" ><label for="quiz-8-0"><code>TO_DATE()</code></label></div><div><input type="radio" name="answer" value="1" id="quiz-8-1" ><label for="quiz-8-1"><code>NOW()</code></label></div><div><input type="radio" name="answer" value="2" id="quiz-8-2" ><label for="quiz-8-2"><code>EXTRACT()</code></label></div><div><input type="radio" name="answer" value="3" id="quiz-8-3" correct><label for="quiz-8-3"><code>AGE()</code> or <code>DATEDIFF()</code></label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div class="quiz" data-show-correct="true" data-auto-submit="true" data-disable-after-submit="true" id="quiz-9">
+    <a href="#quiz-9" class="quiz-header-link">#</a>
+    <h4 class="quiz-number">Question 10</h4>
+    <div class="quiz-question">
+        <p>Why is <code>CAST('abc' AS INTEGER)</code> likely to fail?</p>
+    </div>
+    <form action="javascript:void(0);" onsubmit="return false;">
+        <fieldset><div><input type="radio" name="answer" value="0" id="quiz-9-0" correct><label for="quiz-9-0">Because the content 'abc' cannot be converted into a numerical value.</label></div><div><input type="radio" name="answer" value="1" id="quiz-9-1" ><label for="quiz-9-1">Because you must use <code>TO_CHAR</code> for casting integers.</label></div><div><input type="radio" name="answer" value="2" id="quiz-9-2" ><label for="quiz-9-2">It will actually succeed and return 0.</label></div><div><input type="radio" name="answer" value="3" id="quiz-9-3" ><label for="quiz-9-3">Because 'abc' is not a valid text string.</label></div></fieldset>
+        <div class="quiz-feedback hidden"></div>
+
+    </form>
+    <section class="content hidden"></section>
+</div>
+
+<div id="quiz-results" class="quiz-results">
+    <div class="quiz-results-progress">
+        <h3>Quiz Progress</h3>
+        <p class="quiz-results-stats">
+            <span class="quiz-results-answered">0</span> / <span class="quiz-results-total">0</span> questions answered
+            (<span class="quiz-results-percentage">0%</span>)
+        </p>
+        <p class="quiz-results-correct-stats">
+            <span class="quiz-results-correct">0</span> correct
+        </p>
+    </div>
+    <div class="quiz-results-complete hidden">
+        <h2 class="quiz-results-title">Quiz Complete!</h2>
+        <div class="quiz-results-score-display">
+            <span class="quiz-results-score-value">0%</span>
+        </div>
+        <p class="quiz-results-message"></p>
+        <button type="button" class="md-button md-button--primary quiz-results-reset">Reset quiz</button>
+    </div>
+</div>
+
+<h2 id="lab">Lab</h2>
+<p>Please complete module 3's labs in the companion GitHub repository.</p>
+<h2 id="lab-solutions">Lab Solutions</h2>
+<div class="admonition warning">
+<p class="admonition-title">Don't Cheat Yourself</p>
+<p>Before viewing any of the solutions below, please ensure you have given the challenge an honest try. The worst thing you can do to yourself while learning is to not "accept the struggle." The struggle is what cements the information. Discovering the answer through trial and error is the only way to truly learn.</p>
+</div>
+<details class="note">
+<summary>Challenge 1 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="True-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="w">    </span><span class="n">customer_id</span><span class="p">,</span>
+</span><span id="True-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span><span class="k">UPPER</span><span class="p">(</span><span class="n">customer_city</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">standardized_city</span>
+</span><span id="True-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 2 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">SELECT</span>
+</span><span id="True-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">    </span><span class="n">product_id</span><span class="p">,</span>
+</span><span id="True-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span><span class="n">product_weight_g</span><span class="p">,</span>
+</span><span id="True-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="n">product_weight_g</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">weight_kg</span>
+</span><span id="True-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 3 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">SELECT</span>
+</span><span id="True-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="w">    </span><span class="n">order_purchase_timestamp</span><span class="p">,</span>
+</span><span id="True-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">    </span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">YEAR</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">order_purchase_timestamp</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">order_year</span>
+</span><span id="True-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w">  </span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 4 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="k">SELECT</span>
+</span><span id="True-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="w">    </span><span class="n">seller_id</span><span class="p">,</span>
+</span><span id="True-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="w">    </span><span class="n">CONCAT</span><span class="p">(</span><span class="k">LOWER</span><span class="p">(</span><span class="n">seller_city</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">seller_state</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">seller_slug</span>
+</span><span id="True-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">sellers</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 5 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="k">SELECT</span>
+</span><span id="True-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="w">    </span><span class="n">customer_id</span><span class="p">,</span>
+</span><span id="True-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="w">    </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">customer_unique_id</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">masked_unique_id</span>
+</span><span id="True-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 6 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="k">SELECT</span>
+</span><span id="True-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="w">    </span><span class="n">AGE</span><span class="p">(</span><span class="n">order_approved_at</span><span class="p">,</span><span class="w"> </span><span class="n">order_purchase_timestamp</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">approval_time</span>
+</span><span id="True-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 7 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">SELECT</span>
+</span><span id="True-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">    </span><span class="n">product_id</span><span class="p">,</span>
+</span><span id="True-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">    </span><span class="n">product_height_cm</span><span class="p">,</span>
+</span><span id="True-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="w">    </span><span class="n">CEILING</span><span class="p">(</span><span class="n">product_height_cm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">required_box_height</span>
+</span><span id="True-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="k">FROm</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 8 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="k">SELECT</span>
+</span><span id="True-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="w">    </span><span class="n">order_delivered_customer_date</span><span class="p">,</span>
+</span><span id="True-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">order_delivered_customer_date</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;In Transit&#39;</span>
+</span><span id="True-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Delivered&#39;</span>
+</span><span id="True-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">delivery_status_label</span>
+</span><span id="True-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 9 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="k">SELECT</span>
+</span><span id="True-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="w">    </span><span class="n">price</span><span class="p">,</span>
+</span><span id="True-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="w">    </span><span class="n">TO_CHAR</span><span class="p">(</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;R$9,9999.00&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">price_formatted</span>
+</span><span id="True-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">order_items</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 10 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="k">SELECT</span>
+</span><span id="True-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="w">    </span><span class="n">product_id</span><span class="p">,</span>
+</span><span id="True-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="w">    </span><span class="n">product_weight_g</span><span class="p">,</span>
+</span><span id="True-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">product_weight_g</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Light&#39;</span>
+</span><span id="True-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Heavy&#39;</span>
+</span><span id="True-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">weight_cateogry</span>
+</span><span id="True-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 11 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="k">SELECT</span>
+</span><span id="True-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="w">    </span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">DAY</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="n">order_delivered_customer_date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">order_delivered_carrier_date</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">transit_days</span>
+</span><span id="True-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 12 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="k">SELECT</span>
+</span><span id="True-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="w">    </span><span class="n">product_category_name</span><span class="p">,</span>
+</span><span id="True-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="w">    </span><span class="k">REPLACE</span><span class="p">(</span><span class="n">product_category_name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">readable_category</span>
+</span><span id="True-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 13 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="k">SELECT</span>
+</span><span id="True-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="w">    </span><span class="n">product_id</span><span class="p">,</span>
+</span><span id="True-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="w">    </span><span class="p">(</span><span class="n">product_length_cm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">product_height_cm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">product_width_cm</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">product_volume_cm3</span>
+</span><span id="True-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 14 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="k">SELECT</span>
+</span><span id="True-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="w">    </span><span class="n">order_delivered_customer_date</span><span class="p">,</span>
+</span><span id="True-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="w">    </span><span class="n">order_estimated_delivery_date</span><span class="p">,</span>
+</span><span id="True-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">order_delivered_customer_date</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">order_estimated_delivery_date</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Pending&#39;</span>
+</span><span id="True-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">order_delivered_customer_date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">order_estimated_delivery_date</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Late&#39;</span>
+</span><span id="True-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;On Time&#39;</span>
+</span><span id="True-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">delivery_performance</span>
+</span><span id="True-43-10"><a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 15 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="k">SELECT</span>
+</span><span id="True-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="w">    </span><span class="n">customer_id</span><span class="p">,</span>
+</span><span id="True-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="w">    </span><span class="n">customer_zip_code_prefix</span><span class="p">,</span>
+</span><span id="True-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="k">LENGTH</span><span class="p">(</span><span class="n">customer_zip_code_prefix</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Valid&#39;</span>
+</span><span id="True-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Check&#39;</span>
+</span><span id="True-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">is_valid_length</span>
+</span><span id="True-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 16 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="k">SELECT</span>
+</span><span id="True-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="w">    </span><span class="n">order_item_id</span><span class="p">,</span>
+</span><span id="True-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="w">    </span><span class="n">freight_value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">freight_ratio</span>
+</span><span id="True-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">order_items</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 17 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="k">SELECT</span>
+</span><span id="True-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">    </span><span class="n">order_id</span><span class="p">,</span>
+</span><span id="True-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">    </span><span class="n">order_purchase_timestamp</span><span class="p">,</span>
+</span><span id="True-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">    </span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">order_purchase_timestamp</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">purchase_month</span>
+</span><span id="True-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 18 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="k">SELECT</span>
+</span><span id="True-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="w">    </span><span class="n">product_id</span><span class="p">,</span>
+</span><span id="True-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="w">    </span><span class="n">product_weight_g</span><span class="p">,</span>
+</span><span id="True-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="w">    </span><span class="k">CASE</span>
+</span><span id="True-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">product_weight_g</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Small Packet&#39;</span>
+</span><span id="True-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">product_weight_g</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Parcel&#39;</span>
+</span><span id="True-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Cargo&#39;</span>
+</span><span id="True-47-8"><a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shipping_mode</span>
+</span><span id="True-47-9"><a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 19 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="k">SELECT</span>
+</span><span id="True-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="w">    </span><span class="n">seller_id</span><span class="p">,</span>
+</span><span id="True-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">    </span><span class="n">seller_city</span>
+</span><span id="True-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">sellers</span>
+</span><span id="True-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">LENGTH</span><span class="p">(</span><span class="n">seller_city</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+</span></code></pre></div>
+</details>
+<details class="note">
+<summary>Challenge 20 Solution</summary>
+<div class="language-sql highlight"><pre><span></span><code><span id="True-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="k">SELECT</span>
+</span><span id="True-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">    </span><span class="k">LOWER</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span>
+</span><span id="True-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="w">    </span><span class="n">customer_zip_code_prefix</span><span class="p">::</span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">zip_int</span><span class="p">,</span>
+</span><span id="True-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="w">    </span><span class="k">UPPER</span><span class="p">(</span><span class="n">customer_state</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">customer_state</span>
+</span><span id="True-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span>
+</span><span id="True-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">customer_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;SP&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+</details><style type="text/css">.quiz {
+  border: 1px solid black;
+  padding: 1rem;
+  margin: 1rem 0;
+  position: relative;
+}
+/* Set margin-top of first quiz child (skip the header link) */
+.quiz > .quiz-question:first-of-type {
+  margin-top: 0;
+}
+/* Remove top margin from first element inside quiz-question */
+.quiz-question > *:first-child {
+  margin-top: 0;
+}
+.hidden {
+  display: none;
+}
+
+form button {
+  background-color: var(--md-primary-fg-color);
+  border: none;
+  color: var(--md-primary-bg-color);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    opacity 0.2s,
+    background-color 0.2s;
+}
+
+form button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+form button:disabled {
+  background-color: var(--md-default-fg-color--lighter, #ccc);
+  color: var(--md-default-fg-color--light, #666);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.wrong label,
+.wrong label * {
+  color: #dc3545;
+}
+.correct label,
+.correct label * {
+  color: #198754;
+}
+
+fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+fieldset input {
+  margin: 0 10px;
+}
+fieldset label {
+  margin: 0 10px;
+}
+
+input[type="radio"].correct {
+  accent-color: #198754;
+}
+input[type="radio"].wrong {
+  accent-color: #dc3545;
+}
+.content {
+  margin: 10px;
+}
+
+/* Quiz feedback message */
+.quiz-feedback {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.quiz-feedback.correct {
+  background-color: #d1e7dd;
+  border: 1px solid #a3cfbb;
+  color: #198754;
+}
+
+.quiz-feedback.incorrect {
+  background-color: #f8d7da;
+  border: 1px solid #f1aeb5;
+  color: #dc3545;
+}
+
+[data-md-color-scheme="slate"] .quiz-feedback.correct {
+  background-color: #051b11;
+  border: 1px solid #0f5132;
+}
+
+[data-md-color-scheme="slate"] .quiz-feedback.incorrect {
+  background-color: #2c0b0e;
+  border: 1px solid #842029;
+}
+
+/* Quiz header link styling - positioned in top right corner */
+.quiz-header-link {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  opacity: 0;
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--md-default-fg-color--light, #888);
+  transition: opacity 0.2s;
+  padding: 0.25rem 0.5rem;
+}
+.quiz:hover .quiz-header-link {
+  opacity: 1;
+}
+
+/* Quiz number header styling */
+.quiz-number {
+  margin-top: 0 !important;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+/* Quiz Progress Sidebar - Progress bar styling */
+/* Most styling comes from Material's .md-nav classes */
+#quiz-progress-sidebar {
+  margin-top: 1.5rem;
+}
+/* if config progress_sidebar_position is top, need top padding instead of bottom */
+.md-nav--secondary > #quiz-progress-sidebar:first-child {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+@media screen and (min-width: 59.9375em) {
+  #quiz-progress-sidebar .md-nav__list {
+    border-left: 3px solid var(--md-default-fg-color--lightest);
+  }
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.2rem 0;
+  display: flex;
+}
+
+.quiz-progress-bar-incorrect {
+  height: 100%;
+  background: rgba(244, 67, 54, 0.8);
+  transition: width 0.3s ease;
+}
+
+.quiz-progress-bar-correct {
+  height: 100%;
+  background: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.quiz-correct-reset {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Mobile Quiz Progress Tracker */
+/* Shows under navbar on mobile, hidden on desktop */
+.quiz-progress-mobile {
+  display: none; /* Hidden by default on desktop */
+  background-color: var(--md-default-bg-color);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+  padding: 0.8rem;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  position: sticky;
+  top: 48px;
+  z-index: 3; /* Below Material header (z-index: 4) but above page content */
+}
+
+/* Show mobile tracker only on small screens (mobile/tablet) */
+/* Material breakpoint: up to 76.1875em (1219px) */
+@media screen and (max-width: 76.1875em) {
+  .quiz-progress-mobile {
+    display: block;
+  }
+}
+
+/* Mobile tracker styling adjustments */
+.quiz-progress-mobile .md-nav__list {
+  padding: 0;
+  margin: 0;
+  max-width: 61rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
+.quiz-progress-mobile .md-nav__item {
+  margin: 0.3rem 0;
+}
+
+.quiz-progress-mobile .md-nav__link {
+  padding: 0.2rem 0;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz-progress-mobile .quiz-progress-bar {
+  margin: 0.3rem 0;
+}
+
+.quiz-progress-mobile .md-ellipsis {
+  flex: 1;
+}
+
+/* Quiz Intro */
+.quiz-intro {
+  margin: 1rem 0;
+}
+
+.quiz-intro p {
+  margin: 0 0 0.5rem 0;
+}
+
+/* Quiz Results End Screen */
+.quiz-results {
+  border: 1px solid black;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  background-color: var(--md-default-bg-color);
+  transition: all 0.3s ease;
+}
+
+/* Progress state - subtle styling */
+.quiz-results-progress {
+  text-align: center;
+  color: var(--md-default-fg-color--light);
+}
+
+.quiz-results-progress h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--md-default-fg-color);
+}
+
+.quiz-results-stats,
+.quiz-results-correct-stats {
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+}
+
+.quiz-results-answered,
+.quiz-results-correct,
+.quiz-results-total,
+.quiz-results-percentage {
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+}
+
+/* Complete state - bold and prominent styling */
+.quiz-results-complete {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.quiz-results-complete.hidden {
+  display: none;
+}
+
+.quiz-results-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  color: var(--md-default-fg-color);
+}
+
+.quiz-results-score-display {
+  margin: 1.5rem 0;
+}
+
+.quiz-results-score-value {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+/* Score color coding */
+.quiz-results-score-excellent {
+  color: #198754;
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.quiz-results-score-good {
+  color: #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.quiz-results-score-average {
+  color: #ffc107;
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.quiz-results-score-poor {
+  color: #fd7e14;
+  background-color: rgba(253, 126, 20, 0.1);
+}
+
+.quiz-results-score-fail {
+  color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.quiz-results-message {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 1rem 0 2rem 0;
+  color: var(--md-default-fg-color);
+}
+
+/* Dark mode adjustments */
+[data-md-color-scheme="slate"] .quiz-results-score-excellent {
+  color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.15);
+}
+
+[data-md-color-scheme="slate"] .quiz-results-score-good {
+  color: #66bb6a;
+  background-color: rgba(102, 187, 106, 0.15);
+}
+
+[data-md-color-scheme="slate"] .quiz-results-score-average {
+  color: #ffeb3b;
+  background-color: rgba(255, 235, 59, 0.15);
+}
+
+[data-md-color-scheme="slate"] .quiz-results-score-poor {
+  color: #ff9800;
+  background-color: rgba(255, 152, 0, 0.15);
+}
+
+[data-md-color-scheme="slate"] .quiz-results-score-fail {
+  color: #f44336;
+  background-color: rgba(244, 67, 54, 0.15);
+}
+</style><script type="text/javascript">var JSConfetti=function(){"use strict";function t(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function e(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function i(t,i,n){return i&&e(t.prototype,i),n&&e(t,n),t}function n(t){return+t.replace(/px/,"")}function s(t,e){var i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,n=Math.random()*(e-t)+t;return Math.floor(n*Math.pow(10,i))/Math.pow(10,i)}function o(t){return t[s(0,t.length)]}var a=["#fcf403","#62fc03","#f4fc03","#03e7fc","#03fca5","#a503fc","#fc03ad","#fc03c2"];function r(t){return Math.log(t)/Math.log(1920)}var h=function(){function e(i){t(this,e);var n=i.initialPosition,a=i.direction,h=i.confettiRadius,c=i.confettiColors,u=i.emojis,l=i.emojiSize,d=i.canvasWidth,f=s(.9,1.7,3)*r(d);this.confettiSpeed={x:f,y:f},this.finalConfettiSpeedX=s(.2,.6,3),this.rotationSpeed=u.length?.01:s(.03,.07,3)*r(d),this.dragForceCoefficient=s(5e-4,9e-4,6),this.radius={x:h,y:h},this.initialRadius=h,this.rotationAngle="left"===a?s(0,.2,3):s(-.2,0,3),this.emojiSize=l,this.emojiRotationAngle=s(0,2*Math.PI),this.radiusYUpdateDirection="down";var m="left"===a?s(82,15)*Math.PI/180:s(-15,-82)*Math.PI/180;this.absCos=Math.abs(Math.cos(m)),this.absSin=Math.abs(Math.sin(m));var v=s(-150,0),p={x:n.x+("left"===a?-v:v)*this.absCos,y:n.y-v*this.absSin};this.currentPosition=Object.assign({},p),this.initialPosition=Object.assign({},p),this.color=u.length?null:o(c),this.emoji=u.length?o(u):null,this.createdAt=(new Date).getTime(),this.direction=a}return i(e,[{key:"draw",value:function(t){var e=this.currentPosition,i=this.radius,n=this.color,s=this.emoji,o=this.rotationAngle,a=this.emojiRotationAngle,r=this.emojiSize,h=window.devicePixelRatio;n?(t.fillStyle=n,t.beginPath(),t.ellipse(e.x*h,e.y*h,i.x*h,i.y*h,o,0,2*Math.PI),t.fill()):s&&(t.font="".concat(r,"px serif"),t.save(),t.translate(h*e.x,h*e.y),t.rotate(a),t.textAlign="center",t.fillText(s,0,0),t.restore())}},{key:"updatePosition",value:function(t,e){var i=this.confettiSpeed,n=this.dragForceCoefficient,s=this.finalConfettiSpeedX,o=this.radiusYUpdateDirection,a=this.rotationSpeed,r=this.createdAt,h=this.direction,c=e-r;i.x>s&&(this.confettiSpeed.x-=n*t),this.currentPosition.x+=i.x*("left"===h?-this.absCos:this.absCos)*t,this.currentPosition.y=this.initialPosition.y-i.y*this.absSin*c+.00125*Math.pow(c,2)/2,this.rotationSpeed-=this.emoji?1e-4:1e-5*t,this.rotationSpeed<0&&(this.rotationSpeed=0),this.emoji?this.emojiRotationAngle+=this.rotationSpeed*t%(2*Math.PI):"down"===o?(this.radius.y-=t*a,this.radius.y<=0&&(this.radius.y=0,this.radiusYUpdateDirection="up")):(this.radius.y+=t*a,this.radius.y>=this.initialRadius&&(this.radius.y=this.initialRadius,this.radiusYUpdateDirection="down"))}},{key:"getIsVisibleOnCanvas",value:function(t){return this.currentPosition.y<t+100}}]),e}();function c(){var t=document.createElement("canvas");return t.style.position="fixed",t.style.width="100%",t.style.height="100%",t.style.top="0",t.style.left="0",t.style.zIndex="1000",t.style.pointerEvents="none",document.body.appendChild(t),t}function u(t){var e=t.confettiRadius,i=void 0===e?6:e,n=t.confettiNumber,s=void 0===n?t.confettiesNumber||(t.emojis?40:250):n,o=t.confettiColors,r=void 0===o?a:o,h=t.emojis,c=void 0===h?t.emojies||[]:h,u=t.emojiSize,l=void 0===u?80:u;return t.emojies&&console.error("emojies argument is deprecated, please use emojis instead"),t.confettiesNumber&&console.error("confettiesNumber argument is deprecated, please use confettiNumber instead"),{confettiRadius:i,confettiNumber:s,confettiColors:r,emojis:c,emojiSize:l}}var l=function(){function e(i){var n=this;t(this,e),this.canvasContext=i,this.shapes=[],this.promise=new Promise((function(t){return n.resolvePromise=t}))}return i(e,[{key:"getBatchCompletePromise",value:function(){return this.promise}},{key:"addShapes",value:function(){var t;(t=this.shapes).push.apply(t,arguments)}},{key:"complete",value:function(){var t;return!this.shapes.length&&(null===(t=this.resolvePromise)||void 0===t||t.call(this),!0)}},{key:"processShapes",value:function(t,e,i){var n=this,s=t.timeDelta,o=t.currentTime;this.shapes=this.shapes.filter((function(t){return t.updatePosition(s,o),t.draw(n.canvasContext),!i||t.getIsVisibleOnCanvas(e)}))}}]),e}();return function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};t(this,e),this.activeConfettiBatches=[],this.canvas=i.canvas||c(),this.canvasContext=this.canvas.getContext("2d"),this.requestAnimationFrameRequested=!1,this.lastUpdated=(new Date).getTime(),this.iterationIndex=0,this.loop=this.loop.bind(this),requestAnimationFrame(this.loop)}return i(e,[{key:"loop",value:function(){var t,e,i,s,o;this.requestAnimationFrameRequested=!1,t=this.canvas,e=window.devicePixelRatio,i=getComputedStyle(t),s=n(i.getPropertyValue("width")),o=n(i.getPropertyValue("height")),t.setAttribute("width",(s*e).toString()),t.setAttribute("height",(o*e).toString());var a=(new Date).getTime(),r=a-this.lastUpdated,h=this.canvas.offsetHeight,c=this.iterationIndex%10==0;this.activeConfettiBatches=this.activeConfettiBatches.filter((function(t){return t.processShapes({timeDelta:r,currentTime:a},h,c),!c||!t.complete()})),this.iterationIndex++,this.queueAnimationFrameIfNeeded(a)}},{key:"queueAnimationFrameIfNeeded",value:function(t){this.requestAnimationFrameRequested||this.activeConfettiBatches.length<1||(this.requestAnimationFrameRequested=!0,this.lastUpdated=t||(new Date).getTime(),requestAnimationFrame(this.loop))}},{key:"addConfetti",value:function(){for(var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=u(t),i=e.confettiRadius,n=e.confettiNumber,s=e.confettiColors,o=e.emojis,a=e.emojiSize,r=this.canvas.getBoundingClientRect(),c=r.width,d=r.height,f=5*d/7,m={x:0,y:f},v={x:c,y:f},p=new l(this.canvasContext),y=0;y<n/2;y++){var g=new h({initialPosition:m,direction:"right",confettiRadius:i,confettiColors:s,confettiNumber:n,emojis:o,emojiSize:a,canvasWidth:c}),C=new h({initialPosition:v,direction:"left",confettiRadius:i,confettiColors:s,confettiNumber:n,emojis:o,emojiSize:a,canvasWidth:c});p.addShapes(g,C)}return this.activeConfettiBatches.push(p),this.queueAnimationFrameIfNeeded(),p.getBatchCompletePromise()}},{key:"clearCanvas",value:function(){this.activeConfettiBatches=[]}},{key:"destroyCanvas",value:function(){this.canvas.remove()}}]),e}()}();
+</script><script type="text/javascript">
+window.mkdocsQuizTranslations = {};
+</script><script type="text/javascript">
+window.mkdocsQuizConfig = {
+  confetti: true,
+  showProgress: true,
+  progressSidebarPosition: "top"
+};
+</script><script type="text/javascript" defer>// Wrap everything in an IIFE to avoid variable redeclaration issues
+// when Material for MkDocs instant navigation reloads the page
+(function () {
+  // Constants
+  const STORAGE_KEY_PREFIX = "quiz_progress_";
+
+  // Translation helper function
+  function t(key, params = {}) {
+    let text = window.mkdocsQuizTranslations?.[key] || key;
+    // Simple template replacement for {n} and {key} style placeholders
+    return text.replace(/{(\w+)}/g, (_, k) => (params[k] !== undefined ? params[k] : `{${k}}`));
+  }
+
+  // Confetti instance (will be initialized if enabled)
+  let jsConfetti = null;
+
+  // Store event listeners for cleanup
+  let eventListeners = [];
+
+  // Initialize confetti if enabled
+  if (window.mkdocsQuizConfig && window.mkdocsQuizConfig.confetti) {
+    if (typeof JSConfetti !== "undefined") {
+      jsConfetti = new JSConfetti();
+    }
+  }
+
+  // Function to move quiz progress sidebar into TOC sidebar
+  // This needs to run on every page load for Material instant navigation
+  function repositionSidebar() {
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      const sidebar = document.getElementById("quiz-progress-sidebar");
+      const tocSidebar = document.querySelector(".md-sidebar--secondary .md-sidebar__inner .md-nav--secondary");
+
+      if (sidebar && tocSidebar) {
+        // Check if sidebar is already in the correct position
+        // by seeing if it's already a child of tocSidebar
+        if (!tocSidebar.contains(sidebar)) {
+          // Get position from config (default: "top")
+          const position =
+            window.mkdocsQuizConfig && window.mkdocsQuizConfig.progressSidebarPosition
+              ? window.mkdocsQuizConfig.progressSidebarPosition
+              : "top";
+
+          // Move sidebar based on configured position
+          if (position === "bottom") {
+            // Append to the end (below TOC)
+            tocSidebar.appendChild(sidebar);
+          } else {
+            // Default: insert at the top (above TOC)
+            if (tocSidebar.firstChild) {
+              tocSidebar.insertBefore(sidebar, tocSidebar.firstChild);
+            } else {
+              tocSidebar.appendChild(sidebar);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Cleanup function to remove event listeners and prevent memory leaks
+  function cleanup() {
+    eventListeners.forEach(({ element, event, handler }) => {
+      element.removeEventListener(event, handler);
+    });
+    eventListeners = [];
+  }
+
+  // Helper function to add tracked event listeners
+  function addTrackedEventListener(element, event, handler) {
+    element.addEventListener(event, handler);
+    eventListeners.push({ element, event, handler });
+  }
+
+  // Global quiz tracker
+  const quizTracker = {
+    quizzes: {},
+    totalQuizzes: 0,
+    answeredQuizzes: 0,
+    correctQuizzes: 0,
+
+    init: function () {
+      this.totalQuizzes = document.querySelectorAll(".quiz").length;
+      this.loadFromStorage();
+      // Initialize wasCompleted based on restored state to prevent confetti on page load
+      // Only fire confetti when completing quizzes in the current session, not from localStorage
+      const progress = this.getProgress();
+      this.wasCompleted = progress.answered === progress.total && progress.total > 0;
+      this.updateDisplay();
+    },
+
+    markQuiz: function (quizId, isCorrect, selectedValues = []) {
+      const wasAnswered = !!this.quizzes[quizId];
+      const wasCorrect = this.wasPreviouslyCorrect(quizId);
+
+      if (!wasAnswered) {
+        this.answeredQuizzes++;
+      }
+
+      this.quizzes[quizId] = {
+        answered: true,
+        correct: isCorrect,
+        selectedValues: selectedValues,
+      };
+
+      if (isCorrect && !wasCorrect) {
+        this.correctQuizzes++;
+      } else if (!isCorrect && wasCorrect) {
+        this.correctQuizzes--;
+      }
+
+      this.saveToStorage();
+      this.updateDisplay();
+    },
+
+    wasPreviouslyCorrect: function (quizId) {
+      return this.quizzes[quizId] && this.quizzes[quizId].correct;
+    },
+
+    resetQuiz: function (quizId) {
+      if (this.quizzes[quizId]) {
+        if (this.quizzes[quizId].correct) {
+          this.correctQuizzes--;
+        }
+        this.answeredQuizzes--;
+        delete this.quizzes[quizId];
+        this.saveToStorage();
+        this.updateDisplay();
+      }
+    },
+
+    resetAllQuiz: function () {
+      this.quizzes = {};
+      this.answeredQuizzes = 0;
+      this.correctQuizzes = 0;
+      this.saveToStorage();
+      this.updateDisplay();
+
+      // Reset all quiz forms on the page
+      document.querySelectorAll(".quiz").forEach((quiz) => {
+        const form = quiz.querySelector("form");
+        const fieldset = form.querySelector("fieldset");
+        const submitButton = form.querySelector('button[type="submit"]');
+        const resetButton = form.querySelector(".quiz-reset-button");
+        const feedbackDiv = form.querySelector(".quiz-feedback");
+        const section = quiz.querySelector("section");
+
+        // Clear all selections
+        const allInputs = fieldset.querySelectorAll('input[name="answer"]');
+        allInputs.forEach((input) => {
+          input.checked = false;
+          input.disabled = false;
+        });
+
+        // Reset colors
+        resetFieldset(fieldset);
+
+        // Hide content section
+        if (section) {
+          section.classList.add("hidden");
+        }
+
+        // Hide feedback message
+        feedbackDiv.classList.add("hidden");
+        feedbackDiv.classList.remove("correct", "incorrect");
+        feedbackDiv.textContent = "";
+
+        // Show submit button, hide reset button
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.classList.remove("hidden");
+        }
+        if (resetButton) {
+          resetButton.classList.add("hidden");
+        }
+      });
+    },
+
+    getProgress: function () {
+      return {
+        total: this.totalQuizzes,
+        answered: this.answeredQuizzes,
+        correct: this.correctQuizzes,
+        percentage: this.totalQuizzes > 0 ? Math.round((this.answeredQuizzes / this.totalQuizzes) * 100) : 0,
+        score: this.totalQuizzes > 0 ? Math.round((this.correctQuizzes / this.totalQuizzes) * 100) : 0,
+      };
+    },
+
+    saveToStorage: function () {
+      try {
+        const pageKey = STORAGE_KEY_PREFIX + window.location.pathname;
+        const data = JSON.stringify(this.quizzes);
+
+        // Check size limit (50KB max to prevent quota issues)
+        if (data.length > 50000) {
+          console.warn("Quiz progress data exceeds size limit, not saving to localStorage");
+          this.showStorageWarning("Quiz progress is too large to save");
+          return;
+        }
+
+        localStorage.setItem(pageKey, data);
+      } catch (e) {
+        // Handle quota exceeded or localStorage disabled
+        console.error("Failed to save quiz progress:", e);
+        this.showStorageWarning(
+          "Unable to save quiz progress. Your browser may have storage disabled or quota exceeded.",
+        );
+      }
+    },
+
+    loadFromStorage: function () {
+      try {
+        const pageKey = STORAGE_KEY_PREFIX + window.location.pathname;
+        const stored = localStorage.getItem(pageKey);
+
+        if (stored) {
+          // Validate size before parsing (50KB max)
+          if (stored.length > 50000) {
+            console.warn("Stored quiz data exceeds size limit, clearing corrupted data");
+            localStorage.removeItem(pageKey);
+            return;
+          }
+
+          const parsed = JSON.parse(stored);
+
+          // Validate structure: should be an object
+          if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+            console.warn("Invalid quiz data structure, clearing corrupted data");
+            localStorage.removeItem(pageKey);
+            return;
+          }
+
+          this.quizzes = parsed;
+
+          // Recalculate counts and validate quiz data structure
+          this.answeredQuizzes = 0;
+          this.correctQuizzes = 0;
+          for (let key in this.quizzes) {
+            const quiz = this.quizzes[key];
+            // Validate each quiz entry has expected structure
+            if (typeof quiz !== "object" || typeof quiz.answered !== "boolean" || typeof quiz.correct !== "boolean") {
+              console.warn("Invalid quiz entry structure, clearing corrupted data");
+              this.quizzes = {};
+              localStorage.removeItem(pageKey);
+              return;
+            }
+
+            if (quiz.answered) {
+              this.answeredQuizzes++;
+            }
+            if (quiz.correct) {
+              this.correctQuizzes++;
+            }
+          }
+        }
+      } catch (e) {
+        // Handle parsing errors or localStorage unavailable
+        console.error("Failed to load quiz progress:", e);
+        const pageKey = STORAGE_KEY_PREFIX + window.location.pathname;
+        try {
+          localStorage.removeItem(pageKey); // Clear corrupted data
+        } catch (cleanupError) {
+          // localStorage might be completely unavailable
+        }
+      }
+    },
+
+    updateDisplay: function () {
+      const progress = this.getProgress();
+      const wasComplete = this.wasCompleted;
+      const isComplete = progress.answered === progress.total && progress.total > 0;
+
+      // Dispatch custom event for sidebar/other UI components
+      window.dispatchEvent(
+        new CustomEvent("quizProgressUpdate", {
+          detail: progress,
+        }),
+      );
+      // Update sidebar if it exists
+      this.updateSidebar();
+      // Update results div if it exists
+      this.updateResultsDiv(progress, isComplete, wasComplete);
+
+      // Track completion state
+      this.wasCompleted = isComplete;
+    },
+
+    updateResultsDiv: function (progress, isComplete, wasComplete) {
+      const resultsDiv = document.getElementById("quiz-results");
+      if (!resultsDiv) return;
+
+      // Update progress section
+      const answeredEl = resultsDiv.querySelector(".quiz-results-answered");
+      const totalEl = resultsDiv.querySelector(".quiz-results-total");
+      const percentageEl = resultsDiv.querySelector(".quiz-results-percentage");
+      const correctEl = resultsDiv.querySelector(".quiz-results-correct");
+
+      if (answeredEl) answeredEl.textContent = progress.answered;
+      if (totalEl) totalEl.textContent = progress.total;
+      if (percentageEl) percentageEl.textContent = progress.percentage + "%";
+      if (correctEl) correctEl.textContent = progress.correct;
+
+      // Handle completion state
+      const progressSection = resultsDiv.querySelector(".quiz-results-progress");
+      const completeSection = resultsDiv.querySelector(".quiz-results-complete");
+
+      if (isComplete) {
+        // Hide progress, show complete
+        if (progressSection) progressSection.classList.add("hidden");
+        if (completeSection) {
+          completeSection.classList.remove("hidden");
+
+          // Update score display
+          const scoreValue = resultsDiv.querySelector(".quiz-results-score-value");
+          const scoreMessage = resultsDiv.querySelector(".quiz-results-message");
+
+          if (scoreValue) {
+            scoreValue.textContent = progress.score + "%";
+
+            // Remove all score classes
+            scoreValue.classList.remove(
+              "quiz-results-score-excellent",
+              "quiz-results-score-good",
+              "quiz-results-score-average",
+              "quiz-results-score-poor",
+              "quiz-results-score-fail",
+            );
+
+            // Add appropriate score class and message
+            let message = "";
+            if (progress.score >= 90) {
+              scoreValue.classList.add("quiz-results-score-excellent");
+              message = t("Outstanding! You aced it!");
+            } else if (progress.score >= 75) {
+              scoreValue.classList.add("quiz-results-score-good");
+              message = t("Great job! You really know your stuff!");
+            } else if (progress.score >= 60) {
+              scoreValue.classList.add("quiz-results-score-average");
+              message = t("Good effort! Keep learning!");
+            } else if (progress.score >= 40) {
+              scoreValue.classList.add("quiz-results-score-poor");
+              message = t("Not bad, but there's room for improvement!");
+            } else {
+              scoreValue.classList.add("quiz-results-score-fail");
+              message = t("Better luck next time! Keep trying!");
+            }
+
+            if (scoreMessage) scoreMessage.textContent = message;
+          }
+
+          // Trigger confetti and scroll on first completion
+          if (!wasComplete) {
+            // Scroll to results div
+            resultsDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+
+            // Fire confetti if enabled and score is good
+            if (jsConfetti && progress.score >= 10) {
+              setTimeout(() => {
+                jsConfetti.addConfetti();
+              }, 500);
+            }
+          }
+        }
+      } else {
+        // Show progress, hide complete
+        if (progressSection) progressSection.classList.remove("hidden");
+        if (completeSection) completeSection.classList.add("hidden");
+      }
+    },
+
+    updateSidebar: function () {
+      // Update both desktop and mobile sidebars
+      const sidebars = [
+        document.getElementById("quiz-progress-sidebar"),
+        document.getElementById("quiz-progress-mobile"),
+      ];
+
+      sidebars.forEach((sidebar) => {
+        if (sidebar) {
+          const progress = this.getProgress();
+
+          // Update answered count
+          const answeredEl = sidebar.querySelector(".quiz-progress-answered");
+          if (answeredEl) {
+            answeredEl.textContent = progress.answered;
+          }
+
+          // Update answered percentage - desktop only
+          const answeredPercentageEl = sidebar.querySelector(".quiz-progress-answered-percentage");
+          if (answeredPercentageEl && sidebar.id == "quiz-progress-sidebar") {
+            answeredPercentageEl.textContent = progress.percentage + "%";
+          }
+
+          // Update all .quiz-progress-total elements
+          const totalElements = sidebar.querySelectorAll(".quiz-progress-total");
+          totalElements.forEach((el) => {
+            el.textContent = progress.total;
+          });
+
+          // Update correct count
+          const scoreEl = sidebar.querySelector(".quiz-progress-score");
+          if (scoreEl) {
+            scoreEl.textContent = progress.correct;
+          }
+
+          // Update correct denominator (answered count)
+          const scoreTotalEl = sidebar.querySelector(".quiz-progress-score-total");
+          if (scoreTotalEl) {
+            scoreTotalEl.textContent = progress.answered;
+          }
+
+          // Update correct percentage (based on answered quizzes, not total) - desktop only
+          const scorePercentageEl = sidebar.querySelector(".quiz-progress-score-percentage");
+          if (scorePercentageEl && sidebar.id == "quiz-progress-sidebar") {
+            const scorePercentage =
+              progress.answered > 0 ? Math.round((progress.correct / progress.answered) * 100) : 0;
+            scorePercentageEl.textContent = scorePercentage + "%";
+          }
+
+          // Update progress bars (incorrect and correct)
+          const correctBar = sidebar.querySelector(".quiz-progress-bar-correct");
+          const incorrectBar = sidebar.querySelector(".quiz-progress-bar-incorrect");
+
+          if (correctBar && incorrectBar) {
+            const incorrectCount = progress.answered - progress.correct;
+            const correctPercentage = progress.total > 0 ? (progress.correct / progress.total) * 100 : 0;
+            const incorrectPercentage = progress.total > 0 ? (incorrectCount / progress.total) * 100 : 0;
+
+            incorrectBar.style.width = incorrectPercentage + "%";
+            correctBar.style.width = correctPercentage + "%";
+          }
+        }
+      });
+    },
+
+    createSidebar: function () {
+      // Check if progress tracking is enabled
+      const showProgress = window.mkdocsQuizConfig && window.mkdocsQuizConfig.showProgress !== false;
+
+      // Only show sidebar if progress tracking is enabled and there are quizzes
+      if (!showProgress || this.totalQuizzes === 0) {
+        return;
+      }
+
+      // Show both desktop and mobile sidebars
+      const desktopSidebar = document.getElementById("quiz-progress-sidebar");
+      const mobileSidebar = document.getElementById("quiz-progress-mobile");
+
+      if (desktopSidebar) {
+        desktopSidebar.style.display = "";
+      }
+      if (mobileSidebar) {
+        mobileSidebar.style.display = "";
+      }
+
+      // Initialize reset button event listeners
+      const resetLinks = document.querySelectorAll(".quiz-reset-all-link");
+      resetLinks.forEach((resetLink) => {
+        const handler = (e) => {
+          e.preventDefault();
+          if (confirm(t("Are you sure you want to reset the quiz? This will clear your progress."))) {
+            quizTracker.resetAllQuiz();
+          }
+        };
+        addTrackedEventListener(resetLink, "click", handler);
+      });
+
+      // Update the sidebar with initial values
+      this.updateSidebar();
+    },
+
+    showStorageWarning: function (message) {
+      // Show a warning banner in the progress tracker if it exists
+      const progressSidebar = document.getElementById("quiz-progress-sidebar");
+      if (progressSidebar) {
+        // Check if warning already exists
+        let warningEl = progressSidebar.querySelector(".quiz-storage-warning");
+        if (!warningEl) {
+          warningEl = document.createElement("div");
+          warningEl.className = "quiz-storage-warning";
+          warningEl.style.cssText =
+            "background: #fff3cd; color: #856404; padding: 8px; margin: 8px 0; border-radius: 4px; font-size: 12px; border: 1px solid #ffeaa7;";
+          progressSidebar.insertBefore(warningEl, progressSidebar.firstChild);
+        }
+        warningEl.textContent = message;
+      }
+    },
+  };
+
+  // Translate template elements with data-quiz-translate attributes
+  function translateTemplateElements() {
+    document.querySelectorAll("[data-quiz-translate]").forEach((element) => {
+      const key = element.getAttribute("data-quiz-translate");
+      if (key) {
+        element.textContent = t(key);
+      }
+    });
+  }
+
+  // Initialize results div reset button
+  function initializeResultsDiv() {
+    const resultsDiv = document.getElementById("quiz-results");
+    if (!resultsDiv) return;
+
+    const resetButton = resultsDiv.querySelector(".quiz-results-reset");
+    if (resetButton) {
+      const handler = () => {
+        if (confirm(t("Are you sure you want to reset the quiz? This will clear your progress."))) {
+          quizTracker.resetAllQuiz();
+        }
+      };
+      addTrackedEventListener(resetButton, "click", handler);
+    }
+  }
+
+  // Initialize intro reset buttons
+  function initializeIntroResetButtons() {
+    const introResetButtons = document.querySelectorAll(".quiz-intro-reset");
+    introResetButtons.forEach((button) => {
+      const handler = () => {
+        if (confirm(t("Are you sure you want to reset the quiz? This will clear your progress."))) {
+          quizTracker.resetAllQuiz();
+        }
+      };
+      addTrackedEventListener(button, "click", handler);
+    });
+  }
+
+  // Shuffle an array using Fisher-Yates algorithm
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Shuffle the answer elements in a fieldset
+  function shuffleAnswers(fieldset) {
+    const answerDivs = Array.from(fieldset.querySelectorAll(":scope > div"));
+    if (answerDivs.length <= 1) return;
+
+    // Shuffle the array of elements
+    shuffleArray(answerDivs);
+
+    // Re-append elements in shuffled order
+    answerDivs.forEach((div) => fieldset.appendChild(div));
+  }
+
+  // Initialize all quiz elements on the page
+  function initializeQuizzes() {
+    document.querySelectorAll(".quiz").forEach((quiz) => {
+      let form = quiz.querySelector("form");
+      let fieldset = form.querySelector("fieldset");
+      let submitButton = form.querySelector('button[type="submit"]');
+      let feedbackDiv = form.querySelector(".quiz-feedback");
+
+      // Shuffle answers if enabled (before any state restoration)
+      if (quiz.hasAttribute("data-shuffle-answers")) {
+        shuffleAnswers(fieldset);
+      }
+
+      // Get quiz ID from the quiz div itself
+      const quizId = quiz.id;
+
+      // Prevent anchor link from triggering page navigation/reload
+      const headerLink = quiz.querySelector(".quiz-header-link");
+      if (headerLink) {
+        const handler = (e) => {
+          // Let the browser handle the anchor navigation normally
+          // This prevents Material for MkDocs from intercepting it as a page navigation
+          e.stopPropagation();
+        };
+        addTrackedEventListener(headerLink, "click", handler);
+      }
+
+      // Create reset button (initially hidden)
+      let resetButton = document.createElement("button");
+      resetButton.type = "button";
+      resetButton.className = "quiz-button quiz-reset-button hidden";
+      resetButton.textContent = t("Try Again");
+      if (submitButton) {
+        submitButton.parentNode.insertBefore(resetButton, submitButton.nextSibling);
+      } else {
+        form.appendChild(resetButton);
+      }
+
+      // Restore quiz state from localStorage if available
+      if (quizId && quizTracker.quizzes[quizId]) {
+        const savedState = quizTracker.quizzes[quizId];
+        const section = quiz.querySelector("section");
+        const allAnswers = fieldset.querySelectorAll('input[name="answer"]');
+        const correctAnswers = fieldset.querySelectorAll('input[name="answer"][correct]');
+
+        if (savedState.answered) {
+          // Restore selected answers based on saved values
+          if (savedState.selectedValues && savedState.selectedValues.length > 0) {
+            allAnswers.forEach((input) => {
+              if (savedState.selectedValues.includes(input.value)) {
+                input.checked = true;
+              }
+            });
+          }
+
+          if (savedState.correct) {
+            // Show the content section
+            section.classList.remove("hidden");
+
+            // Only mark the correct answers in green (don't highlight wrong answers)
+            allAnswers.forEach((input) => {
+              if (input.hasAttribute("correct")) {
+                input.parentElement.classList.add("correct");
+              }
+            });
+
+            // Show correct feedback
+            feedbackDiv.classList.remove("hidden", "incorrect");
+            feedbackDiv.classList.add("correct");
+            feedbackDiv.textContent = t("Correct answer!");
+
+            // Disable inputs if disable-after-submit is enabled
+            if (quiz.hasAttribute("data-disable-after-submit")) {
+              allAnswers.forEach((input) => {
+                input.disabled = true;
+              });
+              if (submitButton) {
+                submitButton.disabled = true;
+              }
+              resetButton.classList.add("hidden");
+            } else {
+              // Show reset button, hide submit button
+              resetButton.classList.remove("hidden");
+              if (submitButton) {
+                submitButton.classList.add("hidden");
+              }
+            }
+          } else {
+            // Restore incorrect answer state
+            const selectedInputs = Array.from(allAnswers).filter((input) =>
+              savedState.selectedValues.includes(input.value),
+            );
+
+            // Show the content section for incorrect answers too
+            section.classList.remove("hidden");
+
+            // Mark selected answers
+            selectedInputs.forEach((input) => {
+              if (input.hasAttribute("correct")) {
+                input.parentElement.classList.add("correct");
+              } else {
+                input.parentElement.classList.add("wrong");
+              }
+            });
+
+            // Show correct answers if show-correct is enabled
+            if (quiz.hasAttribute("data-show-correct")) {
+              correctAnswers.forEach((input) => {
+                input.parentElement.classList.add("correct");
+              });
+            }
+
+            // Show incorrect feedback
+            feedbackDiv.classList.remove("hidden", "correct");
+            feedbackDiv.classList.add("incorrect");
+            const canRetry = !quiz.hasAttribute("data-disable-after-submit");
+            feedbackDiv.textContent = canRetry ? t("Incorrect answer. Please try again.") : t("Incorrect answer.");
+
+            // Disable inputs if disable-after-submit is enabled
+            if (quiz.hasAttribute("data-disable-after-submit")) {
+              allAnswers.forEach((input) => {
+                input.disabled = true;
+              });
+              if (submitButton) {
+                submitButton.disabled = true;
+              }
+              resetButton.classList.add("hidden");
+            } else {
+              // Show reset button, hide submit button
+              resetButton.classList.remove("hidden");
+              if (submitButton) {
+                submitButton.classList.add("hidden");
+              }
+            }
+          }
+        }
+      }
+
+      // Auto-submit on radio button change if enabled
+      if (quiz.hasAttribute("data-auto-submit")) {
+        let radioButtons = fieldset.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach((radio) => {
+          const handler = (e) => {
+            // Prevent any default behavior that might cause page scroll
+            e.preventDefault();
+            // Trigger form submission with a properly configured event
+            // cancelable: true allows preventDefault to work
+            // bubbles: true ensures proper event propagation
+            form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+          };
+          addTrackedEventListener(radio, "change", handler);
+        });
+      }
+
+      // Reset button handler
+      const resetHandler = () => {
+        // Clear all selections
+        const allInputs = fieldset.querySelectorAll('input[name="answer"]');
+        allInputs.forEach((input) => {
+          input.checked = false;
+          input.disabled = false;
+        });
+        // Reset colors
+        resetFieldset(fieldset);
+        // Hide content section
+        let section = quiz.querySelector("section");
+        section.classList.add("hidden");
+        // Hide feedback message
+        feedbackDiv.classList.add("hidden");
+        feedbackDiv.classList.remove("correct", "incorrect");
+        feedbackDiv.textContent = "";
+        // Show submit button, hide reset button
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.classList.remove("hidden");
+        }
+        resetButton.classList.add("hidden");
+        // Update tracker
+        if (quizId) {
+          quizTracker.resetQuiz(quizId);
+        }
+      };
+      addTrackedEventListener(resetButton, "click", resetHandler);
+
+      const submitHandler = (event) => {
+        // Prevent default form submission behavior
+        event.preventDefault();
+        // Stop propagation to prevent Material for MkDocs instant navigation from intercepting
+        event.stopPropagation();
+        let selectedAnswers = form.querySelectorAll('input[name="answer"]:checked');
+        let correctAnswers = fieldset.querySelectorAll('input[name="answer"][correct]');
+        // Check if all correct answers are selected
+        let is_correct = selectedAnswers.length === correctAnswers.length;
+        Array.from(selectedAnswers).forEach((answer) => {
+          if (!answer.hasAttribute("correct")) {
+            is_correct = false;
+          }
+        });
+        let section = quiz.querySelector("section");
+        // Always show the content section after submission
+        section.classList.remove("hidden");
+
+        if (is_correct) {
+          resetFieldset(fieldset);
+          // Only mark the correct answers in green (don't highlight wrong answers)
+          const allAnswers = fieldset.querySelectorAll('input[name="answer"]');
+          allAnswers.forEach((answer) => {
+            if (answer.hasAttribute("correct")) {
+              answer.parentElement.classList.add("correct");
+            }
+          });
+          // Show correct feedback
+          feedbackDiv.classList.remove("hidden", "incorrect");
+          feedbackDiv.classList.add("correct");
+          feedbackDiv.textContent = t("Correct answer!");
+        } else {
+          resetFieldset(fieldset);
+          // Mark wrong fields with colors
+          Array.from(selectedAnswers).forEach((answer) => {
+            if (!answer.hasAttribute("correct")) {
+              answer.parentElement.classList.add("wrong");
+            } else {
+              answer.parentElement.classList.add("correct");
+            }
+          });
+          // If show-correct is enabled, also show all correct answers
+          if (quiz.hasAttribute("data-show-correct")) {
+            correctAnswers.forEach((answer) => {
+              answer.parentElement.classList.add("correct");
+            });
+          }
+          // Show incorrect feedback
+          feedbackDiv.classList.remove("hidden", "correct");
+          feedbackDiv.classList.add("incorrect");
+          // Only show "Please try again" if the quiz is not disabled after submission
+          const canRetry = !quiz.hasAttribute("data-disable-after-submit");
+          feedbackDiv.textContent = canRetry ? t("Incorrect answer. Please try again.") : t("Incorrect answer.");
+        }
+
+        // Update tracker
+        if (quizId) {
+          // Get selected values to save
+          const selectedValues = Array.from(selectedAnswers).map((input) => input.value);
+          quizTracker.markQuiz(quizId, is_correct, selectedValues);
+        }
+
+        // Disable quiz after submission if option is enabled
+        if (quiz.hasAttribute("data-disable-after-submit")) {
+          const allInputs = fieldset.querySelectorAll('input[name="answer"]');
+          allInputs.forEach((input) => {
+            input.disabled = true;
+          });
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
+          // Hide reset button if disable-after-submit is enabled
+          resetButton.classList.add("hidden");
+        } else {
+          // Show reset button and hide submit button
+          resetButton.classList.remove("hidden");
+          if (submitButton) {
+            submitButton.classList.add("hidden");
+          }
+        }
+      };
+      addTrackedEventListener(form, "submit", submitHandler);
+    });
+  }
+
+  function resetFieldset(fieldset) {
+    Array.from(fieldset.children).forEach((child) => {
+      child.classList.remove("wrong", "correct");
+    });
+  }
+
+  // Main initialization function that sets up everything on a page
+  function initializePage() {
+    // Initialize tracker
+    quizTracker.init();
+
+    // Translate template elements
+    translateTemplateElements();
+
+    // Reposition sidebar for Material theme TOC integration
+    repositionSidebar();
+
+    // Create sidebar
+    quizTracker.createSidebar();
+
+    // Initialize results div and intro buttons
+    initializeResultsDiv();
+    initializeIntroResetButtons();
+
+    // Initialize all quiz elements
+    initializeQuizzes();
+  }
+
+  // Run initialization when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePage);
+  } else {
+    initializePage();
+  }
+
+  // Material for MkDocs instant navigation support
+  // Cleanup and reinitialize when navigating between pages
+  if (typeof document$ !== "undefined") {
+    // Unsubscribe from any previous subscription to prevent duplicate handlers
+    // This is needed because the script re-runs on each page navigation,
+    // which would otherwise accumulate subscriptions
+    if (window._mkdocsQuizSubscription) {
+      window._mkdocsQuizSubscription.unsubscribe();
+    }
+
+    // Material theme with instant navigation is active
+    window._mkdocsQuizSubscription = document$.subscribe(() => {
+      cleanup(); // Remove old event listeners to prevent memory leaks
+      // Reinitialize everything for the new page
+      initializePage();
+    });
+  }
+})(); // End of IIFE
+</script><script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+  var article = document.querySelector("article") || document.querySelector("main") || document.body;
+  article.classList.add("quiz-auto-number");
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../2_filtering_and_sorting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2: Filtering and Sorting">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2: Filtering and Sorting
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../4_aggregation_and_grouping/" class="md-footer__link md-footer__link--next" aria-label="Next: 4: Aggregation and Grouping">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                4: Aggregation and Grouping
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.footer", "navigation.top", "toc.integrate", "content.code.copy", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

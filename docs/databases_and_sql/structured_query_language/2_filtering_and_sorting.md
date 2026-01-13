@@ -346,7 +346,7 @@ This is useful for fixed-length codes, SKUs, or serial numbers.
 Imagine our products' SKUs follow a format like `A-123` or `B-456`. We want to find **all** products that are in the "Type 1" category (middle digit is 1), but we don't care about the letter prefix.
 
 - `'_-1%'`:
-    - `_` matches exactly one letter (A, B, C, ...).
+    - `_` matches exactly one letter (A, B, C, …).
     - `-1` matches the literal character "-1".
     - `%` matches whatever comes after.
 
@@ -395,7 +395,7 @@ WHERE first_name ILIKE 'steve';
 ## 2.3 The VOID (`NULL`)
 In the previous sections, we treated data as concrete. A salary is a number. A name is a string. A date is a specific point in time.
 
-But what if we simply...don't know?
+But what if we simply…don't know?
 
 What if a new employee hasn't been assigned a department yet? What if a customer hasn't provided their phone number? In a spreadsheet, you might leave a cell blank. In programming, you might use `0` or `""` (empty string).
 
@@ -629,7 +629,7 @@ This is called **ordinal sorting**. It works. It saves you from typing "price."
 
 **Don't do it**.
 
-Imagine you update your query later to add an ID column at the start: `SELECT product_id, product_name, price...`. Now, column #2 is `product_name`. Your sort logic just silently broke. You are now sorting by name instead of price, and the database won't give you an error; it will just give you the wrong report.
+Imagine you update your query later to add an ID column at the start: `SELECT product_id, product_name, price…`. Now, column #2 is `product_name`. Your sort logic just silently broke. You are now sorting by name instead of price, and the database won't give you an error; it will just give you the wrong report.
 
 !!! note "Best Practice: Be Explicit"
 

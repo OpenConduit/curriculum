@@ -60,7 +60,7 @@ Used for money, measurements, and scientific data.
 
 !!! warning "The Money Trap"
 
-    Never, ever store money as a `FLOAT`. `FLOAT` uses binary approximation (like how 1/3 is 0.33333...). If you do math on `FLOAT` money, pennies will vanish into the ether. Always use `DECIMAL` for currency.
+    Never, ever store money as a `FLOAT`. `FLOAT` uses binary approximation (like how 1/3 is 0.33333…). If you do math on `FLOAT` money, pennies will vanish into the ether. Always use `DECIMAL` for currency.
 
 #### 3. Strings (Text)
 
@@ -321,7 +321,7 @@ Usually, we don't want to lose our data. We just want to change the walls. For t
 The syntax always starts with:
 
 ```sql
-ALTER TABLE table_name ...
+ALTER TABLE table_name …
 ```
 
 And is followed by the specific action you want to take.

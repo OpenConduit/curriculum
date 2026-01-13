@@ -32,14 +32,14 @@ END $$
 
 !!! example "Mnemonic: The Southern Dialect"
 
-    You have almost certainly watched at least one film that took place in the early American South. In those movies they often started their statements with, "I do declare ...", before they actually declared anything. Since the syntax for the `DO` block is a little different from what we are used to, so far, this little aside may help you remember now (at least the first part).
+    You have almost certainly watched at least one film that took place in the early American South. In those movies they often started their statements with, "I do declare…", before they actually declared anything. Since the syntax for the `DO` block is a little different from what we are used to, so far, this little aside may help you remember now (at least the first part).
 
 Let's decode the strange symbols:
 
 1. `DO`: This command tells Postgres, "I am about to give you a procedural script to execute once."
 2. `$$`: These represent quotes. In Postgres, `$$` is a safe way to start and end a string that contains code. It tells the parser, "Everything between these double-dollar signs is my script."
 3. `DECLARE`: This is where we announce our variables.
-4. `BEGIN ... END`: This marks the start and finish of the actual logic.
+4. `BEGIN … END`: This marks the start and finish of the actual logic.
 
 ### The Container: Variables
 A **variable** is a temporary placeholder, a labeled bucket, where we can store a value to use later.
@@ -92,7 +92,7 @@ END $$;
 
 !!! warning "The Strictness Trap"
 
-    The query used with `SELECT ... INTO` must return **exactly one row**.
+    The query used with `SELECT … INTO` must return **exactly one row**.
 
     - If it returns **zero rows**, the variable becomes `NULL`.
     - If it returns **multiple rows**, Postgres throws an error: `query returned more than one row`.
@@ -127,7 +127,7 @@ BEGIN
     -- 2. The decision logic
     IF stock_count > 0 THEN
         -- The Happy Path: We have stock!
-        RAISE NOTICE 'Item is available (Qty: %). Processing sale...', stock_count;
+        RAISE NOTICE 'Item is available (Qty: %). Processing sale…', stock_count;
 
         UPDATE inventory
         SET quantity = quantity - 1
@@ -150,7 +150,7 @@ END $$
 ### The "Choose Your Own Adventure" (`ELSIF`)
 Life is rarely binary. It's not just "stock" or "no stock". Occasionally it's "In Stock", "Low Stock", or "Discontinued".
 
-If you need to check multiple specific conditions, avoid nesting giant stacks of `IF..ELSE IF...`. Instead, use the `ELSIF` keyword.
+If you need to check multiple specific conditions, avoid nesting giant stacks of `IF..ELSE IF…`. Instead, use the `ELSIF` keyword.
 
 !!! warning "Syntax Trap: ELSIF"
 
@@ -264,9 +264,9 @@ $$ LANGUAGE plpgsql;
 **Deconstructing the Header**:
 
 1. `CREATE OR REPLACE`: "Create this new tool. If it already exists, just update the definition."
-2. `FUNCTION calculate_tax(...)`: We give it a name and define the **parameters** (inputs). `price` and `tax_rate` act as variables that are pre-filled by the user.
+2. `FUNCTION calculate_tax(…)`: We give it a name and define the **parameters** (inputs). `price` and `tax_rate` act as variables that are pre-filled by the user.
 3. `RETURNING DECIMAL`:  You *must* tell Postgres what shape the answer will take.
-4. `$$ ... $$`: The same safety quotes we used in the `DO` block.
+4. `$$ … $$`: The same safety quotes we used in the `DO` block.
 5. `LANGUAGE plpgsql`: We explicitly tell the database, "This is written in the procedural language, not standard SQL or Python."
 
 **How to use it**: Because it returns a value, you use it inside a `SELECT` statement, just like built-in math functions.
@@ -488,7 +488,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-If the hacker tries the same trick (`inventory; DROP ...`), `format()` will treat the *entire input* as a single table name. It looks for a table literally named `"inventory; DROP TABLE inventory; --"`.
+If the hacker tries the same trick (`inventory; DROP …`), `format()` will treat the *entire input* as a single table name. It looks for a table literally named `"inventory; DROP TABLE inventory; --"`.
 
 The database will say: `Relation does not exist.` You are safe.
 
@@ -522,7 +522,7 @@ You need to run a maintenance script that deletes old data and commits the chang
 </quiz>
 
 <quiz>
-When using `SELECT ... INTO` to populate a variable, what happens if the query returns multiple rows?
+When using `SELECT … INTO` to populate a variable, what happens if the query returns multiple rows?
 - [x] Postgres throws a runtime error.
 - [ ] It stores the last row returned.
 - [ ] It creates an array variable automatically.

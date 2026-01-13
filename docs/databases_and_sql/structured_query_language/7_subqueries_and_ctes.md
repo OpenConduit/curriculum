@@ -1,4 +1,4 @@
-Take a look at the queries we've written so far in the other modules. They all share a certain...linearity. We pick a table (or join a few), we filter out the noise, maybe we group things into buckets, and finally, we order the results. It's a straight line from raw data to answer.
+Take a look at the queries we've written so far in the other modules. They all share a certain…linearity. We pick a table (or join a few), we filter out the noise, maybe we group things into buckets, and finally, we order the results. It's a straight line from raw data to answer.
 
 But life (and data), isn't always linear. Sometimes, to answer a question, you first need the answer to a *different* question.
 
@@ -45,7 +45,7 @@ WHERE salary > (
 
 Let's break this down.
 
-1. **The Parentheses `(....)`**: These are the walls of our subquery. They tell the database, "Pause the outer query. Run everything inside here first."
+1. **The Parentheses `(…)`**: These are the walls of our subquery. They tell the database, "Pause the outer query. Run everything inside here first."
 2. **The Inner Query**: `SELECT AVG(salary) FROM employees` runs first. Let's say the result is `65000`.
 3. **The Substitution**: The database effectively replaces the entire subquery with the result. According to the outer query, the code now looks like `WHERE salary > 65000`.
 4. **The Outer Query**: Now, the main query proceeds, filtering rows normally.
@@ -65,7 +65,7 @@ SELECT
 FROM products;
 ```
 
-Here, the inner query runs once, gets the average (say, `20`), and plasters that same number `20` next to every single row in the result set. It looks a bit repetitive, but it's incredibly useful for calculating differences (e.g., `price - (SELECT ...)`).
+Here, the inner query runs once, gets the average (say, `20`), and plasters that same number `20` next to every single row in the result set. It looks a bit repetitive, but it's incredibly useful for calculating differences (e.g., `price - (SELECT …)`).
 
 !!! warning "The Cardinality Trap"
 
@@ -256,7 +256,7 @@ SELECT * FROM my_special_table;
 
 **Breakdown**:
 
-1. `WITH name AS (...)`: This defines the CTE. You can name it whatever you want (just like a variable).
+1. `WITH name AS (…)`: This defines the CTE. You can name it whatever you want (just like a variable).
 2. **The Parentheses**: Inside here is just a standard `SELECT` query.
 3. **The Main Query**: Immediately following the closing parenthesis, you write your final `SELECT`. You treat `my_special_table` exactly like a real table.
 
@@ -354,7 +354,7 @@ Think about:
 - **Menu Categories**: "Food" contains "Fruit", which contains "Citrus", which contains "Lemon".
 - **Graph Directions**: How do I get from station A to station Z, passing through stations B, C, and D?
 
-Standard SQL struggles here. You can easily find "Who is my manager?" (one join). But "Who is my manager's manager?" requires two joins. "Who is the CEO?" requires...well, you don't know how many joins until you start climbing.
+Standard SQL struggles here. You can easily find "Who is my manager?" (one join). But "Who is my manager's manager?" requires two joins. "Who is the CEO?" requires…well, you don't know how many joins until you start climbing.
 
 To solve this, we need a query that can **repeat itself** until it finishes the job. We require **recursion**.
 
@@ -485,8 +485,8 @@ This is incredibly useful for website navigation paths or visualizing supply cha
     1. Find Alice.
     2. Find Bob (Alice's subordinate).
     3. Find Alice (Bob's subordinate).
-    4. Find Bob...
-    5. Find Alice...
+    4. Find Bob…
+    5. Find Alice…
 
     The database will run this loop until it crashes your server or hits a hard limit.
 

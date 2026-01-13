@@ -32,7 +32,7 @@ FROM employees;
 **What just Happened?**
 
 1. `AVG(salary)`: This is the calculation we want to perform.
-2. `OVER (...)`: This tells SQL, "Do not collapse the rows! Keep the original rows."
+2. `OVER (…)`: This tells SQL, "Do not collapse the rows! Keep the original rows."
 3. `PARTITION BY department`: This defines the "window." It tells SQL to calculate the average *separately* for each department.
 
 When the database looks at an employee in "Sales", the "window" is just the other sales people. When it looks at an "Engineer", the "window" slides over to include only Engineers.
@@ -99,7 +99,7 @@ FROM employees;
 
 1. `PARTITION BY department`: "Split the employees into groups based on their department."
 2. `ORDER BY salary DESC`: "Inside each group, line them up from highest salary to lowest."
-3. `RANK()`: "Walk down the line and hand out medals: 1, 2, 3..."
+3. `RANK()`: "Walk down the line and hand out medals: 1, 2, 3…"
 4. **Reset**: When the database finishes one department and moves to the next, the rank counter resets to 1.
 
 ### The Three Contenders

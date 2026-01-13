@@ -291,7 +291,7 @@ LIMIT 3 OFFSET 3;
 ```
 
 - `LIMIT 3`: "Give me 3 rows."
-- `OFFSET 3`: "...but skip the first 3 rows you find before you start counting."
+- `OFFSET 3`: "…but skip the first 3 rows you find before you start counting."
 
 !!! example "Analogy: The Buffet Line"
 
@@ -453,7 +453,7 @@ graph LR
     C --> E[Move to Next Line]
 ```
 
-### The Multi-Line Comment (`/* ... */`)
+### The Multi-Line Comment (`/* … */`)
 Occasionally you have a lot to say. Maybe you need to explain a complex business rule, or you want to temporarily disable a large chunk of code without deleting it.
 
 For this, we use the C-style block comment. It starts with `/*` and ends with `*/`. Everything in between (spanning as many lines as you like) is ignored.

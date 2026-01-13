@@ -29,7 +29,7 @@ ON orders.customer_id = customers.customer_id;
 
 1. `FROM orders`: The left table.
 2. `JOIN customers`: The right table.
-3. `ON ...`: The bridge. We are telling the database, *"Match rows where the customer ID in the orders table equals the customer ID in the customers table."*
+3. `ON …`: The bridge. We are telling the database, *"Match rows where the customer ID in the orders table equals the customer ID in the customers table."*
 
 ### Table Aliasing (The "Nickname")
 In the query above, writing `orders.customer_id` and `customers.customer_id` is tedious. It gets even worse when you join 5 or 6 tables.
@@ -77,7 +77,7 @@ The database is shouting, *"Which ID? The order's ID or the customer's ID? Be sp
 SELECT
     o.id,
     c.name
-FROM ...
+FROM …
 ```
 
 ### Visualizing the Connection
@@ -408,7 +408,7 @@ Despite the danger, cross joins are incredibly powerful for **generating** data,
 If we just query the sales table, March won't appear. We need to force it.
 
 1. **Table A**: List of all products (Product A, Product B).
-2. **Table B**: List of all months (Jan, Feb, ..., Dec)
+2. **Table B**: List of all months (Jan, Feb, …, Dec)
 
 ```sql
 SELECT
@@ -422,7 +422,7 @@ This generates a perfect template grid:
 
 - Product A - Jan
 - Product A - Feb
-- ...
+- …
 - Product B - Jan
 
 Now you can `LEFT JOIN` your actual sales data onto this template. Any missing sales will show up as `NULL` (which you can turn into 0), ensuring your report has no gaps.
@@ -547,7 +547,7 @@ Which query pattern correctly identifies 'Orphans' (e.g., Customers who have NEV
 - [ ] `CROSS JOIN orders WHERE orders.id IS NULL`
 - [x] `LEFT JOIN orders ON .. WHERE orders.id IS NULL`
 - [ ] `FULL OUTER JOIN orders`
-- [ ] `INNER JOIN orders ON ... WHERE orders.id = NULL`
+- [ ] `INNER JOIN orders ON … WHERE orders.id = NULL`
 
 </quiz>
 

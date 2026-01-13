@@ -36,19 +36,51 @@ Database indexes are usually implemented using a structure called a **B-Tree** (
 
 Imagine we are indexing a column of numbers (IDs). A B-Tree looks like an upside-down tree.
 
-Visual Narrative: The B-Tree Structure
+```mermaid
+flowchart TD
+    %% Definitions of styles
+    classDef targetPath stroke:#ff9900,stroke-width:3px;
+    classDef defaultNode stroke:#333,stroke-width:1px;
 
-To the illustrator: Create a diagram showing a hierarchical tree structure.
+    %% --- Top Node (Root) ---
+    Root["Root Node<br/>(Split at 50)"]:::targetPath
+    
+    %% --- Middle Nodes (Branches) ---
+    BranchLeft["Branch Left<br/>(Split at 25)"]:::targetPath
+    BranchRight["Branch Right<br/>(Split at 75)"]:::defaultNode
 
-Top Node (Root): Contains ranges, e.g., "Values < 50 go Left", "Values >= 50 go Right".
+    %% --- Bottom Nodes (Leaves) ---
+    Leaf1["Leaf Node<br/>IDs: 0-24"]:::defaultNode
+    LeafTarget["Leaf Node<br/>IDs: 25-49<br/>**Contains ID 30**"]:::targetPath
+    Leaf3["Leaf Node<br/>IDs: 50-74"]:::defaultNode
+    Leaf4["Leaf Node<br/>IDs: 75-100"]:::defaultNode
 
-Middle Nodes (Branches): The "Left" node splits further: "Values < 25 go Left", "Values 25-49 go Right".
+    %% --- Connections and Logic ---
+    %% Link Index 0
+    Root -- "Values < 50 (Go Left)" --> BranchLeft
+    %% Link Index 1
+    Root -- "Values >= 50" --> BranchRight
 
-Bottom Nodes (Leaves): These contain the actual pointers to the table rows.
+    %% Link Index 2
+    BranchLeft -- "Values < 25" --> Leaf1
+    %% Link Index 3
+    BranchLeft -- "Values 25-49 (Go Right)" --> LeafTarget
 
-Action: Show an arrow tracing a path for "Find ID 30". It starts at Top (Goes Left), hits Middle (Goes Right), and lands on the Leaf containing 30.
+    %% Link Index 4 & 5
+    BranchRight --> Leaf3
+    BranchRight --> Leaf4
 
-Caption: "Traversing the tree eliminates half the data with every step."
+    %% --- Styling the specific links for the path ---
+    %% We style Link 0 and Link 3 to highlight the path
+    linkStyle 0,3 stroke:#ff9900,stroke-width:4px;
+
+    %% --- Caption ---
+    subgraph Caption [" "]
+        direction TB
+        Text["Caption: Traversing the tree eliminates half the data with every step."]
+        style Text fill:none,stroke:none
+    end
+```
 
 Because the data in the index is **sorted**, the database can use a "divide and conquer" strategy (binary search).
 
@@ -263,7 +295,7 @@ flowchart TD
     
     %% Quotes added to the labels below to handle parentheses
     B -- "YES (e.g., YEAR(date))" --> C["Index BROKEN (Full Table Scan)"]
-    B -- "NO (Column is 'naked')" --> D{"Is there a leading wildcard (LIKE '%...')"}
+    B -- "NO (Column is 'naked')" --> D{"Is there a leading wildcard (LIKE '%…')"}
     
     D -- YES --> C
     D -- NO --> E["Index USABLE!\n(Index Seek)"]
@@ -351,7 +383,7 @@ Here is how you will actually use this in your career:
 
 1. **Write the Query**: You write a complex join to get sales data.
 2. **Feel the Pain**: You run it. It takes 15 seconds. The user is unhappy.
-3. **Explain It**: You run `EXPLAIN SELECT ...`.
+3. **Explain It**: You run `EXPLAIN SELECT …`.
 4. **Spot the Villain**: You look for the step with the highest cost or a "table scan" on a large table (e.g., `orders`).
 5. **Fix It**: You realize you forgot to index the `customer_id` column used in the JOIN. You create the index.
 6. **Verify**: You run `EXPLAIN` again. You see "index seek". The cost drops. The query now runs in 200 ms.

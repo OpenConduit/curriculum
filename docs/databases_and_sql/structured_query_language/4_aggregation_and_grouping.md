@@ -203,7 +203,7 @@ Look at the Engineering group:
 
 - **Department**: Engineering (easy, they are all the same).
 - **Avg Salary**: 125k (Easy, it's a math calculation).
-- **Name**: ... Who? Ada or Grace?
+- **Name**: … Who? Ada or Grace?
 
 The database creates **one row** per group. It cannot fit two names (Ada and Grace) into that single cell. Because `name` is not grouped and not aggregated, the database refuses to run the query.
 

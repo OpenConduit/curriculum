@@ -38,7 +38,7 @@ While there are dozens of types, as a beginner, you only need to worry about the
 - **Common Names**:
     - `INT` / `INTEGER`: Whole numbers. (1, 500, -99). No decimals allowed.
     - `DECIMAL` / `NUMERIC`: Exact decimals. Used for money. (`10.50`, `99.99`).
-    - `FLOAT` / `REAL`: Approximate decimals. Used for science (`3.14159...`). *Never use these for money, or you will lose pennies to rounding errors.*
+    - `FLOAT` / `REAL`: Approximate decimals. Used for science (`3.14159…`). *Never use these for money, or you will lose pennies to rounding errors.*
 - **The Rule**: Never use quotes. Just type the number (`100`, not `'100'`).
 
 ### 3. Dates and Times
@@ -465,7 +465,7 @@ SELECT TO_DATE('27/10/2023', 'DD/MM/YYYY');
 ```
 
 - **Result**: `2023-10-27` (A proper date object).
-- The pattern string tells the engine, "The first two digits are the day, then a slash, then the month...".
+- The pattern string tells the engine, "The first two digits are the day, then a slash, then the month…".
 
 ### 2. Formatting Numbers to Text (`TO_CHAR`)
 This is essential for reporting. You have a raw number `1234.5`, but you want to display it as `$1,234.50`.
@@ -485,8 +485,8 @@ SELECT TO_CHAR(1234.5, 'FM$9,999.00');
 
     Once you run `TO_CHAR`, your number becomes a **string**. You cannot do math on it anymore!
 
-    - `TO_CHAR(price, '...') * 2` --> Error.
-    - `TO_CHAR(price * 2, '...')` --> Correct.
+    - `TO_CHAR(price, '…') * 2` --> Error.
+    - `TO_CHAR(price * 2, '…')` --> Correct.
 
     Always do your math *first* and format it *last*.
 
@@ -599,7 +599,7 @@ Writing a full `CASE` statement just to handle a `NULL` is tedious. SQL gives us
 
 This function takes a list of arguments and returns the **first non-null value** it finds. It is perfect for filling in blanks.
 
-**Syntax**: `COALESCE(val1, val2, val3, ...)`
+**Syntax**: `COALESCE(val1, val2, val3, …)`
 
 ```sql
 -- If phone_home is NULL, try phone_work. if that is NULL, use 'No Phone'

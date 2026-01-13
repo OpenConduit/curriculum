@@ -31,9 +31,9 @@ Let's break this down:
 
 1. `INSERT INTO`: These two keywords (always used together) function as the verb. You are telling the database engine, "I have a package to deliver."
 2. `inventory`: This is the destination. It's the table name.
-3. `(item_id, ...)`: This is the **column list**. It tells the database which specific attributes you are about to provide data for.
+3. `(item_id, …)`: This is the **column list**. It tells the database which specific attributes you are about to provide data for.
 4. `VALUES`: This keyword acts as a separator. Everything before it is *metadata* (where is it going?); everything after it is the *actual* data.
-5. `(1, 'Rusty Dagger', ...)`: This is the payload. A comma-separated list of literals.
+5. `(1, 'Rusty Dagger', …)`: This is the payload. A comma-separated list of literals.
 
 !!! example "Analogy: The Scantron Sheet"
 
@@ -56,7 +56,7 @@ INSERT INTO inventory
 VALUES (2, 'Healing Potion', 50.00, 5);
 ```
 
-This works...for now. The database looks at the table definition, sees there are 4 columns defined in a specific order, and assumes your values match that exact order.
+This works…for now. The database looks at the table definition, sees there are 4 columns defined in a specific order, and assumes your values match that exact order.
 
 **Do not do this**.
 
@@ -105,7 +105,7 @@ VALUES
 
 This is significantly faster because the database only has to parse the `INSERT INTO` command once and check permissions once. It just iterates through the data payload.
 
-### The Power Move: `INSERT INTO ... SELECT`
+### The Power Move: `INSERT INTO … SELECT`
 This is where your knowledge of set theory and querying pays off.
 
 Occasionally you would rather not type values manually. Occasionally you want to copy data from one table to another, perhaps moving old orders to an archive table or creating a summary table for reporting.
@@ -140,7 +140,7 @@ WHERE is_damaged = FALSE;
 
 !!! info "Under the Hood: Transaction Logs"
 
-    When you run a massive `INSERT ... SELECT` that moves a million rows, the database writes every single change to a transaction log for safety. If your disk is full, the operation might fail. We'll discuss how to manage this later in the chapter with transactions.
+    When you run a massive `INSERT … SELECT` that moves a million rows, the database writes every single change to a transaction log for safety. If your disk is full, the operation might fail. We'll discuss how to manage this later in the chapter with transactions.
 
 ## 10.2 `UPDATE`
 We have successfully inserted data into our `inventory`. Our shop is stocked. The `Rusty Dagger` is sitting there at $15.50 with a quantity of 10.
@@ -277,7 +277,7 @@ TRUNCATE TABLE inventory;
 
 #### The Mechanism
 
-While `DELETE` goes row-by-row saying, "Delete this ... okay, log it. Delete this ... okay, log it," `TRUNCATE` is much more aggressive.
+While `DELETE` goes row-by-row saying, "Delete this…okay, log it. Delete this…okay, log it," `TRUNCATE` is much more aggressive.
 
 `TRUNCATE` tells the database, "I don't care what is inside this table. Deallocate the data storage pages entirely."
 
@@ -401,7 +401,7 @@ If an error occurs on command #49 (e.g., the server crashes or you violate a dat
 ## Quiz
 
 <quiz>
-Why is it considered a best practice to explicitly list the column names when writing an `INSERT` statement (e.g., `INSERT INTO table (col1, col2) ...`)?
+Why is it considered a best practice to explicitly list the column names when writing an `INSERT` statement (e.g., `INSERT INTO table (col1, col2) …`)?
 - [ ] It is required by the SQL standard; the query will strictly fail without it.
 - [ ] It makes the database engine process the insertion significantly faster.
 - [ ] It allows you to bypass `NOT NULL` constraints defined on the table.

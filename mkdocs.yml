@@ -66,6 +66,7 @@ nav:
       - "6: The Void and the Unknown": databases_and_sql/set_theory/6_void_and_unknown.md
       - "7: The Difference": databases_and_sql/set_theory/7_the_difference.md
       - "8: The Cartesian Product": databases_and_sql/set_theory/8_the_cartesian_product.md
+      - "9: Visualizing Data Relationships": databases_and_sql/set_theory/9_visualizing_data_relationships.md
     - Structured Query Language:
       - "Welcome": databases_and_sql/structured_query_language/0_welcome.md
       - "1: The Foundation of Querying": databases_and_sql/structured_query_language/1_foundation_of_querying.md

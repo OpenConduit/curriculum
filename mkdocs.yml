@@ -57,7 +57,7 @@ nav:
   - Databases and SQL:
     - databases_and_sql/index.md
     - Set Theory:
-      - "0: Welcome": databases_and_sql/set_theory/0_welcome.md
+      - "Welcome": databases_and_sql/set_theory/0_welcome.md
       - "1: defining the Set": databases_and_sql/set_theory/1_defining_the_set.md
       - "2: Elements and Membership": databases_and_sql/set_theory/2_elements_and_membership.md
       - "3: The Bag Problem": databases_and_sql/set_theory/3_the_bag_problem.md
@@ -69,6 +69,10 @@ nav:
       - "9: Visualizing Data Relationships": databases_and_sql/set_theory/9_visualizing_data_relationships.md
       - "10: Ordered Tuples and Relations": databases_and_sql/set_theory/10_ordered_tuples_and_relations.md
       - "11: Grouping and Partitions": databases_and_sql/set_theory/11_grouping_and_partitions.md
+    - Data Modeling:
+      - "Welcome": databases_and_sql/dimensional_modeling/0_welcome.md
+      - "1: The Two Worlds": databases_and_sql/dimensional_modeling/1_the_two_worlds.md
+      - "2: Denormalization": databases_and_sql/dimensional_modeling/2_denormalization.md
     - Structured Query Language:
       - "Welcome": databases_and_sql/structured_query_language/0_welcome.md
       - "1: The Foundation of Querying": databases_and_sql/structured_query_language/1_foundation_of_querying.md

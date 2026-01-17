@@ -128,6 +128,16 @@ If an analyst wants to know *"Sales of coffee beans from Ethiopian vendors,"* th
 In our data warehouse, we fix this by creating one massive, wide `dim_product` table. We steal the columns from those four tables and stuff them all into one row.
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'noteBkgColor': 'rgba(255, 170, 0, 0.53)',
+      'noteTextColor': '#FFFFFF',
+      'noteBorderColor': '#B45309'
+    }
+  }
+}%%
 classDiagram
     class Normalization_Hell {
         Products -> Category
@@ -287,9 +297,9 @@ At **The Omni-Coffee Shop**, we might have a Product Hierarchy that looks like t
 
 ```mermaid
 graph TD
-    A[Department<br>('Food' or 'Drink')] --> B[Category<br>('Bakery', 'Hot Coffee', 'Cold Coffee')]
-    B --> C[Subcategory<br>('Bagels', 'Muffins', 'Latte', 'Drip')]
-    C --> D[Product<br>('Blueberry Muffin', 'Vanilla Latte')]
+    A["Department<br>('Food' or 'Drink')"] --> B["Category<br>('Bakery', 'Hot Coffee', 'Cold Coffee')"]
+    B --> C["Subcategory<br>('Bagels', 'Muffins', 'Latte', 'Drip')"]
+    C --> D["Product<br>('Blueberry Muffin', 'Vanilla Latte')"]
 ```
 
 When you build `dim_product`, you must include columns for **every single step** of this ladder.

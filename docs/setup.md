@@ -1,6 +1,6 @@
 # Environment Setup
 
-The Open Conduit curriculum is designed to be **reproducible**. To achieve this, we rely on containerization rather than asking you to install dozens of tools directly on your machine.
+OpenConduit curriculum is designed to be **reproducible**. To achieve this, we rely on containerization rather than asking you to install dozens of tools directly on your machine.
 
 Before starting any module, you must ensure your host machine is configured correctly.
 

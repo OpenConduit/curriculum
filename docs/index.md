@@ -1,11 +1,11 @@
-## Welcome to The Open Conduit
+## Welcome to OpenConduit
 
 **The Infrastructure for Open Data Education.**
 There is a saying in our industry that a Data Engineer is just a Software Engineer who loves suffering.
 
 Looking at the landscape today—the "Modern Data Stack" with its thousands of vendor logos, the endless debates about batch versus streaming, and fragile pipelines that break at 3:00 AM because of a single malformed CSV—it is easy to see why. The ecosystem is loud, chaotic, and overwhelmingly complex.
 
-**The Open Conduit exists** to filter that noise.
+**OpenConduit exists** to filter that noise.
 
 This project is an attempt to map the chaos. We believe that there is deep satisfaction in taking the raw, messy exhaust of the digital world and engineering it into something structured, reliable, and truthful.
 

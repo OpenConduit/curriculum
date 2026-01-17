@@ -1,4 +1,4 @@
-site_name: Open Conduit
+site_name: OpenConduit
 site_url: https://www.openconduit.org
 repo_url: https://github.com/OpenConduit/curriculum
 repo_name: GitHub
@@ -54,7 +54,7 @@ markdown_extensions:
 
 nav:
   - Welcome: 
-    - "About Open Conduit": index.md
+    - "About OpenConduit": index.md
     - "Contributing": contributing.md
     - "Lab Setup": setup.md
   - Databases and SQL:
@@ -109,4 +109,4 @@ plugins:
       auto_number: true
 
 copyright: >
-  Copyright &copy; 2026 Open Conduit  |  Content licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a>  |  Labs licensed under <a href="https://opensource.org/licenses/MIT">MIT</a>.
+  Copyright &copy; 2026 OpenConduit  |  Content licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a>  |  Labs licensed under <a href="https://opensource.org/licenses/MIT">MIT</a>.

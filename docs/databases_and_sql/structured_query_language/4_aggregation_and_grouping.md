@@ -46,7 +46,7 @@ SELECT SUM(total_amount) AS total_revenue
 FROM orders;
 ```
 
-If you try to `SUM` a text column (like `first_name`), the database will throw an error: `You can't add 'Ada' + 'Grace'.`
+If you try to `SUM` a text column (like `first_name`), the database will throw an error: `You can't add 'Ada' + 'Grace'`.
 
 ### 3. Averages (`AVG`)
 This calculates the arithmetic mean.
@@ -86,7 +86,7 @@ FROM products;
 
 Interestingly, `MIN` and `MAX` work on **text** and **dates** too!
 
-- **Text**: `MIN` finds the value closest to 'A'. `MAX` finds the value closest to 'Z'.
+- **Text**: `MIN` finds the value closest to 'A.' `MAX` finds the value closest to 'Z.'
 - **Dates**: `MIN` finds the oldest date. `MAX` finds the most recent date.
 
 ```sql
@@ -121,7 +121,7 @@ FROM products;
 ```
 
 - **Why it fails**: `MAX(price)` wants to return **one** row (the highest price). `product_name` wants to return **all** rows (every name). The database cannot fit a list of 100 names into a single cell next to the max price.
-- **Error Message**: `column "products.product_name" must appear in the GROUP BY clause or be used in an aggregate function".
+- **Error Message**: `column "products.product_name" must appear in the GROUP BY clause or be used in an aggregate function."
 
 We will solve this problem in the very next section.
 
@@ -139,9 +139,9 @@ Imagine you have a bag of M&Ms.
 
 - **Aggregation (Without GROUP BY)**: You weigh the entire bag. Result: "100 grams."
 - **Grouping**: You separate them by color. You put all the red ones in a pile, all the blue ones in a pile, etc.
-- **Aggregation (With GROUP BY)**: You weigh each pile. Result: "Red: 20g, Blue: 30g, Green: 50g".
+- **Aggregation (With GROUP BY)**: You weigh each pile. Result: "Red: 20g, Blue: 30g, Green: 50g."
 
-In SQL, the column you grouped by is the "color".
+In SQL, the column you grouped by is the "color."
 
 ### Syntax in Action
 Let's look at our `employees` table.
@@ -174,7 +174,7 @@ GROUP BY department;
 **What just happened?**
 
 1. `FROM`: The database loaded the `employees` table.
-2. `GROUP BY`: It looked at the `department` column. It saw three unique values: 'Engineering', 'Research', and 'HR'. It effectively split the table into three mini-tables.
+2. `GROUP BY`: It looked at the `department` column. It saw three unique values: 'Engineering,' 'Research,' and 'HR.' It effectively split the table into three mini-tables.
 3. `SELECT`: It ran the `AVG(salary)` function on each mini-table separately.
 
 ### The Golden Rule of Grouping
@@ -453,7 +453,7 @@ Which of the following scenarios requires the `HAVING` clause?
 - [x] Finding departments where the total salary payout exceeds $1 million.
 - [ ] Finding employees with a specific job title.
 - [ ] Finding orders placed yesterday.
-- [ ] Finding customers who live in 'France'.
+- [ ] Finding customers who live in 'France.'
 
 </quiz>
 

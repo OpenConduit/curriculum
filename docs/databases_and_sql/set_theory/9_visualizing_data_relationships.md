@@ -181,8 +181,8 @@ A row in Table A matches many rows in Table B, *AND* a row in Table B matches ma
 
 **The Analogy**: Students and classes.
 
-- Student "Bob" takes "Math" and "History".
-- The "Math" class contains "Bob" and "Alice".
+- Student "Bob" takes "Math" and "History."
+- The "Math" class contains "Bob" and "Alice."
 
 If you try to draw this with straight lines, it looks like a plate of spaghetti.
 

@@ -275,9 +275,9 @@ This visual structure tells the user exactly how to construct a query mentally. 
 
 **The Visual Path**:
 
-1. **Filter (the rim)**: Go to `DIM_STORE` and pick "Brooklyn".
-2. **Filter (the rim)**: Go to `DIM_PRODUCT` and pick "Seasonal = True".
-3. **Filter (the rim)**: Go to `DIM_DATE` and pick "Year = 2024".
+1. **Filter (the rim)**: Go to `DIM_STORE` and pick "Brooklyn."
+2. **Filter (the rim)**: Go to `DIM_PRODUCT` and pick "Seasonal = True."
+3. **Filter (the rim)**: Go to `DIM_DATE` and pick "Year = 2024."
 4. **Convert (the spoke)**: Follow the lines from those three dimensions into the center `FACT_SALES` table.
 5. **Aggregate (the hub)**: Sum the `quantity_sold` column for the rows where those lines meet.
 
@@ -347,7 +347,7 @@ In the Omni-Coffee Star Schema, what connects `DIM_PRODUCT` to `DIM_STORE`?
 </quiz>
 
 <quiz>
-If you need to calculate 'Total Sales by Region', which tables must be joined?
+If you need to calculate 'Total Sales by Region,' which tables must be joined?
 - [x] `FACT_SALES` and `DIM_STORE`.
 - [ ] `FACT_SALES`, `DIM_STORE`, and `DIM_REGION`
 - [ ] `FACT_SALES` only.

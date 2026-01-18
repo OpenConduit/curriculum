@@ -211,7 +211,7 @@ When we build our **dimension tables** (which we will define in the next module)
 We are taking the logical distance between two pieces of information (product name and category name) and reducing it to zero. They now live in the same row, in the same block of memory on the hard drive.
 
 ### The Limits of Flattening
-"Okay", you say,"if flattening is so good, why don't we flatten everything? Why don't we just have one table for the entire company?"
+"Okay." you say,"if flattening is so good, why don't we flatten everything? Why don't we just have one table for the entire company?"
 
 That is the extreme end of the spectrum (One Big Table), and while valid for some modern systems, it has a major flaw for beginners: **chaos**.
 

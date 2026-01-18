@@ -184,7 +184,7 @@ In Three-Value Logic, what is the result of `True OR NULL`?
 Why does the query `SELECT * FROM Users WHERE City != 'Paris'` exclude users with the `NULL` city?
 - [ ] Because the database automatically converts NULL to an empty string.
 - [x] Because `NULL != 'Paris'` evaluates to Unknown, and the WHERE clause only keeps rows that are True.
-- [ ] Because `NULL` is functionally equal to 'Paris'.
+- [ ] Because `NULL` is functionally equal to 'Paris.'
 - [ ] Because `NULL`s are stored in a separate table.
 
 </quiz>

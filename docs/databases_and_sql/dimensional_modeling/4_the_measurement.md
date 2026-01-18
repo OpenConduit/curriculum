@@ -119,7 +119,7 @@ Let's do the math for **The Omni-Coffee Shop**.
 - That's 182 million rows per year.
 - After 5 years, our fact table has nearly 1 billion rows.
 
-In the world of "Big Data", fact tables often grow into the trillions.
+In the world of "Big Data," fact tables often grow into the trillions.
 
 ### The Physics of Scanning
 Imagine you are the database engine. The CEO asks, "What was the total revenue for 2024?"
@@ -175,7 +175,7 @@ In our `fact_sales` table, you will see columns like:
 
 These are not the data itself; they are the **addresses** of the data.
 
-When the database engine reads a row with `product_key: 505`, it acts like a librarian. It pauses, walks over to the `dim_product` shelf, finds book #505, and reads the title, "Hazelnut Latte".
+When the database engine reads a row with `product_key: 505`, it acts like a librarian. It pauses, walks over to the `dim_product` shelf, finds book #505, and reads the title, "Hazelnut Latte."
 
 ### Why Integers?
 You might ask, "Why not just use the product SKU ('COF-HAZ-001') as the key? That's unique, right?"

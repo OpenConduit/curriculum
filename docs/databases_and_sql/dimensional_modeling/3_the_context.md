@@ -35,7 +35,7 @@ A dimension table is a container for descriptive text. It holds the attributes t
 
 When a stakeholder asks, "Show me sales **by product category**," or "Filter for customers **living in Indiana**," they are asking you to query a dimension table.
 
-Let's look at what `dim_product` might look like for the 'Omni-Coffee Shop'.
+Let's look at what `dim_product` might look like for the 'Omni-Coffee Shop.'
 
 !!! example "The Product Dimension"
 
@@ -110,7 +110,7 @@ A fact table is a receipt tape. It is miles long, encompassing billions of trans
 A **dimension table**, on the other hand, is like an index card or a dossier. It is **wide** and **shallow**.
 
 ### The "Wide" Perspective
-When we say a table is "wide", we mean it has a high column count.
+When we say a table is "wide," we mean it has a high column count.
 
 In a traditional application database (OLTP), developers try to keep tables lean. They despise redundancy. If a product has a "Category," they split "Category" into its own table and link it with an ID. If the Category has a "Department," they split that too. This is the **3rd Normal Form (3NF)** we discussed in module 1.
 
@@ -244,7 +244,7 @@ As an architect, you must replace `NULL` with explicit, descriptive strings that
 ### Flags and Indicators
 One of the most powerful things you can do in a dimension is pre-calculate logic.
 
-Suppose the Omni-Coffee marketing director asks, "Show me sales for all our 'Premium' products." "Premium" is a fuzzy business concept. Maybe it means "Price > $5.00" OR "Category = 'Single Origin'".
+Suppose the Omni-Coffee marketing director asks, "Show me sales for all our 'Premium' products." "Premium" is a fuzzy business concept. Maybe it means "Price > $5.00" OR "Category = 'Single Origin'."
 
 If you force every analyst to write that logic, half of them will get it wrong.
 
@@ -379,7 +379,7 @@ Why do we prefer storing full descriptive strings (e.g., 'Hazelnut Latte') over 
 
 <quiz>
 You are designing `dim_customer` and encounter missing data for the 'Gender' attribute. How should you handle this?
-- [x] Replace `NULL` with a descriptive string like 'Unknown' or 'Not Provided'.
+- [x] Replace `NULL` with a descriptive string like 'Unknown' or 'Not Provided.'
 - [ ] Delete the customer row entirely to maintain data quality.
 - [ ] Leave the field as NULL to accurately reflect the missing data.
 - [ ] Use a default integer like -1 or 99.
@@ -433,7 +433,7 @@ Which set of attributes would constitute a correct 'Drill-Path' for a Product Hi
 
 <quiz>
 Why is the number '101' in the `dim_product` table (representing the product key) less useful to an analyst than the string 'Caramel Macchiato'?
-- [x] The number 101 has no inherent context or 'texture'.
+- [x] The number 101 has no inherent context or 'texture.'
 - [ ] The number 101 takes up more storage space.
 - [ ] The number 101 cannot be used in a `WHERE` clause.
 - [ ] It isn't; analyst prefer numbers because they are easier to type.

@@ -92,7 +92,7 @@ This is the great temptation of every junior engineer: "I'll just log the histor
 
 Here is the trade-off.
 
-If you start stuffing millions of historical rows into the same database that powers the cash register, the cash register gets heavy. Queries start to drag. The database locks up while the CEO runs a massive report, and suddenly, customers can't pay for their coffee because the `Orders` table is busy calculating "Year-Over-Year Growth".
+If you start stuffing millions of historical rows into the same database that powers the cash register, the cash register gets heavy. Queries start to drag. The database locks up while the CEO runs a massive report, and suddenly, customers can't pay for their coffee because the `Orders` table is busy calculating "Year-Over-Year Growth."
 
 We separate these worlds because they have opposing physics:
 

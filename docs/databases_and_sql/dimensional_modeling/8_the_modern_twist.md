@@ -25,7 +25,7 @@ On the hard drive, it looks like this: **Block 1 (Dates)**: `[2024-01-16, 2024-0
 **The Use Case (OLAP)**: The CEO asks, "What is the average price?" The database engine ignores Block 1. It ignores Block 2. It goes straight to Block 3 (Prices) and reads *only* that block. It reads the prices, does the math, and finishes. It scanned 1/10th of the data. The query runs 10x faster.
 
 ### Why This Changes Everything
-This architectural shift effectively kills the penalty for "wide tables".
+This architectural shift effectively kills the penalty for "wide tables."
 
 In the old days, if you had a table with 200 columns, it was a "performance pig." Every time you touched a row, you dragged all 200 columns into memory. In the Columnar world, a table with 200 columns is just 200 separate blocks. If your query only asks for 3 columns, the database **physically ignores the other 197**.
 

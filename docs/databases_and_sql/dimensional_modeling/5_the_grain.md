@@ -295,8 +295,8 @@ What is the 'Cardinality Trap'?
 
 <quiz>
 Which of the following attributes has the highest cardinality?
-- [ ] Product category (e.g., 'Bakery', 'Beverage')
-- [ ] Payment method (e.g., 'Cash', 'Credit')
+- [ ] Product category (e.g., 'Bakery,' 'Beverage')
+- [ ] Payment method (e.g., 'Cash,' 'Credit')
 - [ ] Store ID (e.g., NY001)
 - [x] Transaction ID (e.g., 'TXN_99988777')
 

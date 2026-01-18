@@ -196,9 +196,9 @@ FROM employees;
 
 **How SQL Solves This**:
 
-1. **Innermost**: `SUBSTRING` extracts 'A' from 'Ada'.
-2. **Middle**: `CONCAT` glues 'A' + 'Lovelace' --> 'ALovelace'.
-3. **Outermost**: `LOWER` turns 'ALovelace' --> 'alovelace'.
+1. **Innermost**: `SUBSTRING` extracts 'A' from 'Ada.'
+2. **Middle**: `CONCAT` glues 'A' + 'Lovelace' --> 'ALovelace.'
+3. **Outermost**: `LOWER` turns 'ALovelace' --> 'alovelace.'
 
 ## 3.3 Numeric Functions
 Data science is, at its heart, math. But raw mathematical output is often ugly.
@@ -269,7 +269,7 @@ SELECT ABS(50 - 100); -- Returns 50
 ### 5. The Modulo Operator (`MOD` or `%`)
 This function returns the **remainder** of a division.
 
-- `10 / 3` is "3 with a remainder of 1".
+- `10 / 3` is "3 with a remainder of 1."
 - Therefore, `MOD(10, 3)` is `1`.
 
 In Postgres and standard SQL, this is usually a function `MOD(a, b)` or an operator `%`.
@@ -286,7 +286,7 @@ WHERE MOD(order_id, 3) = 0;
 ## 3.4 Date and Time Functions
 Welcome to the most difficult part of data engineering.
 
-Strings are easy; "A" is always "A". Numbers are also easy; 1 is always 1. Time is hard.
+Strings are easy; "A" is always "A." Numbers are also easy; 1 is always 1. Time is hard.
 
 - Months have 28, 29, 30, or 31 days.
 - Years have 365 or 366 days.
@@ -385,9 +385,9 @@ graph LR
 ## 3.5 Data Type Conversion (Casting)
 In a perfect world, numbers are always stored as integers, and dates are always stored as timestamps.
 
-In the real world, you are often given a CSV file from the marketing department where the "Price" column contains text like "$100" or the "Date" column looks like "10/27/2023".
+In the real world, you are often given a CSV file from the marketing department where the "Price" column contains text like "$100" or the "Date" column looks like "10/27/2023."
 
-If you try to sum that "Price" column, the database engine will yell at you. It sees a text string. It doesn't know how to add the word "Hello" to the word "World," so it certainly won't add "$100" to "$50".
+If you try to sum that "Price" column, the database engine will yell at you. It sees a text string. It doesn't know how to add the word "Hello" to the word "World," so it certainly won't add "$100" to "$50."
 
 To fix this, we need to force the data to change its identity. We need **casting**.
 
@@ -465,7 +465,7 @@ SELECT TO_DATE('27/10/2023', 'DD/MM/YYYY');
 ```
 
 - **Result**: `2023-10-27` (A proper date object).
-- The pattern string tells the engine, "The first two digits are the day, then a slash, then the month…".
+- The pattern string tells the engine, "The first two digits are the day, then a slash, then the month…."
 
 ### 2. Formatting Numbers to Text (`TO_CHAR`)
 This is essential for reporting. You have a raw number `1234.5`, but you want to display it as `$1,234.50`.
@@ -580,7 +580,7 @@ FROM products;
 This is so common that SQL provides a dedicated shortcut function for it called `COALESCE` (which we will see in a moment).
 
 ### Binary Flags (1 and 0)
-One of the most powerful uses of `CASE` is creating "Flags" for data analysis. Instead of returning text like "High" or "Low", you return `1` or `0`.
+One of the most powerful uses of `CASE` is creating "Flags" for data analysis. Instead of returning text like "High" or "Low," you return `1` or `0`.
 
 This becomes a superpower when we reach the next chapter. It allows you to count specific things without filtering the whole table.
 

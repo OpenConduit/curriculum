@@ -341,9 +341,9 @@ Why is defining a Universal Set critical when calculating the Complement ($A^c$)
 
 <quiz>
 Look at the following Set-Builder Notation: $B = \{x \mid x \text{ is an integer and } x \text{ is divisible by } 2\}$. What is the role of the pipe symbol ($\mid$)?
-- [x] It means "such that".
+- [x] It means "such that."
 - [ ] It signifies a logical OR condition.
-- [ ] It means "divided by".
+- [ ] It means "divided by."
 - [ ] It represents the Universal Set.
 
 </quiz>

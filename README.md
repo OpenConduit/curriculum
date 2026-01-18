@@ -1,5 +1,21 @@
+<div align="center">
+
+# OpenConduit
+### The Infrastructure for Open Data Engineering Education
+
+[![GitHub Stars](https://img.shields.io/github/stars/OpenConduit/curriculum?style=social)](https://github.com/OpenConduit/curriculum)
+[![License](https://img.shields.io/badge/License-CC%20BY%20NC%204.0-lightgrey.svg)](LICENSE)
+
+**Help us become a non-profit.**
+<br>
+We are aiming for **1,000 stars** to demonstrate community interest and formally incorporate as an educational non-profit.
+<br>
+[⭐ Star this Repo](https://github.com/OpenConduit/curriculum) to support the mission.
+
+</div>
+
 # The Specs: Data Engineering Curriculum
-Welcome to **The Specs** for [The Open Conduit](https://github.com/OpenConduit).
+Welcome to **The Specs** for [OpenConduit](https://github.com/OpenConduit).
 
 This repository serves as the **architectural blueprint** for our learning path. It contains the core theory, design patterns, and foundational knowledge required to build modern data infrastructure.
 
@@ -32,5 +48,3 @@ This project works under a hybrid license model:
 - **Source Code (Labs/Scripts):** [MIT License](LICENSE-CODE)
   - You are free to use the code samples for any purpose, including commercial projects.
 
----
-*Maintained by the maintainers of The Open Conduit.*

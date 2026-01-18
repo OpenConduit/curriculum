@@ -1,3 +1,13 @@
+# OpenConduit
+
+!!! quote ""
+    
+    **Better data engineers build better pipelines.**
+    <br>
+    **Better pipelines produce better data.**
+    <br>
+    **Better data powers better intelligence.**
+
 ## Welcome to OpenConduit
 
 **The Infrastructure for Open Data Engineering Education.**

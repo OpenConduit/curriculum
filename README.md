@@ -1,6 +1,11 @@
 <div align="center">
 
 # OpenConduit
+
+<p align="center">
+  <b>Better Engineers</b> &rarr; <b>Better Pipelines</b> &rarr; <b>Better Data</b> &rarr; <b>Better Intelligence</b>
+</p>
+
 ### The Infrastructure for Open Data Engineering Education
 
 [![GitHub Stars](https://img.shields.io/github/stars/OpenConduit/curriculum?style=social)](https://github.com/OpenConduit/curriculum)

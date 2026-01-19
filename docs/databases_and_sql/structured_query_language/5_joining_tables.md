@@ -2,7 +2,7 @@ Up until now, our world has been small. We have been trapped inside a single tab
 
 This is a problem because in the real world (and specifically in **dimensional modeling**), we split data apart on purpose. We separate "Facts" (Orders) from "Dimensions" (Customers, Products) to avoid duplication. This is called **normalization**.
 
-If you have 1,000 orders from "John Smith", you don't write "John Smith" 1,000 times in the Orders table. You write it once in the Customers table (ID 99, for example) and just put "99" in the Orders table.
+If you have 1,000 orders from "John Smith," you don't write "John Smith" 1,000 times in the Orders table. You write it once in the Customers table (ID 99, for example) and just put "99" in the Orders table.
 
 **Joins** are the superglue that puts the puzzle back together.
 
@@ -230,7 +230,7 @@ WHERE c.name = 'Ada';
 **Order of Operations Update**:
 
 1. **FROM / JOIN**: Load `orders` and `customers`, bridge them, anddiscard non-matches.
-2. **WHERE**: Filter the remaining pairs for 'Ada'.
+2. **WHERE**: Filter the remaining pairs for 'Ada.'
 3. **SELECT**: Project the columns.
 
 ## 5.3 The Outer Joins (`LEFT`, `RIGHT`, `FULL`)
@@ -403,7 +403,7 @@ If you accidentally run a cross join (or forget the `ON` clause in an `INNER JOI
 ### When is it Actually Useful?
 Despite the danger, cross joins are incredibly powerful for **generating** data, specifically for reporting templates.
 
-**Scenario**: We want a sales report that shows every product's sales for every month of the year. Even if a product has *zero sales* in March, we still want a row that says "March: 0".
+**Scenario**: We want a sales report that shows every product's sales for every month of the year. Even if a product has *zero sales* in March, we still want a row that says "March: 0."
 
 If we just query the sales table, March won't appear. We need to force it.
 
@@ -430,7 +430,7 @@ Now you can `LEFT JOIN` your actual sales data onto this template. Any missing s
 ## 5.5 The Self Join
 This is the concept that often breaks a beginner's brain.
 
-So far, we have joined "Table A" to "Table B". They were distinct entities. Orders are not Customers. But what if the relationship is recursive? What if the data relates to itself?
+So far, we have joined "Table A" to "Table B." They were distinct entities. Orders are not Customers. But what if the relationship is recursive? What if the data relates to itself?
 
 **The Classic Scenario: Employees and Managers** Imagine an `employees` table.
 

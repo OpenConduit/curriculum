@@ -66,8 +66,8 @@ Used for money, measurements, and scientific data.
 
 Used for names, descriptions, and codes.
 
-- `VARCHAR(n)`: "Variable Character". The `n` represents the *maximum* number of characters allowed. If you store "Bob" in a `VARCHAR(50)`, it only uses the storage space for "Bob" (plus a tiny bit of overhead). It's efficient.
-- `CHAR(n)`: "Fixed Character". If you store "Bob" in a `CHAR(50)`, the database pads the remaining 47 spots with invisible spaces. It always takes up the full space.
+- `VARCHAR(n)`: "Variable Character." The `n` represents the *maximum* number of characters allowed. If you store "Bob" in a `VARCHAR(50)`, it only uses the storage space for "Bob" (plus a tiny bit of overhead). It's efficient.
+- `CHAR(n)`: "Fixed Character." If you store "Bob" in a `CHAR(50)`, the database pads the remaining 47 spots with invisible spaces. It always takes up the full space.
 - `TEXT`: A giant blob of text. Good for storing user comments or essays.
 
 #### 4. Dates and Times
@@ -81,7 +81,7 @@ Used for names, descriptions, and codes.
 
 
 ### The Blueprint in Action
-Let's bring this together. We are going to create a dimension table for a fantasy RPG game. We need to store information about our "wizards".
+Let's bring this together. We are going to create a dimension table for a fantasy RPG game. We need to store information about our "wizards."
 
 Here is our conceptual model:
 
@@ -161,7 +161,7 @@ wizard_name VARCHAR(50) NOT NULL
 ### 2. Identity: Primary Key (PK)
 In dimensional modeling, you learned that every dimension needs a surrogate key, a unique identifier for that specific row. In SQL, we enforce this with the **primary key**.
 
-The primary key is a "mega-constraint". It enforces two things at once:
+The primary key is a "mega-constraint." It enforces two things at once:
 
 1. **Uniqueness**: No two rows can have the same value.
 2. **Existence**: The value cannot be `NULL`.
@@ -463,7 +463,7 @@ Suppose `dim_wizards` has a column called `ssn` (social security number) or `sal
 
 #### 3. Consistency
 
-If you have a strict rule for what defines an "active wizard" (e.g., `level > 5 AND gold_dues = TRUE`), you don't want every analyst writing that `WHERE` clause differently. You define it once in a view, and everyone uses the "single source of truth".
+If you have a strict rule for what defines an "active wizard" (e.g., `level > 5 AND gold_dues = TRUE`), you don't want every analyst writing that `WHERE` clause differently. You define it once in a view, and everyone uses the "single source of truth."
 
 ### The Visual Narrative: The Lens
 

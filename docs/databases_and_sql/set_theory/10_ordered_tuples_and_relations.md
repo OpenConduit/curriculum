@@ -86,7 +86,7 @@ This leads to a confusing duality that often trips up beginners.
 
     If you write code that expects the tuple to always be `(Name, Age)`, and someone adds a `MiddleName` column in between them in the database schema, the tuple structure changes to `(Name, MiddleName, Age)`.
 
-    If your code blindly reads index 1 and index 2, your user's age is now "Stuart".
+    If your code blindly reads index 1 and index 2, your user's age is now "Stuart."
 
 ### Visualizing the Tuple
 Let's visualize the difference between a Set and a Tuple.
@@ -159,7 +159,7 @@ Mathematically, a relation is defined as a subset of a Cartesian Product. It is 
 When you draw a box around the subset and give it a name (like `Users`), you have created a database table.
 
 ### The Rosetta Stone: Math To SQL
-Data engineers often use different words than mathematicians to describe the same things. It's like how a chef says, "Sodium Chloride" and a line cook says, "Salt". Both are correct, but one sounds much more expensive.
+Data engineers often use different words than mathematicians to describe the same things. It's like how a chef says, "Sodium Chloride" and a line cook says, "Salt." Both are correct, but one sounds much more expensive.
 
 Here is your translation guide:
 
@@ -251,7 +251,7 @@ In Set Theory, how does the tuple (1, 2) *differ* from the set {1, 2}?
 </quiz>
 
 <quiz>
-What is the arity of the tuple ("Alice, 25, "Engineer", "Active")?
+What is the arity of the tuple ("Alice," 25, "Engineer," "Active")?
 - [ ] 2
 - [ ] Unlimited
 - [x] 4

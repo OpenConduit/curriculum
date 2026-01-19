@@ -169,7 +169,7 @@ I don't want to make you afraid to ever use this. Sometimes, you need an explosi
 Imagine, you are building a report for a manufacturing plant. You need to know how many widgets are produced **every hour** of the day.
 
 - Your `Production` table only has rows when things were actually made. If nothing was made at 3:00 AM, there is no row.
-- But your boss wants to see "3:00 AM: 0".
+- But your boss wants to see "3:00 AM: 0."
 
 To fix this, you take a `Hours` table (24 rows) and cross join it with your `ProductionLines` table (10 lines).
 

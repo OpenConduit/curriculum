@@ -56,7 +56,7 @@ INSERT INTO inventory
 VALUES (2, 'Healing Potion', 50.00, 5);
 ```
 
-This works…for now. The database looks at the table definition, sees there are 4 columns defined in a specific order, and assumes your values match that exact order.
+This works… for now. The database looks at the table definition, sees there are 4 columns defined in a specific order, and assumes your values match that exact order.
 
 **Do not do this**.
 
@@ -145,7 +145,7 @@ WHERE is_damaged = FALSE;
 ## 10.2 `UPDATE`
 We have successfully inserted data into our `inventory`. Our shop is stocked. The `Rusty Dagger` is sitting there at $15.50 with a quantity of 10.
 
-But the world is not static. Inflation happens. Items get sold. We realize we misspelled "Dagger" as "Daggr".
+But the world is not static. Inflation happens. Items get sold. We realize we misspelled "Dagger" as "Daggr."
 
 If `INSERT` is writing a new page, `UPDATE` is the red pen. It allows you to modify existing records without deleting them and starting over.
 
@@ -190,7 +190,7 @@ If you run the code above, congratulations: you just gave away your entire inven
 ### Updating Multiple Columns
 You can change multiple attributes of a record at the same time. Just separate the assignments with a comma.
 
-Let's say we want to rebrand the 'Rusty Dagger'. We will clean it up, raise the price, and change the name.
+Let's say we want to rebrand the 'Rusty Dagger.' We will clean it up, raise the price, and change the name.
 
 ```sql
 UPDATE inventory
@@ -203,7 +203,7 @@ WHERE item_id = 1;
 ### Relative Updates (Math on the Fly)
 This is where `UPDATE` shines. You don't always set a value to a static number (like `25.00`). Typically, you want to set a value *relative to what it currently is*.
 
-Imagine a customer buys one "Polished Dagger". We need to lower the quantity by 1. We don't need to know that the current quantity is 10. We just need to tell the database, "Whatever the quantity is right now, make it one less."
+Imagine a customer buys one "Polished Dagger." We need to lower the quantity by 1. We don't need to know that the current quantity is 10. We just need to tell the database, "Whatever the quantity is right now, make it one less."
 
 ```sql
 UPDATE inventory
@@ -277,7 +277,7 @@ TRUNCATE TABLE inventory;
 
 #### The Mechanism
 
-While `DELETE` goes row-by-row saying, "Delete this…okay, log it. Delete this…okay, log it," `TRUNCATE` is much more aggressive.
+While `DELETE` goes row-by-row saying, "Delete this… okay, log it. Delete this… okay, log it," `TRUNCATE` is much more aggressive.
 
 `TRUNCATE` tells the database, "I don't care what is inside this table. Deallocate the data storage pages entirely."
 
@@ -294,7 +294,7 @@ Instead of running a `DELETE` statement, we use a technique called a **soft dele
 2. When a user deletes an item, we actually run an `UPDATE`.
 
 ```sql
--- The user clicked "delete", but we are actually updating.
+-- The user clicked "delete," but we are actually updating.
 UPDATE inventory
 SET is_active = FALSE
 WHERE item_id = 1;

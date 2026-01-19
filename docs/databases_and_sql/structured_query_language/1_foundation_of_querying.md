@@ -291,7 +291,7 @@ LIMIT 3 OFFSET 3;
 ```
 
 - `LIMIT 3`: "Give me 3 rows."
-- `OFFSET 3`: "…but skip the first 3 rows you find before you start counting."
+- `OFFSET 3`: "… but skip the first 3 rows you find before you start counting."
 
 !!! example "Analogy: The Buffet Line"
 
@@ -377,7 +377,7 @@ FROM orders;
 | Bob | PayPal |
 | Charlie | Credit Card |
 
-Notice that "Alice" appears only once, even though she made two orders (orders #1 and #4) in the original table. Why? Because in both orders, her name was "Alice" **AND** the payment was "Credit Card". The **pair** was identical.
+Notice that "Alice" appears only once, even though she made two orders (orders #1 and #4) in the original table. Why? Because in both orders, her name was "Alice" **AND** the payment was "Credit Card." The **pair** was identical.
 
 If Alice has used "PayPal" for her second order, both rows would have appeared, because `('Alice', 'Credit Card')` is different from `('Alice', 'PayPal')`.
 

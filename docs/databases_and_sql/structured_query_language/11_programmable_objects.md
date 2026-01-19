@@ -5,7 +5,7 @@ But real-world problems are rarely that linear. Real-world problems involve **de
 - "If the user is a VIP, give them a discount. Otherwise, charge full price."
 - "If the inventory is empty, stop the order. Otherwise, process it."
 
-To handle this, we need to stop writing "statements" and start writing **scripts**. We are crossing the bridge from "querying" to "programming".
+To handle this, we need to stop writing "statements" and start writing **scripts**. We are crossing the bridge from "querying" to "programming."
 
 ## 11.1 Variables and Logic (`IF`/`ELSE`)
 In algebra, you learned that `x = 5`. In SQL, we have the same concept. A **variable** is a temporary placeholder (a labeled bucket) where we can store a value to use later.
@@ -32,7 +32,7 @@ END $$
 
 !!! example "Mnemonic: The Southern Dialect"
 
-    You have almost certainly watched at least one film that took place in the early American South. In those movies they often started their statements with, "I do declare…", before they actually declared anything. Since the syntax for the `DO` block is a little different from what we are used to, so far, this little aside may help you remember now (at least the first part).
+    You have almost certainly watched at least one film that took place in the early American South. In those movies they often started their statements with, "I do declare…," before they actually declared anything. Since the syntax for the `DO` block is a little different from what we are used to, so far, this little aside may help you remember now (at least the first part).
 
 Let's decode the strange symbols:
 
@@ -148,7 +148,7 @@ END $$
 
 
 ### The "Choose Your Own Adventure" (`ELSIF`)
-Life is rarely binary. It's not just "stock" or "no stock". Occasionally it's "In Stock", "Low Stock", or "Discontinued".
+Life is rarely binary. It's not just "stock" or "no stock." Occasionally it's "In Stock," "Low Stock," or "Discontinued."
 
 If you need to check multiple specific conditions, avoid nesting giant stacks of `IF..ELSE IF…`. Instead, use the `ELSIF` keyword.
 
@@ -280,7 +280,7 @@ SELECT calculate_tax(100.00, 0.05);
 
 So far, our functions have been scalar, they return a single number or string. But functions can also be **table generators**.
 
-Imagine you have a complex query that filters orders, joins three tables, and calculates tax. You want to reuse this logic, but with different date ranges. You essentially want a "view with parameters". That is why these are called **parameterized views**.
+Imagine you have a complex query that filters orders, joins three tables, and calculates tax. You want to reuse this logic, but with different date ranges. You essentially want a "view with parameters." That is why these are called **parameterized views**.
 
 We do this by declaring `RETURNS TABLE` in the header and using `RETURN QUERY` in the body.
 
@@ -371,11 +371,11 @@ CALL archive_old_orders('2023-01-01');
 ## 11.3 Dynamic SQL
 We have reached the edge of the map.
 
-Everything we have written so far is **static SQL**. When we wrote `SELECT * FROM inventory`, the database knew exactly what table we were talking about before we even clicked "Run". The plan was fixed.
+Everything we have written so far is **static SQL**. When we wrote `SELECT * FROM inventory`, the database knew exactly what table we were talking about before we even clicked "Run." The plan was fixed.
 
 But what if you don't know the table name yet?
 
-Imagine you are building a dashboard tool. The user selects a table from a dropdown menu ('Inventory', 'Employees', or 'Sales'), and you need to write a function that counts the rows in *whatever* table they picked.
+Imagine you are building a dashboard tool. The user selects a table from a dropdown menu ('Inventory,' 'Employees,' or 'Sales'), and you need to write a function that counts the rows in *whatever* table they picked.
 
 You might try this using what we learned in 11.2:
 ```sql

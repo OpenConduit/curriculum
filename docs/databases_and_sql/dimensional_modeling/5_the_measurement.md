@@ -4,7 +4,7 @@ Now, we turn on the lights.
 
 We are leaving the quiet library of dimensions and entering the noisy factory floor of **facts**.
 
-## 4.1 The "Verb" Tables
+## 5.1 The "Verb" Tables
 If dimensions are **nouns** (Customers, Products, Store), then Fact tables are **verbs**.
 
 - A Customer **Orders** a Product.
@@ -74,7 +74,7 @@ Instead of creating four separate rows, we create one row for the order and upda
     Snapshots are usually derived *from* transactions (or from source system logs). If you are overwhelmed, just focus on capturing the atomic events first.
 
 
-## 4.2 Narrow and Deep
+## 5.2 Narrow and Deep
 In the previous module, we learned that dimensions are "wide and shallow." We encouraged you to be wasteful with space—to add as many descriptive columns as you wanted.
 
 **Fact tables are the opposite**.
@@ -119,7 +119,7 @@ Let's do the math for **The Omni-Coffee Shop**.
 - That's 182 million rows per year.
 - After 5 years, our fact table has nearly 1 billion rows.
 
-In the world of "Big Data", fact tables often grow into the trillions.
+In the world of "Big Data," fact tables often grow into the trillions.
 
 ### The Physics of Scanning
 Imagine you are the database engine. The CEO asks, "What was the total revenue for 2024?"
@@ -159,7 +159,7 @@ classDiagram
     DIM_CUSTOMER "1" -- "Many" FACT_SALES : filters
 ```
 
-## 4.3 Foreign Keys
+## 5.3 Foreign Keys
 We established that a fact table is stripped of **all** personality. It contains no names, no dates, and no descriptions. It is a grid of numbers.
 
 So, how do we know what we sold?
@@ -175,7 +175,7 @@ In our `fact_sales` table, you will see columns like:
 
 These are not the data itself; they are the **addresses** of the data.
 
-When the database engine reads a row with `product_key: 505`, it acts like a librarian. It pauses, walks over to the `dim_product` shelf, finds book #505, and reads the title, "Hazelnut Latte".
+When the database engine reads a row with `product_key: 505`, it acts like a librarian. It pauses, walks over to the `dim_product` shelf, finds book #505, and reads the title, "Hazelnut Latte."
 
 ### Why Integers?
 You might ask, "Why not just use the product SKU ('COF-HAZ-001') as the key? That's unique, right?"

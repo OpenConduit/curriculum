@@ -1,4 +1,4 @@
-Take a look at the queries we've written so far in the other modules. They all share a certain…linearity. We pick a table (or join a few), we filter out the noise, maybe we group things into buckets, and finally, we order the results. It's a straight line from raw data to answer.
+Take a look at the queries we've written so far in the other modules. They all share a certain… linearity. We pick a table (or join a few), we filter out the noise, maybe we group things into buckets, and finally, we order the results. It's a straight line from raw data to answer.
 
 But life (and data), isn't always linear. Sometimes, to answer a question, you first need the answer to a *different* question.
 
@@ -78,7 +78,7 @@ Occasionally, the prep chef doesn't hand back a single ingredient. Occasionally,
 
 A **Multi-row subquery** returns a single column but **multiple rows**. It's a list of values.
 
-Since the result is a list, we can't use simple comparison operators like "equals" or "greater than". Instead, we use the **set membership** operators you learned in module 2, specifically `IN` and `nOT IN`.
+Since the result is a list, we can't use simple comparison operators like "equals" or "greater than." Instead, we use the **set membership** operators you learned in module 2, specifically `IN` and `nOT IN`.
 
 **The Scenario**: We want to find **all** customers who have placed an order in the 'Electronics' category.
 
@@ -125,7 +125,7 @@ graph TD
 ```
 
 ## 7.2 Correlated Subqueries (`EXISTS`, `NOT EXISTS`)
-If the subqueries in the previous section were the "prep chef", running off to do a task once and returning with a finished ingredient, then **correlated subqueries** are a "personal assistant" who follows you around all day.
+If the subqueries in the previous section were the "prep chef," running off to do a task once and returning with a finished ingredient, then **correlated subqueries** are a "personal assistant" who follows you around all day.
 
 In section 7.1, the inner query was independent. You could copy-paste it into a new window, run it, and it would work perfectly. It didn't need the outer query to exist.
 
@@ -351,10 +351,10 @@ So far, every query we have written has been about **sets**. We grab a group of 
 Think about:
 
 - **Organizational Charts**: You report to a manager, who reports to a director, who reports to a VP, who reports to the CEO.
-- **Menu Categories**: "Food" contains "Fruit", which contains "Citrus", which contains "Lemon".
+- **Menu Categories**: "Food" contains "Fruit," which contains "Citrus," which contains "Lemon."
 - **Graph Directions**: How do I get from station A to station Z, passing through stations B, C, and D?
 
-Standard SQL struggles here. You can easily find "Who is my manager?" (one join). But "Who is my manager's manager?" requires two joins. "Who is the CEO?" requires…well, you don't know how many joins until you start climbing.
+Standard SQL struggles here. You can easily find "Who is my manager?" (one join). But "Who is my manager's manager?" requires two joins. "Who is the CEO?" requires… well, you don't know how many joins until you start climbing.
 
 To solve this, we need a query that can **repeat itself** until it finishes the job. We require **recursion**.
 
@@ -420,7 +420,7 @@ It is crucial to visualize this not as one big crash, but as a step-by-step iter
 - The engine now runs the bottom `SELECT`.
 - It looks at `org_chart`, which currently only contains `Alice`.
 - It asks, "Who has `manager_id = Alice's ID`?
-- It finds "Bob" and "Charlie".
+- It finds "Bob" and "Charlie."
 - It calculates their level: `1 + 1 = 2`.
 - **Result so far**: `[Alice, Bob, Charlie]`
 
@@ -571,7 +571,7 @@ In a recursive CTE, what is the purpose of the 'Anchor Member'?
 When does a recursive CTE stop executing?
 - [x] When the recursive member returns no new rows.
 - [ ] When the database runs out of memory.
-- [ ] When the user manually presses "stop".
+- [ ] When the user manually presses "stop."
 - [ ] When the anchor member returns NULL.
 
 </quiz>

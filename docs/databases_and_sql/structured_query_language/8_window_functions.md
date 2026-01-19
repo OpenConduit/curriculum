@@ -35,7 +35,7 @@ FROM employees;
 2. `OVER (…)`: This tells SQL, "Do not collapse the rows! Keep the original rows."
 3. `PARTITION BY department`: This defines the "window." It tells SQL to calculate the average *separately* for each department.
 
-When the database looks at an employee in "Sales", the "window" is just the other sales people. When it looks at an "Engineer", the "window" slides over to include only Engineers.
+When the database looks at an employee in "Sales," the "window" is just the other sales people. When it looks at an "Engineer," the "window" slides over to include only Engineers.
 
 !!! example "Analogy: The Reference Library"
 

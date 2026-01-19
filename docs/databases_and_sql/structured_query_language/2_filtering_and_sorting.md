@@ -131,7 +131,7 @@ SELECT * FROM employees WHERE hire_date <= '2023-01-01';`
 ### Filtering by Text Strings
 When working with text, we have to be careful with our quotes.
 
-- **Single Quotes (`'`)**: Used for data (string literals). 'Engineering', 'John Doe'.
+- **Single Quotes (`'`)**: Used for data (string literals). 'Engineering,' 'John Doe.'
 - **Double Quotes (`"`)**: Used for database objects (table names, column names) if they have spaces or special characters.
 
 **Rule of Thumb**: If you are filtering data, use **single quotes**.
@@ -173,7 +173,7 @@ WHERE department = 'Engineering'
 2. Is the salary > 100k? (If no, discard).
 3. If both are yes, keep the row.
 
-In set theory, this is the **intersection** of the "Engineering Set" and the "High Salary Set".
+In set theory, this is the **intersection** of the "Engineering Set" and the "High Salary Set."
 
 ### The `OR` Operator (Union)
 The `OR` operator is generous. It is satisfied if **at least one** of the conditions is true.
@@ -250,7 +250,7 @@ WHERE NOT department = 'Engineering';
 `NOT` becomes very powerful when checking complicated conditions, like NULLs (which we will discuss in the next sub-section) or lists.
 
 ### Syntactic Sugar
-SQL provides a few shortcuts to make complex logic easier to write and read. We call this "syntactic sugar." It doesn't add new functionality; it just makes the code "sweeter".
+SQL provides a few shortcuts to make complex logic easier to write and read. We call this "syntactic sugar." It doesn't add new functionality; it just makes the code "sweeter."
 
 #### 1. The `IN` Operator
 
@@ -311,8 +311,8 @@ You need a "fuzzy" search. In SQL, we use the `LIKE` operator with **wildcards**
 
 The percent sign `%` represents **zero**, **one**, **or multiple characters**. It is a placeholder for "anything goes here."
 
-- `'Data%'`: Starts with "Data". (Matches: "Data", "Databases", "Data Science").
-- `'%Data'`: Ends with "Data". (Matches: "Big Data", "Metadata").
+- `'Data%'`: Starts with "Data." (Matches: "Data," "Databases," "Data Science").
+- `'%Data'`: Ends with "Data." (Matches: "Big Data," "Metadata").
 - `'%Data%'`: Contains "Data" anywhere. (Matches: "The Data Team").
 
 **Scenario**: We want to find **all** customers whose last name starts with "Mc" (McDonald, McAvoy, etc.).
@@ -347,7 +347,7 @@ Imagine our products' SKUs follow a format like `A-123` or `B-456`. We want to f
 
 - `'_-1%'`:
     - `_` matches exactly one letter (A, B, C, …).
-    - `-1` matches the literal character "-1".
+    - `-1` matches the literal character "-1."
     - `%` matches whatever comes after.
 
 ```sql
@@ -365,14 +365,14 @@ Here is a sharp edge that cuts many beginners.
 
 In the SQL standard, `LIKE` is **case sensitive**.
 
-- `LIKE 'A%'`: matches "Apple".
-- `LIKE 'a%'`: matches "apple".
-- `LIKE 'A%'`: does **NOT** match "apple".
+- `LIKE 'A%'`: matches "Apple."
+- `LIKE 'a%'`: matches "apple."
+- `LIKE 'A%'`: does **NOT** match "apple."
 
 However, database engines disagree on this.
 
-- **MySQL / SQL Server**: Usually case-insensitive by default. `LIKE 'a%'` finds "Apple".
-- **PostgreSQL / Oracle**: Strictly case-sensitive. `LIKE 'a%'` will not find "Apple".
+- **MySQL / SQL Server**: Usually case-insensitive by default. `LIKE 'a%'` finds "Apple."
+- **PostgreSQL / Oracle**: Strictly case-sensitive. `LIKE 'a%'` will not find "Apple."
 
 If you are using **PostgreSQL** (which we are using for our labs) and you want a case-insensitive search, you must use the special operator `ILIKE` (insensitive LIKE).
 
@@ -395,7 +395,7 @@ WHERE first_name ILIKE 'steve';
 ## 2.3 The VOID (`NULL`)
 In the previous sections, we treated data as concrete. A salary is a number. A name is a string. A date is a specific point in time.
 
-But what if we simply…don't know?
+But what if we simply… don't know?
 
 What if a new employee hasn't been assigned a department yet? What if a customer hasn't provided their phone number? In a spreadsheet, you might leave a cell blank. In programming, you might use `0` or `""` (empty string).
 
@@ -560,7 +560,7 @@ What happens if we sort by `department`, and we have ten people in "Engineering"
 
 Without further instructions, the order of those ten engineers is undefined (random). To fix this, we can sort by multiple columns. This is often called a tiebreaker.
 
-Think of a telephone book. It is sorted by last name. If two people have the last name "Smith", it then sorts them by first name.
+Think of a telephone book. It is sorted by last name. If two people have the last name "Smith," it then sorts them by first name.
 
 ```sql
 SELECT last_name, first_name, salary

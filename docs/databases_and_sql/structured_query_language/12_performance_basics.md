@@ -7,7 +7,7 @@ That frontier is **performance**.
 Up until now, we have treated the database like a magic black box. We type a request (`SELECT`), and the box hands us a result. We haven't cared *how* the box found that result, only that it was correct. But as your data grows from a few thousand rows to a few million, the "how" starts to matter a great deal.
 
 ## 12.1 Introduction to Indexes
-Imagine I handed you a physical 1,000 page textbook on "The History of Juggling" and asked you to find every page that mentions "chainsaws".
+Imagine I handed you a physical 1,000 page textbook on "The History of Juggling" and asked you to find every page that mentions "chainsaws."
 
 If the book has no index in the back, what is your only strategy?
 
@@ -29,7 +29,7 @@ An index in a database is conceptually identical to the index at the back of a t
 1. **The Key**: The value you are looking for (e.g., "Chainsaws").
 2. **The Pointer**: Where to find the actual data (e.g., "Page 42, 87, and 105").
 
-If I ask you to find "chainsaws" now, you flip to the back, find "C", find "chainsaws", and you know exactly which three pages to visit. You skipped 997 pages of reading.
+If I ask you to find "chainsaws" now, you flip to the back, find "C," find "chainsaws," and you know exactly which three pages to visit. You skipped 997 pages of reading.
 
 ### The B-Tree (Balanced Tree)
 Database indexes are usually implemented using a structure called a **B-Tree** (or slight variations like **B+Trees**). You don't need a PhD in computer science to understand why this is fast, but you do need to understand the shape of it.
@@ -162,7 +162,7 @@ This is the textbook analogy we used earlier. The data is in one place (the chap
 !!! example "Analogy: The Library"
 
     - **Clustered Index**: The Dewey Decimal System on the shelves. The books are physically arranged by this ID.
-    - **Non-Clustered Index**: The computer catalog where you search by "Author" or "Title". It tells you which shelf to walk to.
+    - **Non-Clustered Index**: The computer catalog where you search by "Author" or "Title." It tells you which shelf to walk to.
   
 ## 12.2 SARGable Queries
 In the last section, we built an index. We felt powerful. We assumed that because the index exists, the database is smart enough to use it.
@@ -184,7 +184,7 @@ Imagine you have a phone book indexed (sorted) by **last name**.
 
 **Task 1**: "Find everyone named **Smith**."
 
-- **Strategy**: You flip to 'S', find 'Sm', and you are done.
+- **Strategy**: You flip to 'S,' find 'Sm,' and you are done.
 - **Verdict**: This is **SARGable**. The sort order helps you.
 
 **Task 2**: "Find everyone whose name ends with 'son'."
@@ -218,7 +218,7 @@ FROM orders
 WHERE YEAR(order_date) = 2023;
 ```
 
-*Why it fails*: The index is sorted by the full date (e.g., `2023-01-15 14:30:00`). It is not sorted by just the 'year'. To evaluate this, the database has to take every row, extract the year, and then compare it.
+*Why it fails*: The index is sorted by the full date (e.g., `2023-01-15 14:30:00`). It is not sorted by just the 'year.' To evaluate this, the database has to take every row, extract the year, and then compare it.
 
 **The SARGable Way (The Fix)**:
 
@@ -284,7 +284,7 @@ FROM customers
 WHERE last_name LIKE 'And%';
 ```
 
-*Why it works*: Because the prefix is known 'And', the database can jump straight to the 'A' section of the index.
+*Why it works*: Because the prefix is known 'And,' the database can jump straight to the 'A' section of the index.
 
 ### Visualizing the Logic
 Here is how the query optimizer decides whether to use your fancy index or give up and scan the table.
@@ -386,7 +386,7 @@ Here is how you will actually use this in your career:
 3. **Explain It**: You run `EXPLAIN SELECT …`.
 4. **Spot the Villain**: You look for the step with the highest cost or a "table scan" on a large table (e.g., `orders`).
 5. **Fix It**: You realize you forgot to index the `customer_id` column used in the JOIN. You create the index.
-6. **Verify**: You run `EXPLAIN` again. You see "index seek". The cost drops. The query now runs in 200 ms.
+6. **Verify**: You run `EXPLAIN` again. You see "index seek." The cost drops. The query now runs in 200 ms.
 
 ## Quiz
 

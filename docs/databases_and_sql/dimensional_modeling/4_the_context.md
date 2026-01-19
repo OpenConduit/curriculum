@@ -8,7 +8,7 @@ If you look at a raw database, these two look identical. They are both tables. T
 
 We are going to start with the storytellers.
 
-## 3.1 The "Noun" Tables
+## 4.1 The "Noun" Tables
 Imagine the manager of the 'Omni-Coffee' shop bursts into your office. They are frantic. They scream, *"we sold 500!"* and then run out.
 
 You are left staring at the wall. 500 what? 500 coffees? 500 bagels? Did we sell them today? Last year? DId we sell them here or at the branch across town? Did we sell them to regular customers or tourists?
@@ -35,7 +35,7 @@ A dimension table is a container for descriptive text. It holds the attributes t
 
 When a stakeholder asks, "Show me sales **by product category**," or "Filter for customers **living in Indiana**," they are asking you to query a dimension table.
 
-Let's look at what `dim_product` might look like for the 'Omni-Coffee Shop'.
+Let's look at what `dim_product` might look like for the 'Omni-Coffee Shop.'
 
 !!! example "The Product Dimension"
 
@@ -102,7 +102,7 @@ The data point (the sale) floats somewhere in the middle, defined entirely by it
 
     If a user wants to **Sum**, **Average**, or **Count** data, that belongs in a **Fact**.
 
-## 3.2 Wide and Shallow
+## 4.2 Wide and Shallow
 If you could physically hold a database table in your hands, a dimension table and a fact table would feel entirely different.
 
 A fact table is a receipt tape. It is miles long, encompassing billions of transactions, but it is very narrow—just a few numbers and IDs.
@@ -110,7 +110,7 @@ A fact table is a receipt tape. It is miles long, encompassing billions of trans
 A **dimension table**, on the other hand, is like an index card or a dossier. It is **wide** and **shallow**.
 
 ### The "Wide" Perspective
-When we say a table is "wide", we mean it has a high column count.
+When we say a table is "wide," we mean it has a high column count.
 
 In a traditional application database (OLTP), developers try to keep tables lean. They despise redundancy. If a product has a "Category," they split "Category" into its own table and link it with an ID. If the Category has a "Department," they split that too. This is the **3rd Normal Form (3NF)** we discussed in module 1.
 
@@ -188,7 +188,7 @@ A common anti-pattern is the **Centipede Table**. This happens when you have a d
 - **Good Width**: Attributes that describe the specific row perfectly (e.g., A specific bag of coffee has one flavor profile, one roast type, one vendor).
 - **Bad Width**: Trying to stuff a list into a row. (e.g., a customer has many phone numbers. Do not create columns `phone_1`, `phone_2`, `phone_3`… that looks like a centipede).
 
-## 3.3 Descriptive Attributes
+## 4.3 Descriptive Attributes
 If the dimension table is the "User interface" of your data warehouse, then **descriptive attributes** are the buttons and knobs.
 
 When a business analyst opens a tool like PowerBI or Tableau, they are presented with a list of columns. They drag these columns into the "Filters" box (the `WHERE` clause) or the "Row/Columns" box (the `GROUP BY` clause).
@@ -244,7 +244,7 @@ As an architect, you must replace `NULL` with explicit, descriptive strings that
 ### Flags and Indicators
 One of the most powerful things you can do in a dimension is pre-calculate logic.
 
-Suppose the Omni-Coffee marketing director asks, "Show me sales for all our 'Premium' products." "Premium" is a fuzzy business concept. Maybe it means "Price > $5.00" OR "Category = 'Single Origin'".
+Suppose the Omni-Coffee marketing director asks, "Show me sales for all our 'Premium' products." "Premium" is a fuzzy business concept. Maybe it means "Price > $5.00" OR "Category = 'Single Origin'."
 
 If you force every analyst to write that logic, half of them will get it wrong.
 
@@ -256,7 +256,7 @@ If you force every analyst to write that logic, half of them will get it wrong.
 
 Notice I didn't use `True/False` booleans. I used `Yes/No` or descriptive text. Why? Because some BI tools struggle with raw booleans, often displaying them as `0` or `1`. `Yes` is universally understood.
 
-## 3.4 Hierarchies
+## 4.4 Hierarchies
 If descriptive attributes are the "what," then hierarchies are the "zoom."
 
 Data analysis is rarely static. It is a journey of navigation. A regional manager starts looking at the **Country** level. They see a dip in sales. They zoom in to the **Region**. They see the "Midwest" is underperforming. They zoom in to the **District**, then the **City**, and finally the specific **Store**.
@@ -344,7 +344,7 @@ This is a variable depth tree. The path from the bottom to the top might be 3 st
 
     Standard dimensional modeling (Star Schemas) struggles with ragged hierarchies because we rely on a fixed number of columns.
 
-    If you try to flatten an Org Chart into `dim_employee`, you end up with columns like `manager_level_1`, `manager_level_2`, …, `manager_level_10`.
+    If you try to flatten an Org Chart into `dim_employee`, you end up with columns like `manager_level_1`, `manager_level_2`, … , `manager_level_10`.
 
     **The Solution**: For beginners, force it into a fixed structure if possible. If the depth is truly variable and complex, you may need a specialized **Bridge Table** or recursive SQL. But try to avoid this complexity in your foundational schemas.
 
@@ -379,7 +379,7 @@ Why do we prefer storing full descriptive strings (e.g., 'Hazelnut Latte') over 
 
 <quiz>
 You are designing `dim_customer` and encounter missing data for the 'Gender' attribute. How should you handle this?
-- [x] Replace `NULL` with a descriptive string like 'Unknown' or 'Not Provided'.
+- [x] Replace `NULL` with a descriptive string like 'Unknown' or 'Not Provided.'
 - [ ] Delete the customer row entirely to maintain data quality.
 - [ ] Leave the field as NULL to accurately reflect the missing data.
 - [ ] Use a default integer like -1 or 99.
@@ -433,7 +433,7 @@ Which set of attributes would constitute a correct 'Drill-Path' for a Product Hi
 
 <quiz>
 Why is the number '101' in the `dim_product` table (representing the product key) less useful to an analyst than the string 'Caramel Macchiato'?
-- [x] The number 101 has no inherent context or 'texture'.
+- [x] The number 101 has no inherent context or 'texture.'
 - [ ] The number 101 takes up more storage space.
 - [ ] The number 101 cannot be used in a `WHERE` clause.
 - [ ] It isn't; analyst prefer numbers because they are easier to type.

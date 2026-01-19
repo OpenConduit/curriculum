@@ -4,6 +4,8 @@ I told you that dimensions are "Nouns" (text) and Facts are "verbs" (numbers). I
 
 But what happens when the business process is an event that has no magnitude?
 
+## 12.1 Tracking Events without Numbers
+
 What if the CEO asks, "Who attended the 'Advanced Latte Art' training session yesterday?"
 
 You look at the event.

@@ -107,6 +107,7 @@ nav:
     - Database Internals And Optimizations:
       - "Welcome": databases_and_sql/database_internals_and_optimizations/0_welcome.md
       - "1: The Disk is the Enemy": databases_and_sql/database_internals_and_optimizations/1_the_disk_is_the_enemy.md
+      - "2: Row vs. Column Stores": databases_and_sql/database_internals_and_optimizations/2_row_vs_column_stores.md
 
 
 extra_css:

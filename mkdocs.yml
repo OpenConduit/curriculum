@@ -104,6 +104,9 @@ nav:
       - "10: Modifying Data": databases_and_sql/structured_query_language/10_modifying_data.md
       - "11: Programmable Objects": databases_and_sql/structured_query_language/11_programmable_objects.md
       - "12: Performance Basics": databases_and_sql/structured_query_language/12_performance_basics.md
+    - Database Internals And Optimizations:
+      - "Welcome": databases_and_sql/database_internals_and_optimizations/0_welcome.md
+      - "1: The Disk is the Enemy": databases_and_sql/database_internals_and_optimizations/1_the_disk_is_the_enemy.md
 
 
 extra_css:

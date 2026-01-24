@@ -112,6 +112,7 @@ nav:
       - "4: The B-Tree": databases_and_sql/database_internals_and_optimizations/4_the_b_tree.md
       - "5: Advanced Indexing": databases_and_sql/database_internals_and_optimizations/5_advanced_indexing.md
       - "6: The Cost Based Optimizer": databases_and_sql/database_internals_and_optimizations/6_cost_based_optimizer.md
+      - "7: Join Algorithms": databases_and_sql/database_internals_and_optimizations/7_join_algorithms.md
   - Glossary: glossary.md
 
 

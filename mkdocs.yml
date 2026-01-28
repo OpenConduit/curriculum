@@ -68,6 +68,8 @@ nav:
       - "4: Workloads and Architecture": fundamentals/data_engineering_101/4_workloads_and_architecture.md
       - "5: Ingestion Strategies": fundamentals/data_engineering_101/5_ingestion_strategies.md
       - "6: The Storage Layer": fundamentals/data_engineering_101/6_the_storage_layer.md
+      - "7: Distributed System Concepts": fundamentals/data_engineering_101/7_distributed_system_concepts.md
+      - "8: Transformation and Logic": fundamentals/data_engineering_101/8_transformation_and_logic.md
     - Systems Architecture:
       - "Welcome": fundamentals/systems_architecture/0_welcome.md
     - Linux:

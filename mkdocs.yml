@@ -70,6 +70,9 @@ nav:
       - "6: The Storage Layer": fundamentals/data_engineering_101/6_the_storage_layer.md
       - "7: Distributed System Concepts": fundamentals/data_engineering_101/7_distributed_system_concepts.md
       - "8: Transformation and Logic": fundamentals/data_engineering_101/8_transformation_and_logic.md
+      - "9: Orchestration": fundamentals/data_engineering_101/9_orchestration.md
+      - "10: Quality and Governance": fundamentals/data_engineering_101/10_quality_and_governance.md
+      - "11: The Serving Layer": fundamentals/data_engineering_101/11_the_serving_layer.md
     - Systems Architecture:
       - "Welcome": fundamentals/systems_architecture/0_welcome.md
     - Linux:

@@ -1,7 +1,5 @@
 ## Courses
 ### 1. Data Engineering 101
-Status: ✅ Available 
-
 The Philosophical Map. Before touching a tool, you must understand the territory. This module defines the Data Engineering Lifecycle (Generation, Ingestion, Storage, Serving) and the core mandate of the profession: reliability. We explore the critical architectural distinctions between OLTP and OLAP workloads.
 
 ### 2. Systems Architecture

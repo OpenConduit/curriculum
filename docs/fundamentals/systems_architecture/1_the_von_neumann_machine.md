@@ -23,14 +23,7 @@ Imagine the CPU as a very fast, very obedient, but unimaginative clerk sitting a
 
 Here is how the clerk spends their entire existence:
 
-```mermaid
-graph TD
-    Start((Start)) --> Fetch
-    Fetch["<b>Fetch</b><br/>Get the next instruction from RAM"] --> Decode
-    Decode["<b>Decode</b><br/>Figure out what operation this is"] --> Execute
-    Execute["<b>Execute</b><br/>Use the ALU to calculate or move data"] --> Store
-    Store["<b>Store</b><br/>Write the result back to registers or RAM"] --> Fetch
-```
+![sequence diagram](./images/sa_1_1.svg)
 
 #### 1. Fetch
 The control unit looks at a special sticky note called the **Program Counter**. This note contains a number (an address) pointing to a specific drawer in the filing cabinet (RAM). The clerk walks to that drawer, pulls out a slip of paper (the instruction), and brings it back to the desk.
@@ -95,22 +88,7 @@ Connecting the Workbench (CPU) to the Warehouse (RAM) is a set of copper wires c
 
 Think of the Bus as a highway. The width of this highway determines how much traffic (data) can move at once. If you have a massive warehouse full of data but a single-lane dirt road leading to the factory, your factory will sit idle.
 
-```mermaid
-graph LR
-    subgraph CPU [The CPU]
-        ALU[ALU]
-        Reg[Registers<br/>The Workbench]
-        CU[Control Unit]
-    end
-    
-    Bus[<b>The System Bus</b><br/>The Highway]
-    
-    subgraph Memory [RAM]
-        RAM[<b>RAM</b><br/>The Warehouse]
-    end
-    
-    Reg <==> Bus <==> RAM
-```
+![sequence diagram](./images/sa_1_2.svg)
 
 ### Word Size: 32-bit vs. 64-bit
 You have likely installed software and been asked to choose between "x86 (32-bit)" and "x64 (64-bit)." You probably picked 64-bit because "bigger number better," but what does that actually mean physically?
@@ -186,27 +164,7 @@ You have to send 50 instructions to get the same result as 1 CISC instruction.
 
 **The Trade-off**: Because the commands are simple, the chip is much simpler. It consumes significantly less power and generates less heat.
 
-```mermaid
-graph TD
-    subgraph Software
-    App[Application Code]
-    Compiler[Compiler]
-    end
-
-    subgraph Interface
-    ISA{The ISA}
-    end
-
-    subgraph Hardware
-    x86["<b>x86 Core</b><br/>Complex, Hot, Power Hungry"]
-    ARM["<b>ARM Core</b><br/>Simple, Cool, Efficient"]
-    end
-
-    App --> Compiler
-    Compiler -- "Make Sandwich" --> ISA
-    ISA -- "Translate for Intel" --> x86
-    ISA -- "Translate for ARM" --> ARM
-```
+![sequence diagram](./images/sa_1_3.svg)
 
 ### Why ARM Won the Modern Era
 For decades, Intel (CISC) ruled the server room because raw power was king. But then two things happened:

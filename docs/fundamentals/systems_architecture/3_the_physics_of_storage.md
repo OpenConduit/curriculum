@@ -28,22 +28,7 @@ This introduces two massive latency penalties:
 
 To a CPU running at 3 GHz (where a cycle is 0.3 nanoseconds), waiting 10 milliseconds for a disk is an eternity. It is the equivalent of a human waiting **months** for a package to arrive.
 
-```mermaid
-sequenceDiagram
-    participant CPU
-    participant Controller as Disk Controller
-    participant Arm as Actuator Arm
-    participant Platter
-
-    CPU->>Controller: Request Data at Sector 500
-    Controller->>Arm: Move to Track 10 (Seek)
-    Note over Arm: Moving... (Wait ~5ms)
-    Arm->>Platter: Wait for Sector 500 (Rotation)
-    Note over Platter: Spinning... (Wait ~4ms)
-    Platter->>Arm: Data Found!
-    Arm->>Controller: Transfer Data
-    Controller->>CPU: Here is your data
-```
+![sequence diagram](./images/sa_3_1.svg)
 
 !!! note "The Cost of Randomness"
 
@@ -75,28 +60,7 @@ The difference is two orders of magnitude. This single physical constraint dicta
 
     By understanding the physics of the actuator arm, Kafka turns a slow medium (disk) into a fast stream.
 
-```mermaid
-graph TD
-    subgraph "Random Access (Database Update)"
-        A1[Start] --> B1[Seek to Index]
-        B1 --> C1[Write Row 1]
-        C1 --> D1[Seek to Table Data]
-        D1 --> E1[Write Row 1 Body]
-        E1 --> F1[Seek to Transaction Log]
-        F1 --> G1[Write Commit]
-        style B1 fill:#f9f,stroke:#333
-        style D1 fill:#f9f,stroke:#333
-        style F1 fill:#f9f,stroke:#333
-    end
-
-    subgraph "Sequential Access (Kafka)"
-        A2[Start] --> B2[Seek to End of Log]
-        B2 --> C2[Write Message 1]
-        C2 --> D2[Write Message 2]
-        D2 --> E2[Write Message 3]
-        E2 --> F2[Write Message 4]
-    end
-```
+![sequence diagram](./images/sa_3_2.svg)
 
 In the diagram above, the pink boxes represent "wasted time" moving the arm. The Kafka model (right) eliminates the waste, allowing the disk to operate at maximum theoretical throughput.
 
@@ -138,22 +102,7 @@ When you update a single row in a database on an SSD, the drive controller often
 3. Erase the actual block on the chip.
 4. Write the entire block back.
 
-```mermaid
-sequenceDiagram
-    participant OS as Operating System
-    participant Ctrl as SSD Controller
-    participant Flash as NAND Flash
-
-    OS->>Ctrl: Update Page 5 (4KB)
-    Note over Ctrl: Page 5 is not empty!
-    Ctrl->>Flash: Read Block A (Pages 1-64)
-    Flash->>Ctrl: Data Stream
-    Note over Ctrl: Modify Page 5 in Cache
-    Ctrl->>Flash: ERASE Block A
-    Note over Flash: Zapping 256KB...
-    Ctrl->>Flash: Write Block A (Pages 1-64)
-    Note over Flash: Writing 256KB...
-```
+![sequence diagram](./images/sa_3_3.svg)
 
 This is why SSDs wear out. The insulation that traps the electrons degrades slightly every time you blast it with the high voltage required to erase a block. Eventually, the cage breaks, the electronics leak out, and the drive dies.
 
@@ -208,20 +157,7 @@ This equation reveals the fundamental trade-off in systems architecture.
 - **Small Block Size (4 KB)**: If you are reading tiny 4 KB chunks (like looking up a user ID in a database index), you need massive IOPs to move any significant amount of data.
 - **Large Block Size (1 MB+)**: If you are reading huge chunks (like scanning a Parquet file), you can achieve massive throughput with very low IOPs.
 
-```mermaid
-graph TD
-    subgraph "Workload A: The Database (OLTP)"
-        A1[Random 4KB Reads] --> B1{Limit: IOPS}
-        B1 -- High IOPS req --> C1[High CPU/Overhead]
-        B1 -- Low Throughput --> D1[Result: 10MB/s]
-    end
-
-    subgraph "Workload B: The Warehouse (OLAP)"
-        A2[Sequential 1MB Reads] --> B2{Limit: Throughput}
-        B2 -- Low IOPS req --> C2[Low CPU/Overhead]
-        B2 -- High Throughput --> D2[Result: 500MB/s]
-    end
-```
+![sequence diagram](./images/sa_3_4.svg)
 
 #### Sizing Your "Pipes"
 Why does this matter? Because cloud providers like AWS sell you these metrics **separately**.

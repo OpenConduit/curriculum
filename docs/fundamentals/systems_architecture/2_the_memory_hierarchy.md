@@ -12,26 +12,7 @@ The rule of storage is simple: **Fast, Big, Cheap — pick two**.
 
 This creates a pyramid structure. Your goal is to keep the "hot" data as close to the top of the pyramid as possible.
 
-```mermaid
-graph BT
-    subgraph "The Abyss"
-        Network["<b>Network</b><br/>AWS S3, REST APIs"]<-->Disk
-    end
-    
-    subgraph "The Warehouse"
-        Disk["<b>SSD / HDD</b><br/>The File System"]<-->RAM
-    end
-    
-    subgraph "The Office"
-        RAM["<b>Main Memory (RAM)</b><br/>Spark Executors, Pandas DF"]<-->L3
-    end
-    
-    subgraph "The Desk"
-        L3["<b>L3 Cache</b><br/>Shared by Cores"]<-->L2
-        L2["<b>L2 Cache</b>"]<-->L1
-        L1["<b>L1 Cache</b>"]<-->Reg
-    end
-```
+![sequence diagram](./images/sa_2_1.svg)
 
 ### The Humans Scale Analogy
 Nanoseconds are hard for humans to visualize. 1 ns vs. 100 ns sounds like "fast vs. still fast."
@@ -145,19 +126,7 @@ In an analytical store, data is stored column-by-column. `[1, 2, 3] -> [Alice, B
 2. The Cache line brings `120k` and `90k` along for the ride automatically.
 3. **Result**: 100% of the data in the Cache Line was useful. The Prefetcher sees a perfectly sequential read pattern and maximizes throughput.
 
-```mermaid
-graph TD
-    subgraph "Row Store (Postgres)"
-    Row1["1 | Alice | 30 | 100k"] --- Row2["2 | Bob | 40 | 120k"] --- Row3["3 | Carol | 25 | 90k"]
-    end
-    
-    subgraph "Column Store (Parquet)"
-    Col1["1 | 2 | 3"] 
-    Col2["Alice | Bob | Carol"] 
-    Col3["30 | 40 | 25"] 
-    Col4["100k | 120k | 90k"]
-    end
-```
+![sequence diagram](./images/sa_2_2.svg)
 
 ## 2.3 Temporal Locality
 We just learned about **Spatial Locality** (if I need item X, I probably need item x + 1). This explains why reading a book page-by-page is faster than reading random words.
@@ -195,24 +164,7 @@ The logic is ruthless:
 - **Old Data** slowly drifts to the back.
 - **Eviction**: When we need space, we grab whatever is at the very back (the item untouched for the longest time) and toss it into the trash (or write it back to slow RAM).
 
-```mermaid
-sequenceDiagram
-    participant CPU
-    participant Cache
-    participant RAM
-
-    Note over Cache: "Cache is FULL [A, B, C]<br/>(A is Most Recent, C is Oldest)"
-
-    CPU->>Cache: "I need Data 'D'"
-    Cache-->>CPU: "Miss! (I don't have D)"
-    
-    Note over Cache: "Must Evict 'C' to make room"
-    Cache->>RAM: "Write 'C' back to RAM:
-    RAM->>Cache: "Load 'D'"
-    
-    Note over Cache: "New State [D, A, B]<br/>(D is now Most Recent)"
-    Cache-->>CPU: "Here is 'D'"
-```
+![sequence diagram](./images/sa_2_3.svg)
 
 !!! tip "Data Engineering Context: The Spark Cache"
 

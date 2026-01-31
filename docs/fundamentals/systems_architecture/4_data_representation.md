@@ -47,13 +47,7 @@ A 64-bit Float (Double) is split into three parts:
 2. **Exponent (11 bits)**: How far to move the decimal point (the "magnitude").
 3. **Mantissa (52 bits)**: The actual precision digits.
 
-```mermaid
-graph LR
-    subgraph "64-bit Double Precision Float"
-        A["Sign: 1 bit"] --- B["Exponent: 11 bits"]
-        B --- C["Mantissa (Fraction): 52 bits"]
-    end
-```
+![sequence diagram](./images/sa_4_1.svg)
 
 ### The Precision Trap
 Here is the problem: **0.1 cannot be represented in binary**.
@@ -116,14 +110,7 @@ UTF-8 is the dominant encoding of the web and modern data engineering. It is bri
 
 This is why `len("💩")` often returns confusing results in older programming languages—they might be counting bytes (4) instead of characters (1).
 
-```mermaid
-graph TD
-    subgraph "UTF-8: Variable Length Intelligence"
-        A["Character: 'A'"] -->|Encodes to| B["01000001 <br/> (1 Byte)"]
-        C["Character: 'é'"] -->|Encodes to| D["11000011 10101001 <br/> (2 Bytes)"]
-        E["Character: '💩'"] -->|Encodes to| F["11110000 10011111 10010010 10101001 <br/> (4 Bytes)"]
-    end
-```
+![sequence diagram](./images/sa_4_2.svg)
 
 !!! tip "Data Engineering Context: The 'Garbled Characters' Bug"
 
@@ -187,18 +174,7 @@ These are the "efficient" formats. If you open them in Notepad, they are gibberi
 
 Binary formats strip out the fluff. They don't repeat the field names in every record. Instead, they say, "The first 4 bytes are the ID. The next 1 byte is the Action Enum."
 
-```mermaid
-graph TD
-    subgraph "JSON (Text)"
-        A["{ 'id': 55 }"] -->|Size| B[10 Bytes]
-        B -->|Parsing| C[Scan string char by char]
-    end
-
-    subgraph "Protobuf (Binary)"
-        D[0x08 0x37] -->|Size| E[2 Bytes]
-        E -->|Parsing| F[Direct Bitmask]
-    end
-```
+![sequence diagram](./images/sa_4_3.svg)
 
 ### The Schema Contract
 Binary formats usually require a **Schema**—a separate document that defines the structure.
